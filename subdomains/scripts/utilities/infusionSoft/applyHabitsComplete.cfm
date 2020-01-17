@@ -51,8 +51,13 @@
     <cfmodule template="inc/habits/oct2019-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/nov2019-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/dec2019-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-
-
+    <cfmodule template="inc/habits/jan2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/feb2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/feb2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/mar2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/apr2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/may2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/jun2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
     <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -63,6 +68,9 @@
     <cfmodule template="inc/residential/aug2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/oct2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/residential/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/residential/apr2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/residential/jun2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
 
     <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -73,6 +81,10 @@
     <cfmodule template="inc/core/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/sept2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/nov2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/jan2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/mar2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/may2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     
     <cfif listFindNoCase(local.tagList,9783) AND listFindNoCase(local.tagList,9673) AND listFindNoCase(local.tagList,9693)>
 		<!-- THEN 9559 can be applied [Core Jul2018 Mod 1 Habits Surveys Complete]

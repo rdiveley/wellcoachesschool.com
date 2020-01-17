@@ -32,15 +32,20 @@
             returnvariable="theData">
    <cfset local.tagList =  theData.Params[1]['Groups'] />
 
-   <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/nov2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/jan2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/mar2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/sept2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-   <cfmodule template="inc/core/nov2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/nov2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/jan2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/mar2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/sept2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/nov2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/jan2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/mar2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/may2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" /> 
+    
 
 
 

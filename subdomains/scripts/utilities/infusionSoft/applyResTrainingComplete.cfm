@@ -44,4 +44,7 @@
     <cfmodule template="inc/residential/aug2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/oct2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/dec2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/residential/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/residential/apr2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/residential/jun2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 </cfoutput>
