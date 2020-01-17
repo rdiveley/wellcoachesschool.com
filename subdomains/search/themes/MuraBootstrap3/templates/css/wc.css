@@ -1,0 +1,325 @@
+/* CSS Document */
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}
+@font-face {
+    font-family: 'calibriregular';
+    src: url('/themes/MuraBootstrap3/templates/css/calibri.eot');
+    src: url('/themes/MuraBootstrap3/templates/css/calibri.eot?#iefix') format('embedded-opentype'),
+         url('/themes/MuraBootstrap3/templates/css/calibri.woff') format('woff'),
+         url('/themes/MuraBootstrap3/templates/css/calibri.ttf') format('truetype'),
+         url('/themes/MuraBootstrap3/templates/css/calibri.svg#calibriregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+	font-size:10px;
+}
+@-moz-document url-prefix() { 
+  #button_container {
+    positoio:relative;
+	left:-10px;
+  }
+}
+
+/*start of OYM section*/
+#button_container{
+	position:relative;
+	left:-10px
+}
+ul li {
+	color:#808080;
+}
+.OYMHeader{
+	font-size:36px !important;
+	font-family:'calibriregular';
+	-webkit-text-size-adjust: 95%;
+}
+.OYMSubHeader{
+	font-size:24px !important;
+	font-style:italic;
+	-webkit-text-size-adjust: 95%;
+}
+/*end of OYM section*/
+body, ul > li, p{
+	-webkit-text-size-adjust: 95%;
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+	font-size:15px;
+	color: #5C5C5C;
+}
+#container_white{
+	font-size:11px;
+	font-family:'calibriregular';
+}
+
+table{
+	margin:0 !important;
+	padding:0 !important;
+	border:1 !important;
+}
+.divider{
+	 border: 0;
+    border-bottom: 1px solid #dedfdf;
+    background: #dedfdf;
+	
+}
+#box {
+    width:100px; height:100px;
+    border:solid red;
+    border-width:0 5px;
+}
+
+#all_buttons{
+	position:relative;
+	top:1px;
+	left:-2px
+}
+
+.basic_buttons{
+	-webkit-text-size-adjust: 95%;
+	background-color:#fcded4;
+	width:160px;
+	text-align:center !important;
+	color:#666;
+	height:25px;
+	margin:6px 6px 10px 6px;
+	position:relative;
+	left:-2px
+	
+}
+.basic_buttons .text{
+	-webkit-text-size-adjust: 95%;
+	position:relative;
+	top:6px;
+	font-family:calibriregular;
+	text-decoration:none !important;
+	font-size:12px;
+	letter-spacing: .065em;
+}
+.header_buttons{
+	-webkit-text-size-adjust: 95%;
+	background-color:#00aeef;
+	width: 115px !important; 
+  	text-align:center;
+	height:22px;
+  	margin-left:10px;
+	color:#FFF;
+	position:relative;
+	top:-5px;
+	font-family:calibriregular;
+}
+.header_buttons .text{
+	-webkit-text-size-adjust: 95%;
+	position:relative;
+	top:2px;
+	text-decoration:none !important;
+	font-family:calibriregular;
+	/*font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;*/
+	font-size:14px;
+	
+}
+.text a:first-child{
+	-webkit-text-size-adjust: 95%;
+	text-decoration:none;
+	color:#00FF00
+	font-family:'calibriregular';
+}
+.infusion-option,.infusion-field-label-container{
+background-color:#009999
+}
+.hover_orange{
+	 outline: 2px solid #f15a29;
+	
+}
+.hover_blue{
+	 outline: 2px solid #00aeef;
+}
+.hover_grey{
+	 outline: 2px solid #a7a9ac;
+}
+
+.left_nav_orange_sidebar{
+	background-color:#f15a29;
+	width:30px;
+	height:129px;
+	text-align:center;
+	left:-8px
+}
+.left_nav_orange_sidebar img{
+	  position:relative;
+      top:5px;
+	  right:-2px;
+}
+.left_nav_blue_sidebar{
+	background-color:#00aeef;
+	width:30px;
+	height:129px;
+	text-align:center;
+	left:-8px
+}
+.left_nav_blue_sidebar img{
+    position:relative;
+    top:5px;
+	right:-2px;
+}	
+.left_nav_grey_sidebar{
+	background-color:#a7a9ac;
+	width:30px;
+	height:129px;
+	text-align:center;
+	left:-8px
+}
+.left_nav_grey_sidebar img{
+    position:relative;
+    top:5px;
+	right:-2px;
+}	
+.wellcoachSubNav li
+{
+	margin:10;
+	padding:0;
+	list-style-type: none;
+	text-align: center;
+	position:relative;
+	font-size:15px;
+	font-family:'calibriregular';
+}
+
+.wellcoachSubNav li { display: inline; }
+
+.wellcoachSubNav li a
+{
+	text-decoration: none;
+	padding: .2em 1em;
+	color: #fff;
+	margin-left:2px !important;
+	font-family:'calibriregular';
+}
+
+.wellcoachSubNav li a:hover
+{
+	color: #fff;
+	background-color: #369;
+	font-family:'calibriregular';
+}
+
+.wellcoachSubNav a.current
+{
+	color: #fff;
+	background-color: #369;
+	font-family:'calibriregular';
+}
+.mainText{
+	-webkit-text-size-adjust: 95%;
+	font-family:'calibriregular';
+	font-size:16px !important;
+	position:relative;
+	background-color:##FFF;
+	overflow: hidden !important;
+	padding:10px 5px 5px 5px;
+	
+}
+.mainPage{
+	font-family:'calibriregular';
+	padding-right:30px;
+	
+	
+	}
+#firstRow,#secondRow,#thirdRow,#fourthRow,#fifthRow,#sixthRow,.divider{
+/*	-webkit-text-size-adjust: 95%;
+	position:relative;
+	top:-15px;
+	left:5px;
+	line-height:120%*/
+	font-size:14px;
+	line-height:145%;
+	}
+#connectwithus{
+	background-color:#FFF;
+	height: 50px;
+  	line-height: 50px;
+	font-weight:bold
+}	
+#socialicons{
+	background-color:#FFF;
+	height: 180px;
+  	line-height: 50px;
+	font-weight:bold;
+	position:relative;
+	top:-10px;
+	padding-top:10px
+}	
+#sociallinks{
+	position:relative;
+	color:#666666 !important
+}
+#bottomiconsacsm{
+	background-color:#FFF;
+	height: 80px;
+  	line-height: 80px;
+	font-weight:bold;
+	position:relative;
+	top:-10px;
+}
+#bottomiconsbbb{
+	background-color:#FFF;
+	height: 65px;
+  	line-height: 65px;
+	position:relative;
+	top:-50px
+}

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Templates imagesBasePath="fck_template/images/">
+	<Template title="------ Basic Scripts -----">
+		<Html>
+			<![CDATA[
+				&nbsp;
+			]]>
+		</Html>
+	</Template>
+	<Template title="Email Page to Friend">
+		<Html>
+			<![CDATA[
+				[ScriptIs=emailfriend]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Request for Information">
+		<Html>
+			<![CDATA[
+				[ScriptIs=inforequest]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Guest Book">
+		<Html>
+			<![CDATA[
+				[ScriptIs=guestbook]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Links Listing">
+		<Html>
+			<![CDATA[
+				[ScriptIs=linkslist]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Add Links">
+		<Html>
+			<![CDATA[
+				[ScriptIs=useraddlink]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Site Map">
+		<Html>
+			<![CDATA[
+				[ScriptIs=sitemap]
+			]]>
+		</Html>
+	</Template>
+	
+	<Template title="Site seach drop down for all pages">
+		<Html>
+			<![CDATA[
+				[ScriptIs=sitesearch]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Add To Favorites">
+		<Html>
+			<![CDATA[
+				[ScriptIs=addtofavorites]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Date and Time">
+		<Html>
+			<![CDATA[
+				[ScriptIs=JSdateTime]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Popup Page">
+		<Html>
+			<![CDATA[
+				[ScriptIs=popInit]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Date and Time and Popup Page">
+		<Html>
+			<![CDATA[
+				[ScriptIs=JSDatePop]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Live Chat">
+		<Html>
+			<![CDATA[
+				[ScriptIs=chat]
+			]]>
+		</Html>
+	</Template>
+	<Template title="--- Members Scripts ---">
+		<Html>
+			<![CDATA[
+				&nbsp;
+			]]>
+		</Html>
+	</Template>
+	<Template title="Default Member Privacy Policy">
+		<Html>
+			<![CDATA[
+				[ScriptIs=memberprivacy]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Login">
+		<Html>
+			<![CDATA[
+				[ScriptIs=memberlogin]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Forgot Password">
+		<Html>
+			<![CDATA[
+				[ScriptIs=forgotpassword]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member SignUp">
+		<Html>
+			<![CDATA[
+				[ScriptIs=membersignup]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Check Out">
+		<Html>
+			<![CDATA[
+				[ScriptIs=membercheckout]
+			]]>
+		</Html>
+	</Template>
+	
+	<Template title="Member Home Page">
+		<Html>
+			<![CDATA[
+				[ScriptIs=myprofile]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Directory">
+		<Html>
+			<![CDATA[
+				[ScriptIs=memberdirectory]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Search">
+		<Html>
+			<![CDATA[
+				[ScriptIs=membersearch]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Surveys">
+		<Html>
+			<![CDATA[
+				[ScriptIs=membersurvey]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Member Polls">
+		<Html>
+			<![CDATA[
+				[ScriptIs=memberpoll]
+			]]>
+		</Html>
+	</Template>
+	
+	<Template title="--- Articles / Newsletters Scripts ---">
+		<Html>
+			<![CDATA[
+				&nbsp;
+			]]>
+		</Html>
+	</Template>
+
+	<Template title="List Article Titles">
+		<Html>
+			<![CDATA[
+				[ScriptIs=listarticles]
+			]]>
+		</Html>
+	</Template>
+	<Template title="List User Articles">
+		<Html>
+			<![CDATA[
+				[ScriptIs=listuserarticles]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Users add an articles">
+		<Html>
+			<![CDATA[
+				[ScriptIs=useraddarticles]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Newsletter Sign Up">
+		<Html>
+			<![CDATA[
+				[ScriptIs=newsletter]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Large Newsletter Sign Up">
+		<Html>
+			<![CDATA[
+				[ScriptIs=newsletter2]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Show Newsletters Archive">
+		<Html>
+			<![CDATA[
+				[ScriptIs=newsarchives]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Article/Newsletter/Interview Topic Requests">
+		<Html>
+			<![CDATA[
+				[ScriptIs=requesttopci]
+			]]>
+		</Html>
+	</Template>
+	<Template title="--- Other Scripts ---">
+		<Html>
+			<![CDATA[
+				&nbsp;
+			]]>
+		</Html>
+	</Template>
+	<Template title="Calendar">
+		<Html>
+			<![CDATA[
+				[ScriptIs=mycalendar]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Photo Gallery">
+		<Html>
+			<![CDATA[
+				[ScriptIs=photogallery]
+			]]>
+		</Html>
+	</Template>
+
+	<Template title="Non-Member Polls">
+		<Html>
+			<![CDATA[
+				[ScriptIs=currentpoll]
+			]]>
+		</Html>
+	</Template>
+	<Template title="Non-Member Surveys">
+		<Html>
+			<![CDATA[
+				[ScriptIs=currentsurvey]
+			]]>
+		</Html>
+	</Template>
+	<Template title="GU Program Directory">
+		<Html>
+			<![CDATA[
+				[ScriptIs=gudirectory]
+			]]>
+		</Html>
+	</Template>
+
+</Templates>

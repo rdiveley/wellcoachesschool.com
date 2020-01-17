@@ -1,0 +1,262 @@
+.m-hf{margin:.5em 0;}//hf = half.
+.m-1{margin:1em 0;}
+.m-2{margin:2em 0;}
+.m-3{margin:3em 0;}
+.m-4{margin:4em 0;}
+.m-0{margin:0;}
+.mt-0{margin-top: 0;}
+.mb-0{margin-bottom:0;}
+.mt-1{margin-top:1em;}
+.mb-1{margin-bottom:1em;}
+.mb-2{margin-bottom:2em;}
+.mbt-1{margin-top: 1em;margin-bottom: 1em;}
+.mr-1{margin-right:1em;}
+.mr-2{margin-right:2em;}
+.mr-3{margin-right:3em;}
+.p-0{padding:0;}
+.pt-0{padding-top: 0;}
+.pl-0{padding-left: 0;}
+.p-1f{padding: 1em;}
+.p-2f{padding:2em;}
+.p-1l{padding-left:1em;}
+.p-1r{padding-right:1em;}
+.p-1b{padding-bottom:1em;}
+.bg-gray-darker{background-color:$gray-darker;}// #222
+.bg-gray-dark{background-color:$gray-dark;}   // #333
+.bg-gray{background-color:$brand-gray;} // #555
+.bg-gray-light{background-color:#bbbabb;}
+.bg-gray-lighter{background-color:$gray-lighter;} // #eee
+a{
+    color:$brand-primary;
+    font-weight: 600;
+    &:hover{text-decoration: none;color:$brand-info;}
+    }
+.adjust{left:66px;position: relative;}
+.navbar{border:0;margin-bottom: 0;}
+
+// Header
+@media (min-width: $screen-sm-min) {
+  .navbar-right {
+    margin-right: 100px;
+  }
+  i.glyphicon-search{font-size: 20px;}
+}
+@media (max-width: $screen-md-min) {
+  .navbar-right {
+    margin-right: 0px;
+  }
+}
+
+.navbar-header span {
+  float: left;
+  padding: 3px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  height: 24px;
+  border-left: 1px solid $gray-light;
+  margin: 23px 0;
+}
+.navbar-inverse .navbar-nav > li > a{
+    color:$brand-gray;
+    &:hover, &:focus{color:$brand-info;}
+}
+.navbar-inverse .navbar-nav > li > a.btn-xs {
+    margin: 18px 15px;
+    padding: 5px 30px;
+    color: white;
+    &:hover, &:active{background-color:$brand-info;}
+}
+// Footer
+
+// carousel Main
+.carousel-control.right{right:66px;}
+.carousel-control{width:3%;background: black;opacity:.5;}
+
+.carousel-indicators{
+  left:80%;
+  li{
+    border-radius:0;
+    margin-left:15px;
+    background: white;
+  &.active{background: $brand-danger;border-color:$brand-danger;margin-left: 15px;}
+  }
+
+}
+#mainCarousel{
+    img{width:100%;}
+    .carousel-caption{
+    bottom:inherit;
+    top:0;
+    text-shadow:none;
+    .btn-primary{padding:4px 50px;font-size: 16px;}
+    h1{
+        font-weight: 600;
+        font-family: Ubuntu;
+        font-size:3.5em;
+        text-transform: uppercase;
+    }
+    @media (min-width: $screen-md-min) {
+        top:2%;
+        h1{font-size:64px;}
+        p{font-size:36px;font-weight: 400;}
+        .btn-primary{padding:8px 50px;font-size: inherit;}
+        }
+    p{font-size:20px;font-weight: 400;}
+    .btn-primary{background:#fff;border-color:#fff;color:#00ADEF; text-transform: uppercase;}
+}
+}
+// carousel Secondary
+#secondaryCarousel{
+    .carousel-inner{
+    position: relative;
+    overflow: hidden;
+    width: 75%;
+    text-align: center;
+    margin: 2em auto;
+    p{font-size: $font-size-base;}
+        .carousel-caption{
+            padding-top:0;
+            position: relative;
+            color:$gray;
+            text-align: left;
+            text-shadow:none;
+            left:0;
+            right:inherit;
+
+        }
+    }
+    .carousel-control:hover, .carousel-control:focus{color:$gray;}
+    .carousel-control{
+            color:$gray;
+            background:transprent;
+            text-shadow:none;
+            i{top:50%;position:absolute;font-size: 50px;}
+            &.left{background:transparent;left:5%;}
+            &.right{right:10%;background:transparent;}
+            }
+            
+}
+.st-menu{padding-top: 2em;}
+#mainSearch{
+    border-radius: 0;
+    height:75px;
+    font-size: 27px;
+    font-weight: 600;
+    }
+ .mainSearchContainer{display:none;}
+//  front page color boxes
+.front-page-color-small{
+    position: relative;
+    a, a:hover{color: white;text-decoration:none;}
+    .carousel-caption{
+        text-shadow: none;
+        left:10%;right:10%;
+        padding-bottom:0;
+        h2{font-size:18px;}
+        
+        }
+}
+.split-lg-boxes{
+    overflow: hidden;
+    margin:3em auto;
+    text-align: center;
+    
+    img{margin:0 auto;}
+    .col-md-3{margin: 0 auto;}
+    .content{
+        top:2%;
+        position: absolute;
+        padding:1em 2em;
+        text-align:center;
+        width:95%;
+        color:white;
+        font-size: 14px;
+        h4{
+        font-size: 32px;
+        font-weight:600;
+        text-transform:uppercase;
+        margin-bottom:100px;
+        }
+        .btn-primary{
+            background: white;
+            color:$brand-primary;
+            font-weight:600;
+            border:0;
+            }
+        }
+       
+}
+
+.newsletter{
+    padding:2em 2em 4em;
+    .form-control{margin-right:20px;}
+    .btn-secondary{padding:10px 30px;background:$brand-orange; color:white;font-weight: 600;}
+    .form-control{
+        border-radius: 0;
+        width:100%;
+        padding:10px;
+        height:45px;
+        }
+        a{width:100%;}
+}
+footer{
+    padding:2em;
+    background-color: #F2F2F2;
+    font-weight: 600;
+    color: $gray-light;
+    li{line-height: 1.8;}
+    a{color: $gray;}
+    .social{
+        a{
+          margin-left: 1em;
+         &:hover{opacity: .8;}
+         }
+        p{margin-left: 10%;}
+    }
+    li.last{margin-top: 1em;}
+}
+
+// Viewpoint
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: $screen-sm-min) { 
+    .navbar-header span, .navbar-right li{display: none;}
+    .navbar-right li:last-child{display:block;}
+    .adjust{left:0;}
+    .navbar-brand{left:80px;position: relative;}
+    .navbar-header{float:left;}
+    .front-page-color-small div{margin-bottom:1em;}
+    .navbar-right{float:right;margin-right:0;}
+    .carousel-control.right{right:0;}
+    #mainCarousel .carousel-caption h1{font-size: 13px;margin-top:10px;}
+    #mainCarousel .carousel-caption{
+        padding-top:0;
+        p{font-size: 10px;}
+        }
+    #mainCarousel .carousel-caption .btn-primary{padding:4px 50px;font-size: 12px;}
+    .split-lg-boxes{
+        .col-md-6{
+            margin: 1em 0;
+        }
+        .content{
+        top:0;
+        font-size:10px;
+        h4{font-size: 21px;margin-bottom:2em;}
+        .btn-primary{padding:4px 50px;font-size: 12px;}
+        }
+    }
+    footer{
+        text-align:center;
+        .col-md-3{margin:1em 0;}
+        .meds{display:none;}
+        .social p{margin-right: auto;}
+        }
+     .fixedRail{
+        position: absolute;
+        width: 67px;
+        height: 66px;
+        min-height:0;
+     }
+    }

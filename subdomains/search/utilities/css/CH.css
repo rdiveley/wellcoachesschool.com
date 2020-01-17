@@ -1,0 +1,2685 @@
+
+<style>
+
+/*
+to swap css
+$("link[media='screen'][href='https://d2ma5jma76a61i.cloudfront.net/stylesheets/1429/application-1460049257.css?1460049257'],link[media='screen'][href*='https://dl.dropboxusercontent.com/s/2uxbc98hr8wby5x/for-testing-32416.css']").attr("href", "https://dl.dropboxusercontent.com/s/2uxbc98hr8wby5x/for-testing-32416.css?v="+(new Date()));
+*/
+
+*{margin:0;padding:0;outline:none;}
+body{
+  font-size: 13px;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', Lucida, sans-serif;
+  background: #ffffff;
+  color: 4a4a4a;
+}
+img{border:0;}
+
+a{ color: #3399ff; font-weight: normal; font-style: normal; text-decoration: none; }
+a:visited{ color: #3399ff; font-weight: ; font-style: ; text-decoration: ; }
+a:hover{ color: #3399ff; text-decoration: none; }
+a:focus{outline:1px dotted rgba(0, 0, 0, 0.25);}
+a[href='#'],a[onclick]{cursor:pointer;color:#ED5D3B;}
+
+p { margin-bottom: 14px;line-height:18px; }
+
+table{ width:100%;background:#fff;margin-bottom:1.4em;border-collapse:separate;border:1px solid #ddd;
+  border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; border-color: #e7e7e7; }
+table,thead,tfoot,tbody,tr,th,td{margin:0;padding:0;}
+tr{border-bottom:1px solid #ddd;border-bottom:1px solid  #e7e7e7;}
+th{font-weight:normal;text-align:left;font-size:110%; background: #e7e7e7;color: #999999;}
+td{color:#555;} th,td{padding:6px 10px;}
+table tr.current{background-color:#EDF3FE;}
+table tr.even{background-color:#f5f5f5;}
+table tr.odd{background-color:#FFF;}
+table tr td:last-child,table.nodividers td{border:0;}
+tfoot td{font-style:italic;background:#ddd;}
+
+caption{margin:0;padding:4px 8px;font-size:1.2em;background:#fff;color:#333;border:1px solid #ddd;border-bottom:0;text-transform:lowercase;}
+abbr,acronym{border-bottom:1px dotted #666;}
+hr{display:none;}
+code{display:block;margin:1em 0;background-color:#fff;padding:1.2em;font-family:Courier, monospace;font-size:110%;color:#333;}
+::selection,::-moz-selection{background:#f8f7b0;}
+/* Hacks */
+div.clear { clear:both; }
+
+/* Default Elements */
+h1 {
+  color: #4a4a4a;
+  font-family: 'Helvetica Neue',Helvetica,Arial,Verdana,sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  margin-bottom:14px;
+  letter-spacing:-1px;
+  line-height: 24px;
+}
+h2 {
+  color: ;
+  font-family: ;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: normal;
+  margin-bottom:14px;
+}
+h3 {
+  color: ;
+  font-family: ;
+  font-size: 18px;
+  font-weight: bold;
+  font-style: normal;
+  margin-bottom:14px;
+}
+h4 {
+  color: ;
+  font-family: ;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: normal;
+  margin-bottom:14px;
+}
+h5 {
+  color: ;
+  font-family: ;
+  font-size: 10px;
+  font-weight: bold;
+  font-style: normal;
+}
+h6 {
+  color: ;
+  font-family: ;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+}
+
+ul{list-style:none;}
+#content ul { margin-bottom:14px;list-style-type:disc; }
+#content li { margin-left:18px; }
+
+/* Links */
+
+/* Form Elements */
+fieldset{-moz-border-radius:4px;border-radius:4px;-webkit-border-radius:4px;border:1px solid #ddd;border-top:1px solid #ddd;border-bottom:1px solid #fff;background:#F6F7FA;margin:1.2em 0 1.2em 0.3em;padding:1em 1.4em 1.4em;}
+fieldset.boxless{margin:0 0 1.2em 0;padding:1em 0 1.4em 0;border:none;background:none;}
+fieldset.confirm{background-color:#E0F8D1;}
+legend{-moz-border-radius:4px;border-radius:4px;-webkit-border-radius:4px;margin:0 -.4em;padding:5px 15px;font-weight:bold;font-size:1.2em;background-color:#ddd;color:#333;border:1px solid #ccc;}
+fieldset.tab{border-top:1px solid #f3f3f3;margin-top:0;}
+label{display:block;margin-top:10px;font-size:13px;font-weight:bold;color:#555;}
+label em{font-weight:normal;color:#369;}
+label .support-text{font-weight:normal;color:#333;}
+.inline-label{display:inline;padding-right:8px;}
+.inline-label-solo{display:inline;padding-right:20px;line-height:1.3em;}
+input[type=text],input[type=password],textarea,select{border:1px solid #ccc;-moz-border-radius:4px;border-radius:4px;-webkit-border-radius:4px;font-size:1em;padding:5px;}
+textarea{font-family:"Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;}
+input[type=text],input[type=password]{width:95%;border:1px solid #ccc;background-color:#fff;}
+input:focus,textarea:focus,select:focus,.field-wrapper.focus{border:1px solid #00B5D5;}
+input[type=submit]:focus{border:none;}
+input[type=submit]{padding:4px 8px;}
+input[type=radio],input[type=checkbox]{background:transparent !important;border:0 !important;width:16px !important;}
+input[type=radio]{width:13px !important;}
+select{padding:4px;}
+select[disabled=disabled]{color:#999;}
+select[multiple]{min-width:300px;border:1px solid #ccc;}
+button{outline:none;}
+option[disabled]{color:#999;background:#ccc;}
+input.hinted{color:#bbb;}
+.help-inline{ display: inline-block; padding-left: 5px; vertical-align: middle; }
+
+/* Container */
+#container {
+  background: #ffffff;
+  width: 966px;
+  margin: 20px auto;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -o-border-radius: 10px;
+  -webkit-box-shadow:rgba(0,0,0,0.15) 0px 2px 5px;
+  -moz-box-shadow:rgba(0,0,0,0.15) 0px 2px 5px;
+  box-shadow:rgba(0,0,0,0.15) 0px 2px 5px;
+}
+/* Header */
+#header {
+  padding: 0px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-top-left-radius: 10px;
+  -o-border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-top-right-radius: 10px;
+  -o-border-top-right-radius: 10px;
+  background-color: #EDEEEE;
+}
+
+#logo {
+  position: relative;
+  padding: 18px 18px 14px 18px;
+  float:left;
+}
+
+#account-bar{display:block;position:relative;margin:0;height:40px;float:right;}
+#account-bar>li{float:left;margin:10px 14px;padding:0;}
+#account-bar>li>a{color:#fff;text-decoration:none;font-size:12px;padding:2px;font-weight:bold;}
+#account-bar .profile-link{color: #000000;}
+#account-status{color:#777;}
+ul#account-status{width:150px;}
+#account-status a{display:block;font-size:12px;}
+
+/* Navigation */
+#navigation {
+  padding:0px;
+  background-color: #EDEEEE;
+  font-family:;
+  margin:0px;
+}
+
+
+#navbar {
+  background: #ff6633;
+  display:block;
+  border-top:1px solid rgba(0,0,0,0.5);
+  border-bottom:1px solid rgba(255,255,255,0.8);
+  min-height: 37px;
+  margin:0px;
+  z-index:3;
+}
+
+
+ul.topnav{position:relative;display:block;margin:0;}
+ul.topnav>li{
+  position: relative;
+  display: inline-block;
+  height: 36px;
+  -webkit-transition: background .2s linear;
+  -moz-transition: background .2s linear;
+}
+ul.topnav>li:last-child{border-right:1px solid #dff5fa; border-right-color: #ffffff;}
+ul.topnav>li:hover{background: #29c6ff;}
+ul.topnav>li>a{height:14px;padding:10px 10px 13px 10px;display:block;text-align:center;position:relative;text-transform:initial !important;
+  color: #3f3f38; font-size: 13px; font-weight: 700; font-style: normal; text-decoration: none; }
+ul.topnav>li.current,ul.topnav>li:hover.current {background: #ffffff;}
+ul.topnav>li#current,ul.topnav>li#current:hover {background: #ffffff;}
+.nav-separator{height:22px;top:9px;width:0;}
+ul.topnav>li>a{border-left:1px solid #fff;}
+ul.topnav>li>a{border-right:1px solid #dff5fa;}
+ul.topnav>li>a{border-right-color: #29c6ff; border-left-color: #ffffff;}
+ul.topnav>li:first-child>a{border-left:none;}
+ul.topnav>li:last-child>a{border-right:none;}
+ul.topnav form{padding:0px 12px;width:165px;height:36px;border-left:1px solid #abd2dc;}
+ul.topnav form fieldset{display:inline;border:none;margin:0;padding:0;background:none;-moz-border-radius:0;-webkit-border-radius:0;border-radius:0;}
+ul.topnav form input{clear:none;margin-top:9px;}
+ul.topnav form input[type=text]{width:135px;padding-right:25px;border:1px solid #ccc;border-color:#ccc #fff;}
+ul.topnav form input[type=submit]{position:absolute;top:5px;right:12px;width:20px;border:none;text-indent:-999em;overflow:hidden;}
+ul.topnav .dwn{color: #3f3f38;font-size:8px;}
+
+/* Drop Lists */
+.drop-list>li{position:relative;height:auto;}
+.drop-list a.hover-trigger{display:inline-block;padding:0 15px 5px 0;}
+.drop-list ul{display:none;position:absolute;z-index:999;top:100%;left:0;padding:5px;border:1px solid #ccc;width:210px;height:auto;-moz-box-shadow:2px 2px 3px #7e7267;-webkit-box-shadow:0px 0px 4px #ffffff;box-shadow:0px 0px 4px #ffffff; background-color: #ffffff;}
+.drop-list ul.right-edge{left:auto;right:0;}
+.drop-list>li:hover ul{display:block;}
+.drop-list>li:hover a.hover-trigger{color:#774d21;background-position:right -15px;}
+.drop-list ul li{display:inline;margin:0;padding:0;float:none;border:none;}
+.drop-list ul li a{display:block;padding:6px 15px;line-height:14px;
+  font-family: ; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: none; color: #2222222;}
+.drop-list ul li a:hover{background: #D1EBF1;color: #2222222;}
+.dwn{color:#fff;font-size:75%;padding-left:.2em;}
+.drop-list .list-header{padding:7px 5px 0 5px;border-bottom:1px solid #ddd;color:#666;font-weight:bold;}
+
+/* Content */
+#content {
+  padding: 20px 20px 10px 20px;
+  overflow: auto;
+  overflow-x: hidden;
+  clear: both;
+}
+
+#left {
+  float: left;
+  min-height: 400px;
+  width: 670px; }
+
+#right {
+  float: right;
+  width: 230px; }
+
+#bottom {
+}
+
+#footer {
+  text-align: center;
+  font-size:11px; }
+
+/* Notifications */
+#notice{margin-top:-10px;margin-bottom:10px;}
+.info,.success,.warning,.error,.validation{border-top:1px solid;border-bottom:1px solid;padding:6px 10px 6px 34px;background-repeat:no-repeat;background-position:8px 7px;text-align:left;margin-bottom:4px;line-height:1.5em;}
+.info{color:#0085dd;border-color:#BEDDFF;background-color:#E2F0FF;background-image:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/info_small.png");}
+.info p{color:#0085dd;margin-bottom:4px;font-weight:bold;}
+.info ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.info ul li{color:#0085dd;}
+.success{color:#4F8A10;border-color:#99cc66;background-color:#e7f5cf;background-image:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/success_small.png");}
+.success p{color:#4F8A10;margin-bottom:4px;font-weight:bold;}
+.success ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.success ul li{color:#4F8A10;}
+.warning{border-color:#d9af6f;color:#9F6000;background-color:#ffffd8;background-image:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/warning_small.png");}
+.warning p{color:#9F6000;margin-bottom:4px;font-weight:bold;}
+.warning ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.warning ul li{color:#9F6000;}
+.message{background-color:#D1EBF1;padding:10px 10px;margin-bottom:15px;}
+.message p{margin-bottom:4px;font-weight:bold;}
+.message ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.message ul li{color:#D1EBF1;}
+.grey-message{background-color:#f3f3f3;padding:10px 10px;margin-bottom:15px;}
+.grey-message p{color:#D1EBF1;margin-bottom:4px;font-weight:bold;}
+.grey-message ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.grey-message ul li{color:#D1EBF1;}
+.error{border-color:#ff8888;color:#D8000C;background-color:#ffe8e8;background-image:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/error_small.png");}
+.error p{color:#D8000C;margin-bottom:4px;font-weight:bold;}
+.error ul{padding:0px 20px 0px 20px;margin:4px;list-style-type:disc;}
+.error ul li{color:#D8000C;}
+fieldset div.fieldWithErrors input,fieldset div.fieldWithErrors div.selector {border:1px solid #ff8888;}
+
+/* MISC */
+.small-meta{font-size:11px;color:#999;}
+.rounded,.rounded4{-moz-border-radius:4px;-webkit-border-radius:4px;-o-border-radius:4px;border-radius:4px;}
+.rounded8{-moz-border-radius:8px;-webkit-border-radius:8px;-o-border-radius:8px;border-radius:8px;}
+.rounded24{-moz-border-radius:24px;-webkit-border-radius:24px;-o-border-radius:24px;border-radius:24px;}
+
+/* Colors */
+a.yellow { background: #E07500;padding: 0 3px 1px 3px; text-shadow: rgba(0,0,0,0.3) 1px 1px 1px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius:3px;color:#fff;}
+
+/* Small links */
+a.admin:link,a.admin:visited{color:#f00;font-family:verdana;font-size:11px;font-weight:normal;text-decoration:underline;}
+a.admin:hover{color:#fff;background:#f00;text-decoration:none;}
+a.info_link, a.info_link:visited{color:#0569ff;font-size:11px;font-family:verdana;font-weight:normal;text-decoration:underline;}
+a.info_link:hover{color:#fff;background:#0569ff;text-decoration:none;}
+a.add_link, a.add_link:visited{color:#339900;font-size:11px;font-family:verdana;font-weight:normal;text-decoration:underline;}
+a.add_link:hover{color:#fff;background:#339900;text-decoration:none;}
+
+/* Small Admin */
+#small_admin{padding:0;margin-bottom:6px;font-size:12px;}
+#small_admin h1{color:#333;font-weight:bold;font-size:18px;}
+#small_admin td{padding:0 2px;}
+div.small_admin_links{font-size:11px;margin-top:0;text-align:right;line-height:24px;}
+div.small_admin_links select{font-size:10px;padding:0px;}
+
+/* Teaser content */
+div.teaser {display:block;float:left;width:100%;background-color:#DDD;text-decoration:none;margin-top:3px;text-indent:26px;background-image:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/lock.gif");background-repeat:no-repeat;background-position:6px 6px;font-size:14px;border-top:1px solid;border-bottom:1px solid;border-color:#d9af6f;color:#9F6000;background-color:#ffffd8;padding:6px;}
+div.teaser p{margin-bottom:0;}
+
+/* video settings */
+/*Video overlay for lightbox thumb*/
+div.video-container{width:150px;margin:5px;position:relative;}
+span.video-overlay{background:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/video-overlay.png") no-repeat;position:absolute;top:26%;left:38%;height:39px;width:39px;}
+
+/* filebox */
+.filebox { color: #ffffff; background: #E07500; font-size: 10px; font-weight:bold; padding: 2px 3px; text-shadow: rgba(0,0,0,0.3) 1px 1px 1px; -moz-border-radius: 2px; -webkit-border-radius: 2px; }
+.drop-list ul li a.filebox { font-weight: bold; }
+
+.download{background:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/icons-grey.png") no-repeat 0 -484px;padding:4px 18px;line-height:12px;}
+a.member-file{width:195px;display:block;text-decoration:none;font-weight:bold;font-size:12px;overflow:hidden;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;-webkit-box-shadow:rgba(0,0,0,0.15) 0px 1px 3px;-moz-box-shadow:rgba(0,0,0,0.15) 0px 1px 3px;box-shadow:rgba(0,0,0,0.15) 0px 1px 3px;border:solid 1px #999;background:url("https://d2ma5jma76a61i.cloudfront.net/themes/dropdown_v1/assets/images/button-back.png") repeat-x 0px 0px;text-shadow:rgba(255,255,255,0.5) 0px 1px 0px;color:#666 !important;margin:5px;padding:4px 6px;line-height:1.4}
+a.member-file span.filename{font-size:11px;margin-left:18px;font-weight:normal;display:block;color:#666 !important}
+a.member-file:hover{text-decoration:none;}
+a.member-file:active{background-position:0px bottom;}
+iframe {
+    width: 800px;
+    overflow-x: scroll !important;
+    overflow-y: scroll;
+   height: 550px
+}
+
+/******************************************/
+/* BEGIN CUSTOM STYLES BY SMALLBOX        */
+/******************************************/
+
+body.smallbox-test-page {
+    font-family: Ubuntu;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4d4d4f;
+}
+.smallbox-test-page #container {
+    border-radius: 0px !important;
+    width: 100%;
+}
+.smallbox-test-page #header {
+    border-radius: 0px !important;
+}
+.smallbox-test-page #logo {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/original/rgb-logo-tagline.png");
+    background-size: contain;
+    width: 177px;
+    height: 60px;
+    padding: 0px;
+    margin: 20px 0 20px 40px;
+}
+.smallbox-test-page #logo img {
+    display: none;
+}
+.smallbox-test-page #navigation {
+    background-color: #3f3f41;
+}
+.smallbox-test-page a,
+.smallbox-test-page a:hover,
+.smallbox-test-page a:visited {
+    color: #00adef;
+}
+.smallbox-test-page #account-bar {
+    height: auto;
+    top: 33px;
+    right: 20px;
+    /*background-color: #00adef;*/
+    border-radius: 20px;
+}
+.smallbox-test-page #account-bar .dwn {
+    font-size: 6px;
+    position: relative;
+    bottom: 1px;
+}
+.smallbox-test-page #account-bar>li {
+    padding: 10px 24px;
+    margin: 0px;
+}
+.smallbox-test-page #account-bar .profile-link {
+    color: #00adef;
+    display: block;
+    font-weight: normal;
+}
+.smallbox-test-page #account-bar .profile-link.dwn {
+    display: inline;
+    opacity: .4;
+}
+.smallbox-test-page #container {
+    margin-top: 0px;
+}
+.smallbox-test-page #content {
+    max-width: 1000px;
+    padding: 40px;
+    margin: 0 auto;
+    position: relative;
+}
+.smallbox-test-page #navbar {
+    background: #3f3f41;
+    border-top: none;
+    border-bottom: none;
+    max-width: 1022px;
+    margin: 0 auto;
+}
+.smallbox-test-page #navbar ul.topnav>li {
+    transition: none !important;
+}
+.smallbox-test-page #navbar ul.topnav>li:hover {
+    background: #4d4d4f;
+}
+.smallbox-test-page ul.topnav>li>a {
+    color: #f2f2f2;
+    font-family: Ubuntu;
+    font-weight: normal;
+    padding: 11px 15px 13px 15px;
+    border: none !important;
+    line-height: 14px;
+}
+.smallbox-test-page ul.topnav .dwn {
+    color: #f2f2f2;
+    font-size: 6px;
+    position: relative;
+    bottom: 1px;
+    padding-left: 4px;
+    opacity: .5;
+}
+.smallbox-test-page ul.topnav>li:last-child {
+    border: none !important;
+}
+.smallbox-test-page #header .drop-list ul {
+    box-shadow: none;
+    padding: 8px;
+}
+.smallbox-test-page #navbar .drop-list ul {
+    box-shadow: none;
+    background-color: #4d4d4f;
+    border: none;
+}
+.smallbox-test-page #navbar .drop-list ul li a {
+    color: #fff;
+}
+.smallbox-test-page #navbar .drop-list ul li a:hover {
+    background: #3f3f41;
+}
+.oym-course-overview #navigation #navbar .drop-list ul li a:hover {
+  background: #3f3f41 !important;
+}
+.smallbox-test-page .drop-list ul li a:hover {
+    background: #f2f2f2;
+}
+.smallbox-test-page .drop-list ul li .yellow:hover {
+    color: #00adef !important;
+}
+.smallbox-test-page a.yellow {
+    background: #f15928;
+    text-shadow: none;
+}
+.smallbox-test-page a.yellow:hover {
+    background: #00adef;
+}
+
+
+
+/* Content Layout Styles */
+.smallbox-test-page #left {
+    width: 750px;
+}
+.smallbox-test-page table {
+    border-radius: 0px;
+    border: none;
+    border-collapse: collapse;
+    margin: 34px 0;
+}
+.smallbox-test-page table tr {
+    border: none;
+}
+.smallbox-test-page table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.smallbox-test-page table tr td {
+    vertical-align: top;
+    padding: 40px;
+}
+.smallbox-test-page table tr td:nth-child(2) {
+    padding-left: 0px;
+}
+.smallbox-test-page table tr td:nth-child(2) img,
+.smallbox-test-page table tr td:nth-child(2) iframe {
+    max-width: 530px;
+}
+.smallbox-test-page #left iframe {
+    width: 600px;
+    height: 300px;
+}
+
+/* Text Styles */
+.smallbox-test-page h1 {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 44px;
+    text-transform: uppercase;
+    color: #00adef;
+    margin-top: 100px;
+}
+.smallbox-test-page h2 {
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 42px;
+    margin-bottom: 4px;
+}
+.smallbox-test-page h3 {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #d4d6d7;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+.smallbox-test-page h4 {
+    margin-bottom: 40px;
+    padding: 20px 0 5px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #00adef;
+    border-bottom: none;
+    font-size: 24px;
+    line-height: 32px;
+}
+.smallbox-test-page p {
+    line-height: 24px !important;
+    margin-bottom: 16px !important;
+    font-weight: 300 !important;
+    font-size: 16px !important;
+}
+
+/* Right Column Styles */
+.smallbox-test-page #right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 920px;
+    height: 83px;
+    padding: 30px 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    max-width: 1000px;
+    margin: 0 40px;
+    border-bottom: 1px solid #d4d6d7;
+}
+.smallbox-test-page #right h3 {
+    margin-bottom: 0px;
+    border-bottom: none;
+    float: left;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 24px;
+}
+.smallbox-test-page #right h4 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 300;
+    padding-top: 0px;
+    text-transform: none;
+    color: inherit;
+    margin-bottom: 0px;
+}
+.smallbox-test-page #right h4 a {
+    color: #4d4d4f;
+    font-weight: 300;
+}
+.smallbox-test-page #right h4 a:hover,
+.smallbox-test-page #right h4 a:active {
+    color: #00adef;
+}
+.smallbox-test-page #right ul {
+    list-style: none !important;
+}
+.smallbox-test-page #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.smallbox-test-page #right ul, .smallbox-test-page #right ul li {
+    padding: 0px !important;
+}
+.smallbox-test-page #right ul {
+    margin: 0px;
+    float: left;
+}
+.smallbox-test-page #right ul li {
+    display: inline-block !important;
+    margin-left: 30px;
+}
+
+.viewAllLessons {
+  float: right;
+  margin-bottom: 0px;
+  position: relative;
+  top: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+.viewAllLessons a {
+  color: #fff !important;
+}
+
+/* Coaching Habits Course Overview */
+body.coaching-habits-course-overview {
+    font-family: Ubuntu;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4d4d4f;
+}
+.coaching-habits-course-overview #container {
+    border-radius: 0px !important;
+    width: 100%;
+}
+.coaching-habits-course-overview #header {
+    border-radius: 0px !important;
+}
+.coaching-habits-course-overview #logo {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/original/rgb-logo-tagline.png");
+    background-size: contain;
+    width: 177px;
+    height: 60px;
+    padding: 0px;
+    margin: 20px 0 20px 40px;
+}
+.coaching-habits-course-overview #logo img {
+    display: none;
+}
+.coaching-habits-course-overview #navigation {
+    background-color: #3f3f41;
+}
+.coaching-habits-course-overview a,
+.coaching-habits-course-overview a:hover,
+.coaching-habits-course-overview a:visited {
+    color: #00adef;
+}
+.coaching-habits-course-overview #account-bar {
+    height: auto;
+    top: 33px;
+    right: 20px;
+    /*background-color: #00adef;*/
+    border-radius: 20px;
+}
+.coaching-habits-course-overview #account-bar .dwn {
+    font-size: 6px;
+    position: relative;
+    bottom: 1px;
+}
+.coaching-habits-course-overview #account-bar>li {
+    padding: 10px 24px;
+    margin: 0px;
+}
+.coaching-habits-course-overview #account-bar .profile-link {
+    color: #00adef;
+    display: block;
+    font-weight: normal;
+}
+.coaching-habits-course-overview #account-bar .profile-link.dwn {
+    display: inline;
+    opacity: .4;
+}
+.coaching-habits-course-overview #container {
+    margin-top: 0px;
+}
+.coaching-habits-course-overview #content {
+    max-width: 1000px;
+    padding: 40px;
+    margin: 0 auto;
+    position: relative;
+}
+.coaching-habits-course-overview #navbar {
+    background: #3f3f41;
+    border-top: none;
+    border-bottom: none;
+    max-width: 1022px;
+    margin: 0 auto;
+}
+.coaching-habits-course-overview #navbar ul.topnav>li {
+    transition: none !important;
+}
+.coaching-habits-course-overview #navbar ul.topnav>li:hover {
+    background: #4d4d4f;
+}
+.coaching-habits-course-overview ul.topnav>li>a {
+    color: #f2f2f2;
+    font-family: Ubuntu;
+    font-weight: normal;
+    padding: 11px 15px 13px 15px;
+    border: none !important;
+    line-height: 14px;
+}
+.coaching-habits-course-overview ul.topnav .dwn {
+    color: #f2f2f2;
+    font-size: 6px;
+    position: relative;
+    bottom: 1px;
+    padding-left: 4px;
+    opacity: .5;
+}
+.coaching-habits-course-overview ul.topnav>li:last-child {
+    border: none !important;
+}
+.coaching-habits-course-overview #header .drop-list ul {
+    box-shadow: none;
+    padding: 8px;
+}
+.coaching-habits-course-overview #navbar .drop-list ul {
+    box-shadow: none;
+    background-color: #4d4d4f;
+    border: none;
+}
+.coaching-habits-course-overview #navbar .drop-list ul li a {
+    color: #fff;
+}
+.coaching-habits-course-overview #navbar .drop-list ul li a:hover {
+    background: #3f3f41;
+}
+.coaching-habits-course-overview .drop-list ul li a:hover {
+    background: #f2f2f2;
+}
+.coaching-habits-course-overview .drop-list ul li .yellow:hover {
+    color: #00adef !important;
+}
+.coaching-habits-course-overview a.yellow {
+    background: #f15928;
+    text-shadow: none;
+}
+.coaching-habits-course-overview a.yellow:hover {
+    background: #00adef;
+}
+
+
+
+/* Content Layout Styles */
+.coaching-habits-course-overview #left {
+    width: 65% !important;
+    float: left;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+.coaching-habits-course-overview table {
+    border-radius: 0px;
+    border: none;
+    border-collapse: collapse;
+    margin: 34px 0;
+}
+.coaching-habits-course-overview table tr {
+    border: none;
+}
+.coaching-habits-course-overview table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.coaching-habits-course-overview table tr td {
+    vertical-align: top;
+    padding: 40px;
+}
+.coaching-habits-course-overview table tr td:nth-child(2) {
+    padding-left: 0px;
+}
+.coaching-habits-course-overview table tr td:nth-child(2) img,
+.coaching-habits-course-overview table tr td:nth-child(2) iframe {
+    max-width: 530px;
+}
+.coaching-habits-course-overview #left iframe {
+    width: 600px;
+    height: 300px;
+}
+
+/* Text Styles */
+.coaching-habits-course-overview h1 {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 44px;
+    text-transform: uppercase;
+    color: #00adef;
+    margin-bottom: 40px;
+    text-align: left;
+}
+.coaching-habits-course-overview #page_header {
+    display: none;
+}
+.coaching-habits-course-overview h2 {
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 42px;
+    margin-bottom: 20px 0;
+}
+.coaching-habits-course-overview h3 {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #d4d6d7;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+.coaching-habits-course-overview h4 {
+    margin-bottom: 40px;
+    padding: 20px 0 5px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #00adef;
+    border-bottom: none;
+    font-size: 24px;
+    line-height: 32px;
+}
+.coaching-habits-course-overview p {
+    line-height: 24px !important;
+    margin-bottom: 16px !important;
+    font-weight: 300 !important;
+    font-size: 16px !important;
+}
+
+/* Right Column Styles */
+.coaching-habits-course-overview #right {
+    position: relative;
+    float: right;
+    width: 35%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.coaching-habits-course-overview #right h3 {
+    margin-bottom: 0px;
+    border-bottom: none;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 24px;
+}
+.coaching-habits-course-overview #right a {
+    color: #4d4d4f;
+    font-weight: 300;
+    display: block;
+    padding: 12px 20px;
+    background: #f2f2f2;
+    margin: 1px 0;
+}
+.coaching-habits-course-overview #right a:hover,
+.coaching-habits-course-overview #right a:active {
+    color: #00adef;
+}
+.coaching-habits-course-overview #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.coaching-habits-course-overview #right ul, .coaching-habits-course-overview #right ul li {
+    padding: 0px !important;
+}
+.coaching-habits-course-overview #right ul {
+    margin: 0px;
+    list-style: none !important;
+}
+.coaching-habits-course-overview #right ul li {
+    display: inline-block !important;
+    margin-left: 0px;
+    text-align: left;
+}
+.coaching-habits-course-overview #right ul li p {
+    margin-bottom: 0px !important;
+}
+
+
+/* TESTING STYLES START HERE */
+
+body {
+    font-family: Ubuntu;
+    font-weight: 300 !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    color: #4d4d4f !important;
+    margin: 0px;
+}
+ #container {
+    border-radius: 0px;
+    width: 100%;
+}
+ #header {
+    border-radius: 0px  !important;
+}
+ #logo {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/original/rgb-logo-tagline.png");
+    background-size: contain;
+    width: 177px;
+    height: 60px;
+    padding: 0px;
+    margin: 20px 0 20px 40px;
+}
+ #logo img {
+    display: none !important;
+}
+ #navigation {
+    background-color: #3f3f41 !important;
+}
+ a,
+ a:hover,
+ a:visited {
+    color: #00adef;
+}
+ #account-bar {
+    height: auto !important;
+    top: 33px !important;
+    right: 20px !important;
+    /*background-color: #00adef !important;*/
+    border-radius: 20px !important;
+}
+ #account-bar .dwn {
+    font-size: 6px !important;
+    position: relative !important;
+    bottom: 1px !important;
+}
+ #account-bar>li {
+    padding: 10px 24px !important;
+    margin: 0px !important;
+}
+ #account-bar .profile-link {
+    color: #00adef;
+    display: block !important;
+    font-weight: normal !important;
+}
+ #account-bar .profile-link.dwn {
+    display: inline !important;
+    opacity: .4 !important;
+}
+ #container {
+    margin-top: 0px !important;
+}
+ #content {
+    max-width: 1000px;
+    padding: 40px;
+    margin: 0 auto;
+    position: relative;
+}
+ #navbar {
+    background: #3f3f41;
+    border-top: none;
+    border-bottom: none;
+    max-width: 1022px;
+    margin: 0 auto;
+}
+#navbar ul.topnav>li {
+    transition: none  !important;
+}
+#navbar ul.topnav>li.current {
+  background: transparent !important;
+}
+#navbar ul.topnav>li:hover {
+    background: #4d4d4f;
+}
+ ul.topnav>li>a {
+    color: #f2f2f2;
+    font-family: Ubuntu;
+    font-weight: normal !important;
+    padding: 11px 15px 13px 15px;
+    border: none;
+    line-height: 14px;
+}
+ ul.topnav .dwn {
+    color: #f2f2f2;
+    font-size: 6px !important;
+    position: relative !important;
+    bottom: 1px !important;
+    padding-left: 4px !important;
+    opacity: .5 !important;
+}
+ ul.topnav>li:last-child {
+    border: none  !important;
+}
+ #header .drop-list ul {
+    box-shadow: none !important;
+    padding: 8px !important;
+}
+ #navbar .drop-list ul {
+    box-shadow: none;
+    background-color: #4d4d4f;
+    border: none;
+}
+ #navbar .drop-list ul li a {
+    color: #fff;
+}
+ #navbar .drop-list ul li a:hover {
+    background: #3f3f41 !important;
+}
+ .drop-list ul li a:hover {
+    background: #f2f2f2 !important;
+}
+ .drop-list ul li .yellow:hover {
+    color: #00adef  !important;
+}
+ a.yellow {
+    background: #f15928 !important;
+    text-shadow: none !important;
+}
+ a.yellow:hover {
+    background: #00adef !important;
+}
+
+
+
+/* Content Layout Styles */
+ #left {
+    width: 750px;
+}
+ table {
+    border-radius: 0px !important;
+    border: none !important;
+    border-collapse: collapse !important;
+    margin: 17px 0 !important;
+}
+ table tr {
+    border: none !important;
+}
+ table tr:nth-child(even) {
+    background-color: #f2f2f2 !important;
+}
+ table tr td {
+    vertical-align: top !important;
+    padding: 20px !important;
+}
+ table tr td:nth-child(2) {
+    padding-left: 0px !important;
+}
+ table tr td:nth-child(2) img,
+ table tr td:nth-child(2) iframe {
+    max-width: 530px !important;
+}
+ #left iframe {
+    width: 600px !important;
+    height: 300px !important;
+}
+
+/* Text Styles */
+ h1 {
+    font-family: Ubuntu;
+    font-weight: 700;
+    line-height: 44px;
+    color: #00adef;
+    margin: 20px 0;
+}
+ h2 {
+    font-weight: 300 !important;
+    font-size: 30px !important;
+    line-height: 42px !important;
+    margin-bottom: 4px !important;
+}
+ h3 {
+    font-weight: 300 !important;
+    font-size: 24px !important;
+    line-height: 32px !important;
+    margin-bottom: 4px !important;
+    border-bottom: 1px solid #d4d6d7 !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 5px !important;
+}
+ h4 {
+    margin-bottom: 40px !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    color: #00adef !important;
+    border-bottom: none !important;
+    font-size: 24px !important;
+    line-height: 32px !important;
+}
+ p {
+    line-height: 24px  !important;
+    margin-bottom: 16px  !important;
+    font-weight: 300  !important;
+    font-size: 16px  !important;
+}
+
+
+/* all the OYM fixes */
+body.oym-course-overview, .oym-course-overview p {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+}
+.oym-course-overview h1,
+.oym-course-overview h2,
+.oym-course-overview h3,
+.oym-course-overview h4,
+.oym-course-overview h5 {
+    color: #4a4a4a;
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.oym-course-overview h1#page_header {
+    display: none;
+}
+.oym-course-overview h2 {
+    font-weight: 400;
+}
+.oym-course-overview h3 {
+    font-size: 18px !important;
+}
+.oym-course-overview #left {
+    width: 100%;
+}
+
+.oym-course-overview #logo img {
+    display: none;
+}
+.oym-course-overview #logo {
+    background: url("https://tenants-production.s3.amazonaws.com/organizeyourmind/course_logos/6/white_bold.png");
+    width: 333px;
+    height: 42px;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 30px;
+}
+.oym-course-overview #header {
+    background: #f15a29; /* Old browsers */
+    background: -moz-linear-gradient(top, #f15a29 0%, #f47f59 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f15a29), color-stop(100%,#f47f59)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f15a29 0%,#f47f59 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f15a29', endColorstr='#f47f59',GradientType=0 ); /* IE6-9 */
+    border-radius: 0px;
+}
+.oym-course-overview #container {
+    box-shadow: rgba(0,0,0,0.3) 0 0 22px;
+    width: 1060px;
+    margin: 0 auto 20px;
+}
+.oym-course-overview #account-bar>li {
+    margin: 20px 24px;
+}
+.oym-course-overview #account-bar .profile-link {
+    color: #ffffff;
+}
+.oym-course-overview .drop-list ul {
+    box-shadow: none;
+}
+.oym-course-overview #container #navbar {
+    background: transparent;
+    border-top: none;
+    border-bottom: none;
+    min-height: 0px;
+}
+.oym-course-overview ul.topnav>li>a {
+    line-height: 150%;
+    font-weight: 400;
+}
+.oym-course-overview ul.topnav>li:hover,
+.oym-course-overview ul.topnav>li.current {
+    background: #FCDED4;
+}
+.oym-course-overview ul.topnav>li:hover>a,
+.oym-course-overview ul.topnav>li.current>a {
+    color: #f15a29;
+}
+.oym-course-overview ul.topnav>li:hover>a,
+.oym-course-overview ul.topnav>li:hover .dwn,
+.oym-course-overview ul.topnav>li.current>a,
+.oym-course-overview ul.topnav>li.current .dwn {
+    color: #f15a29;
+}
+.oym-course-overview ul.topnav>li.current:hover {
+    background: #FCDED4;
+}
+.oym-course-overview ul.topnav>li>a {
+    border: none;
+    border-right: 1px solid #ffffff;
+}
+.oym-course-overview #page_content img {
+    max-width: 100% !important;
+    max-width: 600px !important;
+    height: auto;
+}
+.oym-course-overview #page_content iframe {
+    max-width: 600px !important;
+}
+.oym-course-overview #page_content table {
+    border-collapse: collapse;
+    border: none;
+}
+.oym-course-overview #page_content table td {
+  padding: 0px;
+}
+.oym-course-overview #page_content table td:first-child {
+  padding-right: 40px;
+}
+.oym-course-overview #page_content table tr {
+    border: none;
+}
+.oym-course-overview #page_header {
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-family: "Garamond", Georgia, serif;
+    font-weight: bold;
+    letter-spacing: .02em;
+}
+.oym-course-overview .down-arrow {
+    font-size: 10px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.oym-course-overview .down-arrow {
+    float: right;
+    padding: 0 12px 0 20px;
+    border-left: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+.organize-your-mind-live-classes #left, .oym-course-overview #left {
+  width: 61% !important;
+}
+.oym-course-overview #right {
+  width: 30% !important;
+  padding-left: 80px;
+  position: relative;
+}
+.oym-course-overview #content {
+  padding: 60px;
+}
+.oym-course-overview #content:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.oym-course-overview #right h3 {
+    font-weight: 300;
+    margin-bottom: 0px;
+}
+.oym-course-overview #right ul {
+    list-style: none !important;
+}
+.oym-course-overview #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.oym-course-overview #right ul, .oym-course-overview #right ul li {
+    padding: 0px !important;
+}
+.oym-course-overview #right ul, .organize-your-mind-live-classes #right ul{
+    padding-bottom: 17px !important;
+    margin-top: 10px !important;
+    margin-left: 0px !important;
+    position: relative;
+}
+.oym-course-overview #right ul li, .organize-your-mind-live-classes #right ul li{
+    display: inline-block !important;
+    position: relative;
+}
+.oym-course-overview #right h4, .organize-your-mind-live-classes #right h4{
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    font-size: 14px !important;
+}
+.oym-course-overview #right h4, .organize-your-mind-live-classes #right h4{
+    background-color: #e1f6fd;
+    border-color: #1daeef;
+    border-style: solid;
+    border-width: 1px;
+    z-index: 99999;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+    color: #1daeef !important;
+}
+.oym-course-overview #right h4 a, .organize-your-mind-live-classes #right h4 a{
+    padding: 14px 28px;
+    display: block;
+}
+.oym-course-overview #right ul li, .organize-your-mind-live-classes #right ul li{
+    width: 14px;
+    height: 24px;
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_inactive.png?1440351165");
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    cursor: pointer;
+    padding: 0 10px 0 0 !important;
+    margin-left: 0px;
+}
+.oym-course-overview #right ul li:hover, .organize-your-mind-live-classes #right ul li:hover{
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_hover.png?1440351165");
+    background-repeat: no-repeat;
+}
+.oym-course-overview #right ul li.current, .oym-course-overview #right ul li.current:hover, 
+.organize-your-mind-live-classes #right ul li.current, .organize-your-mind-live-classes #right ul li.current:hover{
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_active.png?1440351165");
+    background-repeat: no-repeat;
+}
+.oym-course-overview #right ul li:hover h4, .organize-your-mind-live-classes #right ul li:hover h4{
+    display: block;
+}
+body #container #navigation #navbar .topnav li.current {
+  background: transparent;
+}
+/*
+body #container #header.oym-header {
+  background: #EDEEEE !important;
+}
+*/
+.oym-course-overview #right ul li:hover h4, .organize-your-mind-live-classes #right ul li:hover h4 {
+    display: block;
+    padding: 0 !important;
+    /*margin: 0 !important;*/
+    border-bottom: 1px solid #1daeef !important;
+    min-width: 200px;
+}
+
+/* LESSON OVERWRITES */
+body #container #navigation #navbar {
+  background: transparent;
+}
+body #container #content #right {
+  height: 106px !important;
+}
+body #container #content #right > h2 {
+  float: right !important;
+  margin-bottom: 0px !important;
+  position: relative !important;
+  top: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  font-size: 12px !important;
+  margin-top: 0px;
+}
+body #container #content #right > h2 a {
+  color: #fff !important;
+}
+body #container #content #right > h3 {
+  font-weight: 300 !important;
+  margin-bottom: 0px !important;
+  border-bottom: 0 !important;
+  margin-top: 0px;
+}
+body #container #content #left #page_content > table {
+  margin-bottom: 0 !important;
+}
+body #container #content #left #page_content > h3 {
+  margin: 0 !important;
+  padding: 25px 90px !important;
+}
+body #container #content h1#page_header {
+  /*margin-top: 135px !important;
+  margin-bottom: 24px !important;*/
+}
+
+
+
+
+.coaching-habits-test-page #left {
+    width: 65% !important;
+    float: left;
+    padding-right: 40px;
+    box-sizing: border-box;
+}
+.coaching-habits-test-page table {
+    border-radius: 0px;
+    border: none;
+    border-collapse: collapse;
+    margin: 34px 0;
+}
+.coaching-habits-test-page table tr {
+    border: none;
+}
+.coaching-habits-test-page table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.coaching-habits-test-page table tr td {
+    vertical-align: top;
+    padding: 40px;
+}
+.coaching-habits-test-page table tr td:nth-child(2) {
+    padding-left: 0px;
+}
+.coaching-habits-test-page table tr td:nth-child(2) img,
+.coaching-habits-test-page table tr td:nth-child(2) iframe {
+    max-width: 530px;
+}
+.coaching-habits-test-page #left iframe {
+    width: 600px;
+    height: 300px;
+}
+.coaching-habits-test-page h1 {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 44px;
+    text-transform: uppercase;
+    color: #00adef;
+    margin-bottom: 40px;
+    text-align: left;
+}
+.coaching-habits-test-page #page_header {
+    display: none;
+}
+.coaching-habits-test-page h2 {
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 42px;
+    margin-bottom: 20px 0;
+}
+.coaching-habits-test-page h3 {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #d4d6d7;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+.coaching-habits-test-page h4 {
+    margin-bottom: 40px;
+    padding: 20px 0 5px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #00adef;
+    border-bottom: none;
+    font-size: 24px;
+    line-height: 32px;
+}
+.coaching-habits-test-page p {
+    line-height: 24px !important;
+    margin-bottom: 16px !important;
+    font-weight: 300 !important;
+    font-size: 16px !important;
+}
+.coaching-habits-test-page #right {
+    position: relative;
+    float: right;
+    width: 35%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.coaching-habits-test-page #right h3 {
+    margin-bottom: 0px;
+    border-bottom: none;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 24px;
+}
+.coaching-habits-test-page #right a {
+    color: #4d4d4f;
+    font-weight: 300;
+    display: block;
+    padding: 12px 20px;
+    background: #f2f2f2;
+    margin: 1px 0;
+    transition: background .25s ease;
+}
+.coaching-habits-test-page #right a:hover,
+.coaching-habits-test-page #right a:active {
+    color: #00adef;
+}
+.coaching-habits-test-page #right a:hover {
+	background: #e5e5e5;
+}
+.coaching-habits-test-page #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.coaching-habits-test-page #right ul, .coaching-habits-test-page #right ul li {
+    padding: 0px !important;
+}
+.coaching-habits-test-page #right ul {
+    margin: 0px;
+    list-style: none !important;
+}
+.coaching-habits-test-page #right ul li {
+    display: inline-block !important;
+    margin-left: 0px;
+    text-align: left;
+}
+.coaching-habits-test-page #right ul li p {
+    margin-bottom: 0px !important;
+}
+
+/* OYM Navbar Styles */
+#navbar.oym-navbar {
+	max-width: 100%;
+}
+.oym-navbar ul.topnav {
+	padding-left: 5px;
+}
+.oym-course-overview #navbar.oym-navbar ul.drop-list li ul#content-drop-list li a:hover {
+	background: #f2f2f2 !important;
+}
+.myIframe{
+	width:1000px !important;
+   height:800px
+}
+.button {
+     display: inline-block;
+      border-radius: 12px;
+      background-color: #f4511e;
+      border: none;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 28px;
+      padding: 20px;
+      width: 600px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+}
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+/* Begin Lesson Page */
+
+body.emotional-energy-simplify-and-declutter, .emotional-energy-simplify-and-declutter p {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+}
+.emotional-energy-simplify-and-declutter #content {
+    padding: 40px 120px;
+    position: relative;
+}
+.emotional-energy-simplify-and-declutter #right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1daeef;
+    height: 90px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.emotional-energy-simplify-and-declutter h1,
+.emotional-energy-simplify-and-declutter h2,
+.emotional-energy-simplify-and-declutter h3,
+.emotional-energy-simplify-and-declutter h4,
+.emotional-energy-simplify-and-declutter h5 {
+    color: #4a4a4a;
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.emotional-energy-simplify-and-declutter h1#page_header {
+    margin-top: 120px;
+}
+.emotional-energy-simplify-and-declutter h2.module-title {
+    font-weight: 400;
+}
+.emotional-energy-simplify-and-declutter h3 {
+    font-size: 18px !important;
+}
+.emotional-energy-simplify-and-declutter #left {
+    width: 100%;
+}
+
+.emotional-energy-simplify-and-declutter #logo img {
+    display: none;
+}
+.emotional-energy-simplify-and-declutter #logo {
+    background: url("https://tenants-production.s3.amazonaws.com/organizeyourmind/course_logos/6/white_bold.png");
+    width: 333px;
+    height: 42px;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 30px;
+}
+.emotional-energy-simplify-and-declutter #header {
+    background: #f15a29; /* Old browsers */
+    background: -moz-linear-gradient(top, #f15a29 0%, #f47f59 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f15a29), color-stop(100%,#f47f59)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f15a29 0%,#f47f59 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f15a29', endColorstr='#f47f59',GradientType=0 ); /* IE6-9 */
+    border-radius: 0px;
+}
+.emotional-energy-simplify-and-declutter #container {
+    box-shadow: rgba(0,0,0,0.3) 0 0 22px;
+    width: 1060px;
+    margin: 0 auto 20px;
+}
+.emotional-energy-simplify-and-declutter #account-bar>li {
+    margin: 20px 24px;
+}
+.emotional-energy-simplify-and-declutter #account-bar .profile-link {
+    color: #ffffff;
+}
+.emotional-energy-simplify-and-declutter .drop-list ul {
+    box-shadow: none;
+}
+.emotional-energy-simplify-and-declutter #navbar {
+    background: #FCDED4;
+    border-top: none;
+    border-bottom: none;
+    min-height: 0px;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li:last-child {
+	border-right: none;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li>a {
+    line-height: 150%;
+    font-weight: 700;
+    font-size: 12px;
+    color: #d94616;
+    padding: 10px 15px 13px 15px;
+}
+.emotional-energy-simplify-and-declutter ul.topnav .dwn {
+	color: #d94616;
+	font-size: 10px;
+	padding-left: 15px;
+	position: relative;
+	bottom: 1px;
+	opacity: .5;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li:hover,
+.emotional-energy-simplify-and-declutter ul.topnav>li.current {
+    background: #FCDED4;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li:hover>a,
+.emotional-energy-simplify-and-declutter ul.topnav>li.current>a {
+    color: #f15a29;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li:hover>a,
+.emotional-energy-simplify-and-declutter ul.topnav>li:hover .dwn,
+.emotional-energy-simplify-and-declutter ul.topnav>li.current>a,
+.emotional-energy-simplify-and-declutter ul.topnav>li.current .dwn {
+    color: #f15a29;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li.current:hover {
+    background: #FCDED4;
+}
+.emotional-energy-simplify-and-declutter ul.topnav>li>a {
+    border: none;
+    border-right: 1px solid #ffffff;
+}
+.emotional-energy-simplify-and-declutter #page_content img {
+    max-width: 100% !important;
+    max-width: 600px !important;
+    height: auto;
+}
+.emotional-energy-simplify-and-declutter #page_content td:first-child img {
+    max-width: 100px !important;
+    height: auto;
+}
+.emotional-energy-simplify-and-declutter #page_content iframe {
+    max-width: 500px !important;
+    width: 500px;
+    height: 281px;
+}
+.emotional-energy-simplify-and-declutter #page_content #disqus_thread iframe {
+    max-width: 100% !important;
+    max-width: 820px !important;
+}
+.emotional-energy-simplify-and-declutter #page_content table {
+    border-collapse: collapse;
+    border: none;
+}
+.emotional-energy-simplify-and-declutter #page_content table tr {
+    border: none;
+}
+.emotional-energy-simplify-and-declutter #page_header {
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-family: "Garamond", Georgia, serif;
+    font-weight: bold;
+    letter-spacing: .02em;
+}
+.emotional-energy-simplify-and-declutter .down-arrow {
+    font-size: 10px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.emotional-energy-simplify-and-declutter .down-arrow {
+    float: right;
+    padding: 0 12px 0 20px;
+    border-left: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+.emotional-energy-simplify-and-declutter .drop-list ul li a:hover {
+    background: #bdebfc !important;
+}
+.emotional-energy-simplify-and-declutter #content ul {
+    position: relative;
+    margin-left: 45px;
+}
+.emotional-energy-simplify-and-declutter #page_content table tr:nth-child(odd) {
+	background-color: #f0f0f0;
+}
+.emotional-energy-simplify-and-declutter #page_content table tr td:first-child {
+	vertical-align: top;
+	padding: 40px 0px 0px 40px;
+	width: 100px;
+}
+.emotional-energy-simplify-and-declutter #page_content table tr td:first-child img {
+	max-width: 600px;
+}
+.emotional-energy-simplify-and-declutter #page_content table tr td:nth-child(2) {
+	padding: 40px 40px 80px 60px;
+}
+.emotional-energy-simplify-and-declutter #page_content table h1,
+.emotional-energy-simplify-and-declutter #page_content table h2 {
+	margin-top: 0px;
+	color: #f15a29;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 24px;
+}
+.emotional-energy-simplify-and-declutter #page_content table h2 {
+	line-height: 18px;
+}
+.emotional-energy-simplify-and-declutter #page_content table hr {
+	height: 1px;
+	background-color: #454444;
+	border: none;
+	margin-top: 5px;
+}
+.emotional-energy-simplify-and-declutter #page_content table ol {
+	margin-bottom: 14px;
+}
+.emotional-energy-simplify-and-declutter #left h3 {
+    margin: 120px -120px 20px -120px;
+    padding: 80px 120px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+.emotional-energy-simplify-and-declutter #right h3 {
+    color: #ffffff;
+    font-weight: 300;
+    margin-bottom: 0px;
+}
+.emotional-energy-simplify-and-declutter #right ul {
+    list-style: none !important;
+}
+.emotional-energy-simplify-and-declutter #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.emotional-energy-simplify-and-declutter #right ul, .emotional-energy-simplify-and-declutter #right ul li {
+    padding: 0px !important;
+}
+.emotional-energy-simplify-and-declutter #right ul {
+    padding-bottom: 17px !important;
+    margin-top: 10px !important;
+    margin-left: 0px !important;
+}
+.emotional-energy-simplify-and-declutter #right ul li {
+    display: inline-block !important;
+}
+.emotional-energy-simplify-and-declutter #right h4 {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: inherit;
+    font-size: 14px !important;
+}
+.emotional-energy-simplify-and-declutter #right h4 {
+    background-color: #e1f6fd;
+    z-index: 99999;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+    color: #1daeef !important;
+}
+.emotional-energy-simplify-and-declutter #right h4 a {
+    padding: 14px 28px;
+    display: block;
+}
+.emotional-energy-simplify-and-declutter #right ul li {
+    width: 14px;
+    height: 24px;
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_inactive.png?1440351165");
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-right: 5px;
+  	cursor: pointer;
+    padding: 0 10px 0 0 !important;
+    margin-left: 0px;
+}
+.emotional-energy-simplify-and-declutter #right ul li:hover {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_hover.png?1440351165");
+    background-repeat: no-repeat;
+}
+.emotional-energy-simplify-and-declutter #right ul li.current, .emotional-energy-simplify-and-declutter #right ul li.current:hover {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_active.png?1440351165");
+    background-repeat: no-repeat;
+}
+.emotional-energy-simplify-and-declutter #right ul li:hover h4 {
+    display: block;
+}
+
+/* End Lesson Page */
+/* all the OYM fixes */
+body.organize-your-mind-live-classes, .organize-your-mind-live-classes p {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+}
+.organize-your-mind-live-classes h1,
+.organize-your-mind-live-classes h2,
+.organize-your-mind-live-classes h3,
+.organize-your-mind-live-classes h4,
+.organize-your-mind-live-classes h5 {
+    color: #4a4a4a;
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.organize-your-mind-live-classes h1#page_header {
+    display: none;
+}
+.organize-your-mind-live-classes h2 {
+    font-weight: 400;
+}
+.organize-your-mind-live-classes h3 {
+    font-size: 18px !important;
+}
+.organize-your-mind-live-classes #left {
+    width: 100%;
+}
+
+.organize-your-mind-live-classes #logo img {
+    display: none;
+}
+.organize-your-mind-live-classes #logo {
+    background: url("https://tenants-production.s3.amazonaws.com/organizeyourmind/course_logos/6/white_bold.png");
+    width: 333px;
+    height: 42px;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 30px;
+}
+.organize-your-mind-live-classes #header {
+    background: #f15a29; /* Old browsers */
+    background: -moz-linear-gradient(top, #f15a29 0%, #f47f59 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f15a29), color-stop(100%,#f47f59)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f15a29 0%,#f47f59 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f15a29', endColorstr='#f47f59',GradientType=0 ); /* IE6-9 */
+    border-radius: 0px;
+}
+.organize-your-mind-live-classes #container {
+    box-shadow: rgba(0,0,0,0.3) 0 0 22px;
+    width: 1060px;
+    margin: 0 auto 20px;
+}
+.organize-your-mind-live-classes #account-bar>li {
+    margin: 20px 24px;
+}
+.organize-your-mind-live-classes #account-bar .profile-link {
+    color: #ffffff;
+}
+.organize-your-mind-live-classes .drop-list ul {
+    box-shadow: none;
+}
+.organize-your-mind-live-classes #container #navbar {
+    background: transparent;
+    border-top: none;
+    border-bottom: none;
+    min-height: 0px;
+}
+.organize-your-mind-live-classes ul.topnav>li>a {
+    line-height: 150%;
+    font-weight: 400;
+}
+.organize-your-mind-live-classes ul.topnav>li:hover,
+.organize-your-mind-live-classes ul.topnav>li.current {
+    background: #FCDED4;
+}
+.organize-your-mind-live-classes ul.topnav>li:hover>a,
+.organize-your-mind-live-classes ul.topnav>li.current>a {
+    color: #f15a29;
+}
+.organize-your-mind-live-classes ul.topnav>li:hover>a,
+.organize-your-mind-live-classes ul.topnav>li:hover .dwn,
+.organize-your-mind-live-classes ul.topnav>li.current>a,
+.organize-your-mind-live-classes ul.topnav>li.current .dwn {
+    color: #f15a29;
+}
+.organize-your-mind-live-classes ul.topnav>li.current:hover {
+    background: #FCDED4;
+}
+.organize-your-mind-live-classes ul.topnav>li>a {
+    border: none;
+    border-right: 1px solid #ffffff;
+}
+.organize-your-mind-live-classes #page_content img {
+    max-width: 100% !important;
+    max-width: 600px !important;
+    height: auto;
+}
+.organize-your-mind-live-classes #page_content iframe {
+    max-width: 600px !important;
+}
+.organize-your-mind-live-classes #page_content table {
+    border-collapse: collapse;
+    border: none;
+}
+.organize-your-mind-live-classes #page_content table td {
+  padding: 0px;
+}
+.organize-your-mind-live-classes #page_content table td:first-child {
+  padding-right: 40px;
+}
+.organize-your-mind-live-classes #page_content table tr {
+    border: none;
+}
+.organize-your-mind-live-classes #page_header {
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-family: "Garamond", Georgia, serif;
+    font-weight: bold;
+    letter-spacing: .02em;
+}
+.organize-your-mind-live-classes .down-arrow {
+    font-size: 10px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.organize-your-mind-live-classes .down-arrow {
+    float: right;
+    padding: 0 12px 0 20px;
+    border-left: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+.organize-your-mind-live-classes #left, .organize-your-mind-live-classes #left {
+  width: 61% !important;
+}
+.organize-your-mind-live-classes #right {
+  width: 30% !important;
+  padding-left: 80px;
+  position: relative;
+}
+.organize-your-mind-live-classes #content {
+  padding: 60px;
+}
+.organize-your-mind-live-classes #content:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.organize-your-mind-live-classes #right h3 {
+    font-weight: 300;
+    margin-bottom: 0px;
+}
+.organize-your-mind-live-classes #right ul {
+    list-style: none !important;
+}
+.organize-your-mind-live-classes #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.organize-your-mind-live-classes #right ul, .organize-your-mind-live-classes #right ul li {
+    padding: 0px !important;
+}
+.organize-your-mind-live-classes #right ul {
+    padding-bottom: 17px !important;
+    margin-top: 10px !important;
+    margin-left: 0px !important;
+    position: relative;
+}
+.organize-your-mind-live-classes #right ul li {
+    display: inline-block !important;
+}
+.organize-your-mind-live-classes #right h4 {
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: inherit;
+    font-size: 14px !important;
+}
+.organize-your-mind-live-classes #right h4 {
+    background-color: #e1f6fd;
+    border-color: #1daeef;
+    border-style: solid;
+    border-width: 1px;
+    z-index: 99999;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+    color: #1daeef !important;
+}
+.organize-your-mind-live-classes #right h4 a {
+    padding: 14px 28px;
+    display: block;
+}
+.organize-your-mind-live-classes #right ul li {
+    width: 14px;
+    height: 24px;
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_inactive.png?1440351165");
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    cursor: pointer;
+    padding: 0 10px 0 0 !important;
+    margin-left: 0px;
+}
+.organize-your-mind-live-classes #right ul li:hover {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_hover.png?1440351165");
+    background-repeat: no-repeat;
+}
+.organize-your-mind-live-classes #right ul li.current, .organize-your-mind-live-classes #right ul li.current:hover {
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_active.png?1440351165");
+    background-repeat: no-repeat;
+}
+.organize-your-mind-live-classes #right ul li:hover h4 {
+    display: block;
+}
+body #container #navigation #navbar .topnav li.current {
+  background: transparent;
+}
+/*
+body #container #header.oym-header {
+  background: #EDEEEE !important;
+}
+*/
+.organize-your-mind-live-classes #right ul li:hover h4 {
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom: 1px solid #1daeef !important;
+}
+
+/* global Fixes - Jason Derifaj*/
+
+/* Header Correction */
+ .megs-course-outline  #header,  .shelleys-brain-states-tour  #header,  .introduction-to-intentional  #header, 
+ .intentional-executive-control  #header,  .intentional-experiencing-brain-states  #header,  .intentional-goals  #header,
+ .intentional-drive  #header,  .intentional-meaning-purpose  #header,  .intentional-imagine  #header,  .intentional-curiosity  #header, 
+ .intentional-confidence  #header,  .intentional-additional-resources  #header,  .introduction-to-deep  #header,  .deep-thinking  #header,  .deep-flow  #header,
+ .deep-conversation  #header,  .deep-collaboration  #header,  .deep-distractions  #header, .deep-impulses-and-cravings  #header,  .deep-mind-wandering  #header, 
+ .deep-additional-resources  #header,  .introduction-to-agile  #header,  .agile-shift-brain-states  #header,  .agile-brain-break  #header,  .agile-creativity  #header,
+ .agile-nonlinear-thinking  #header,  .agile-strategic-thinking  #header,  .agile-self-awareness  #header,  .agile-learning-and-changing  #header, 
+ .agile-additional-resources  #header,  .introduction-to-diverse  #header,  .diverse-your-creative-brain  #header,  .diverse-thinking-states  #header, 
+ .diverse-creative  #header,  .diverse-experiencing  #header,  .diverse-additional-resources  #header,  .introduction-to-physical-energy  #header,  .physical-energy-exercise  #header,  .physical-energy-brain-foods  #header,  .physical-energy-sleep  #header,  .physical-energy-brain-breaks  #header,  .physical-energy-additional-resources  #header,
+ .introduction-to-emotional-energy  #header,  .emotional-energy-negative-emotions  #header,  .emotiemotional-energy-positive-emotions  #header,
+ .emotional-energy-frenzy-acceptance   #header,  .emotional-energy-frenzy-compassion   #header,
+ .emotional-energy-positive-in-the-negative  #header,  
+ .emotional-energy-simplify-and-declutter  #header,  .emotional-energy-positive-emotions  #header,  .emotional-energy-additional-resources #header{
+    background: #f15a29; /* Old browsers */
+    background: -moz-linear-gradient(top, #f15a29 0%, #f47f59 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f15a29), color-stop(100%,#f47f59)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f15a29 0%,#f47f59 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f15a29', endColorstr='#f47f59',GradientType=0 ); /* IE6-9 */
+    border-radius: 0px;
+}
+body.megs-course-outline, body.shelleys-brain-states-tour, body.introduction-to-intentional, 
+body.intentional-executive-control, body.intentional-experiencing-brain-states, body.intentional-goals,
+body.intentional-drive, body.intentional-meaning-purpose, body.intentional-imagine, body.intentional-curiosity, 
+body.intentional-confidence, body.intentional-additional-resources, body.introduction-to-deep, body.deep-thinking, body.deep-flow,
+body.deep-conversation, body.deep-collaboration, body.deep-distractions,body.deep-impulses-and-cravings, body.deep-mind-wandering, 
+body.deep-additional-resources, body.introduction-to-agile, body.agile-shift-brain-states, body.agile-brain-break, body.agile-creativity,
+body.agile-nonlinear-thinking, body.agile-strategic-thinking, body.agile-self-awareness, body.agile-learning-and-changing, 
+body.agile-additional-resources, body.introduction-to-diverse, body.diverse-your-creative-brain, body.diverse-thinking-states, 
+body.diverse-creative, body.diverse-experiencing, body.diverse-additional-resources, body.introduction-to-physical-energy, body.physical-energy-exercise, body.physical-energy-brain-foods, body.physical-energy-sleep, body.physical-energy-brain-breaks, body.physical-energy-additional-resources,
+body.introduction-to-emotional-energy, body.emotional-energy-negative-emotions, body.emotiemotional-energy-positive-emotions,
+body.emotional-energy-frenzy-acceptance , body.emotional-energy-frenzy-compassion ,
+body.emotional-energy-positive-in-the-negative,  
+body.emotional-energy-simplify-and-declutter, body.emotional-energy-positive-emotions, body.emotional-energy-additional-resources{
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+}
+/* Blue Navigaton */
+.megs-course-outline #right, .shelleys-brain-states-tour #right, .introduction-to-intentional #right, 
+.intentional-executive-control #right, .intentional-experiencing-brain-states #right, .intentional-goals #right,
+.intentional-drive #right, .intentional-meaning-purpose #right, .intentional-imagine #right, .intentional-curiosity #right, 
+.intentional-confidence #right, .intentional-additional-resources #right, .introduction-to-deep #right, .deep-thinking #right, .deep-flow #right,
+.deep-conversation #right, .deep-collaboration #right, .deep-distractions #right,.deep-impulses-and-cravings #right, .deep-mind-wandering #right, 
+.deep-additional-resources #right, .introduction-to-agile #right, .agile-shift-brain-states #right, .agile-brain-break #right, .agile-creativity #right,
+.agile-nonlinear-thinking #right, .agile-strategic-thinking #right, .agile-self-awareness #right, .agile-learning-and-changing #right, 
+.agile-additional-resources #right, .introduction-to-diverse #right, .diverse-your-creative-brain #right, .diverse-thinking-states #right, 
+.diverse-creative #right, .diverse-experiencing #right, .diverse-additional-resources #right, .introduction-to-physical-energy #right, .physical-energy-exercise #right, .physical-energy-brain-foods #right, .physical-energy-sleep #right, .physical-energy-brain-breaks #right, .physical-energy-additional-resources #right, .introduction-to-emotional-energy #right, .emotional-energy-negative-emotions #right, .emotiemotional-energy-positive-emotions #right,
+.emotional-energy-frenzy-acceptance #right, .emotional-energy-frenzy-compassion #right,
+.emotional-energy-positive-in-the-negative #right,  
+.emotional-energy-simplify-and-declutter #right, .emotional-energy-positive-emotions #right, .emotional-energy-additional-resources #right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1daeef;
+    height: 90px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.megs-course-outline #container, .shelleys-brain-states-tour #container, .introduction-to-intentional #container, 
+.intentional-executive-control #container, .intentional-experiencing-brain-states #container, .intentional-goals #container,
+.intentional-drive #container, .intentional-meaning-purpose #container, .intentional-imagine #container, .intentional-curiosity #container, 
+.intentional-confidence #container, .intentional-additional-resources #container, .introduction-to-deep #container, .deep-thinking #container, .deep-flow #container,
+.deep-conversation #container, .deep-collaboration #container, .deep-distractions #container,.deep-impulses-and-cravings #container, .deep-mind-wandering #container, 
+.deep-additional-resources #container, .introduction-to-agile #container, .agile-shift-brain-states #container, .agile-brain-break #container, .agile-creativity #container,
+.agile-nonlinear-thinking #container, .agile-strategic-thinking #container, .agile-self-awareness #container, .agile-learning-and-changing #container, 
+.agile-additional-resources #container, .introduction-to-diverse #container, .diverse-your-creative-brain #container, .diverse-thinking-states #container, 
+.diverse-creative #container, .diverse-experiencing #container, .diverse-additional-resources #container, .introduction-to-emotional-energy #container, .emotional-energy-negative-emotions #container, .emotiemotional-energy-positive-emotions #container,
+.emotional-energy-frenzy-acceptance #container, .emotional-energy-frenzy-compassion #container,
+.emotional-energy-positive-in-the-negative #container,  
+.emotional-energy-simplify-and-declutter #container, .emotional-energy-positive-emotions #container, .emotional-energy-additional-resources #container, 
+.introduction-to-physical-energy #container, .physical-energy-exercise #container, .physical-energy-brain-foods #container, .physical-energy-sleep #container, .physical-energy-brain-breaks #container, .physical-energy-additional-resources #container  {
+    box-shadow: rgba(0,0,0,0.3) 0 0 22px;
+    width: 1060px;
+    margin: 0 auto 20px;
+}
+.megs-course-outline #content, .shelleys-brain-states-tour #content, .introduction-to-intentional #content, 
+.intentional-executive-control #content, .intentional-experiencing-brain-states #content, .intentional-goals #content,
+.intentional-drive #content, .intentional-meaning-purpose #content, .intentional-imagine #content, .intentional-curiosity #content, 
+.intentional-confidence #content, .intentional-additional-resources #content, .introduction-to-deep #content, .deep-thinking #content, .deep-flow #content,
+.deep-conversation #content, .deep-collaboration #content, .deep-distractions #content,.deep-impulses-and-cravings #content, .deep-mind-wandering #content, 
+.deep-additional-resources #content, .introduction-to-agile #content, .agile-shift-brain-states #content, .agile-brain-break #content, .agile-creativity #content,
+.agile-nonlinear-thinking #content, .agile-strategic-thinking #content, .agile-self-awareness #content, .agile-learning-and-changing #content, 
+.agile-additional-resources #content, .introduction-to-diverse #content, .diverse-your-creative-brain #content, .diverse-thinking-states #content, 
+.diverse-creative #content, .diverse-experiencing #content, .diverse-additional-resources #content, .introduction-to-emotional-energy #content, .emotional-energy-negative-emotions #content, .emotiemotional-energy-positive-emotions #content,
+.emotional-energy-frenzy-acceptance #content, .emotional-energy-frenzy-compassion #content,
+.emotional-energy-positive-in-the-negative #content,  
+.emotional-energy-simplify-and-declutter #content, .emotional-energy-positive-emotions #content, .emotional-energy-additional-resources #content, 
+.introduction-to-physical-energy #content, .physical-energy-exercise #content, .physical-energy-brain-foods #content, .physical-energy-sleep #content, 
+.physical-energy-brain-breaks #content, .physical-energy-additional-resources #content  {
+    padding: 40px 120px;
+    position: relative;
+}
+
+.megs-course-outline #right ul, .shelleys-brain-states-tour #right ul, .introduction-to-intentional #right ul, 
+.intentional-executive-control #right ul, .intentional-experiencing-brain-states #right ul, .intentional-goals #right ul,
+.intentional-drive #right ul, .intentional-meaning-purpose #right ul, .intentional-imagine #right ul, .intentional-curiosity #right ul, 
+.intentional-confidence #right ul, .intentional-additional-resources #right ul, .introduction-to-deep #right ul, .deep-thinking #right ul, .deep-flow #right ul,
+.deep-conversation #right ul, .deep-collaboration #right ul, .deep-distractions #right ul,.deep-impulses-and-cravings #right ul, .deep-mind-wandering #right ul, 
+.deep-additional-resources #right ul, .introduction-to-agile #right ul, .agile-shift-brain-states #right ul, .agile-brain-break #right ul, .agile-creativity #right ul,
+.agile-nonlinear-thinking #right ul, .agile-strategic-thinking #right ul, .agile-self-awareness #right ul, .agile-learning-and-changing #right ul, 
+.agile-additional-resources #right ul, .introduction-to-diverse #right ul, .diverse-your-creative-brain #right ul, .diverse-thinking-states #right ul, 
+.diverse-creative #right ul, .diverse-experiencing #right ul, .diverse-additional-resources #right ul, .introduction-to-emotional-energy #right ul , .emotional-energy-negative-emotions #right ul , .emotiemotional-energy-positive-emotions #right ul ,
+.emotional-energy-frenzy-acceptance #right ul , .emotional-energy-frenzy-compassion #right ul ,
+.emotional-energy-positive-in-the-negative #right ul ,  
+.emotional-energy-simplify-and-declutter #right ul, .emotional-energy-positive-emotions #right ul, .emotional-energy-additional-resources #right ul,
+.introduction-to-physical-energy #right ul, .physical-energy-exercise #right ul, .physical-energy-brain-foods #right ul, .physical-energy-sleep #right ul, .physical-energy-brain-breaks #right ul, .physical-energy-additional-resources #right ul {
+    position: relative;
+    list-style: none !important;
+    padding:0 0 17px 0 !important;
+    margin-top: 10px !important;
+    margin-left: 0px !important;
+    
+}
+.megs-course-outline #right ul li, .shelleys-brain-states-tour #right ul li, .introduction-to-intentional #right ul li, 
+.intentional-executive-control #right ul li, .intentional-experiencing-brain-states #right ul li, .intentional-goals #right ul li,
+.intentional-drive #right ul li, .intentional-meaning-purpose #right ul li, .intentional-imagine #right ul li, .intentional-curiosity #right ul li, 
+.intentional-confidence #right ul li, .intentional-additional-resources #right ul li, .introduction-to-deep #right ul li, .deep-thinking #right ul li, .deep-flow #right ul li,
+.deep-conversation #right ul li, .deep-collaboration #right ul li, .deep-distractions #right ul li,.deep-impulses-and-cravings #right ul li, .deep-mind-wandering #right ul li, 
+.deep-additional-resources #right ul li, .introduction-to-agile #right ul li, .agile-shift-brain-states #right ul li, .agile-brain-break #right ul li, .agile-creativity #right ul li,
+.agile-nonlinear-thinking #right ul li, .agile-strategic-thinking #right ul li, .agile-self-awareness #right ul li, .agile-learning-and-changing #right ul li, 
+.agile-additional-resources #right ul li, .introduction-to-diverse #right ul li, .diverse-your-creative-brain #right ul li, .diverse-thinking-states #right ul li, 
+.diverse-creative #right ul li, .diverse-experiencing #right ul li, .diverse-additional-resources #right ul li, .introduction-to-emotional-energy #right ul li, .emotional-energy-negative-emotions #right ul li, .emotiemotional-energy-positive-emotions #right ul li,
+.emotional-energy-frenzy-acceptance #right ul li, .emotional-energy-frenzy-compassion #right ul li,
+.emotional-energy-positive-in-the-negative #right ul li,  
+.emotional-energy-simplify-and-declutter #right ul li, .emotional-energy-positive-emotions #right ul li, .emotional-energy-additional-resources #right ul li,
+.introduction-to-physical-energy #right ul li, .physical-energy-exercise #right ul li, .physical-energy-brain-foods #right ul li, .physical-energy-sleep #right ul li, 
+.physical-energy-brain-breaks #right ul li, .physical-energy-additional-resources #right ul li {
+    display: inline-block !important;
+    width: 14px;
+    height: 24px;
+    background: url(https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_inactive.png?1440351165);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    padding: 0 10px 0 0 !important;
+    margin-left: 0px;
+}
+
+.megs-course-outline #right h4, .shelleys-brain-states-tour #right h4, .introduction-to-intentional #right h4, 
+.intentional-executive-control #right h4, .intentional-experiencing-brain-states #right h4, .intentional-goals #right h4,
+.intentional-drive #right h4, .intentional-meaning-purpose #right h4, .intentional-imagine #right h4, .intentional-curiosity #right h4, 
+.intentional-confidence #right h4, .intentional-additional-resources #right h4, .introduction-to-deep #right h4, .deep-thinking #right h4, .deep-flow #right h4,
+.deep-conversation #right h4, .deep-collaboration #right h4, .deep-distractions #right h4,.deep-impulses-and-cravings #right h4, .deep-mind-wandering #right h4, 
+.deep-additional-resources #right h4, .introduction-to-agile #right h4, .agile-shift-brain-states #right h4, .agile-brain-break #right h4, .agile-creativity #right h4,
+.agile-nonlinear-thinking #right h4, .agile-strategic-thinking #right h4, .agile-self-awareness #right h4, .agile-learning-and-changing #right h4, 
+.agile-additional-resources #right h4, .introduction-to-diverse #right h4, .diverse-your-creative-brain #right h4, .diverse-thinking-states #right h4, 
+.diverse-creative #right h4, .diverse-experiencing #right h4, .diverse-additional-resources #right h4, .introduction-to-emotional-energy #right h4 , .emotional-energy-negative-emotions #right h4 , .emotiemotional-energy-positive-emotions #right h4 ,
+.emotional-energy-frenzy-acceptance #right h4 , .emotional-energy-frenzy-compassion #right h4 ,
+.emotional-energy-positive-in-the-negative #right h4 ,  
+.emotional-energy-simplify-and-declutter #right h4, .emotional-energy-positive-emotions #right h4, .emotional-energy-additional-resources #right h4, 
+.introduction-to-physical-energy #right h4, .physical-energy-exercise #right h4, .physical-energy-brain-foods #right h4, .physical-energy-sleep #right h4, 
+.physical-energy-brain-breaks #right h4, .physical-energy-additional-resources #right h4  {
+    display: none;
+    position: absolute;
+    left: inherit;
+    font-size: 14px !important;
+    background-color: #e1f6fd;
+    z-index: 99999;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+    color: #1daeef !important;
+}
+
+.megs-course-outline #right h4 a, .shelleys-brain-states-tour #right h4 a, .introduction-to-intentional #right h4 a, 
+.intentional-executive-control #right h4 a, .intentional-experiencing-brain-states #right h4 a, .intentional-goals #right h4 a,
+.intentional-drive #right h4 a, .intentional-meaning-purpose #right h4 a, .intentional-imagine #right h4 a, .intentional-curiosity #right h4 a, 
+.intentional-confidence #right h4 a, .intentional-additional-resources #right h4 a, .introduction-to-deep #right h4 a, .deep-thinking #right h4 a, .deep-flow #right h4 a,
+.deep-conversation #right h4 a, .deep-collaboration #right h4 a, .deep-distractions #right h4 a,.deep-impulses-and-cravings #right h4 a, .deep-mind-wandering #right h4 a, 
+.deep-additional-resources #right h4 a, .introduction-to-agile #right h4 a, .agile-shift-brain-states #right h4 a, .agile-brain-break #right h4 a, .agile-creativity #right h4 a,
+.agile-nonlinear-thinking #right h4 a, .agile-strategic-thinking #right h4 a, .agile-self-awareness #right h4 a, .agile-learning-and-changing #right h4 a, 
+.agile-additional-resources #right h4 a, .introduction-to-diverse #right h4 a, .diverse-your-creative-brain #right h4 a, .diverse-thinking-states #right h4 a, 
+.diverse-creative #right h4 a, .diverse-experiencing #right h4 a, .diverse-additional-resources #right h4 a, .introduction-to-emotional-energy #right h4 a, .emotional-energy-negative-emotions #right h4 a, .emotiemotional-energy-positive-emotions #right h4 a,
+.emotional-energy-frenzy-acceptance #right h4 a, .emotional-energy-frenzy-compassion #right h4 a,
+.emotional-energy-positive-in-the-negative #right h4 a,  
+.emotional-energy-simplify-and-declutter #right h4 a, .emotional-energy-positive-emotions #right h4 a, .emotional-energy-additional-resources #right h4 a, .introduction-to-physical-energy #right h4 a, .physical-energy-exercise #right h4 a, 
+.physical-energy-brain-foods #right h4 a, .physical-energy-sleep #right h4 a, .physical-energy-brain-breaks #right h4 a, .physical-energy-additional-resources #right h4 a{
+    padding: 14px 28px;
+    display: block;
+}
+
+.megs-course-outline #right ul li:hover, .shelleys-brain-states-tour #right ul li:hover, .introduction-to-intentional #right ul li:hover, 
+.intentional-executive-control #right ul li:hover, .intentional-experiencing-brain-states #right ul li:hover, .intentional-goals #right ul li:hover,
+.intentional-drive #right ul li:hover, .intentional-meaning-purpose #right ul li:hover, .intentional-imagine #right ul li:hover, .intentional-curiosity #right ul li:hover, 
+.intentional-confidence #right ul li:hover, .intentional-additional-resources #right ul li:hover, .introduction-to-deep #right ul li:hover, .deep-thinking #right ul li:hover, .deep-flow #right ul li:hover,
+.deep-conversation #right ul li:hover, .deep-collaboration #right ul li:hover, .deep-distractions #right ul li:hover,.deep-impulses-and-cravings #right ul li:hover, .deep-mind-wandering #right ul li:hover, 
+.deep-additional-resources #right ul li:hover, .introduction-to-agile #right ul li:hover, .agile-shift-brain-states #right ul li:hover, .agile-brain-break #right ul li:hover, .agile-creativity #right ul li:hover,
+.agile-nonlinear-thinking #right ul li:hover, .agile-strategic-thinking #right ul li:hover, .agile-self-awareness #right ul li:hover, .agile-learning-and-changing #right ul li:hover, 
+.agile-additional-resources #right ul li:hover, .introduction-to-diverse #right ul li:hover, .diverse-your-creative-brain #right ul li:hover, .diverse-thinking-states #right ul li:hover, 
+.diverse-creative #right ul li:hover, .diverse-experiencing #right ul li:hover, .diverse-additional-resources #right ul li:hover, .introduction-to-emotional-energy #right ul li:hover, .emotional-energy-negative-emotions #right ul li:hover, .emotiemotional-energy-positive-emotions #right ul li:hover,
+.emotional-energy-frenzy-acceptance #right ul li:hover, .emotional-energy-frenzy-compassion #right ul li:hover,
+.emotional-energy-positive-in-the-negative #right ul li:hover,  
+.emotional-energy-simplify-and-declutter #right ul li:hover, .emotional-energy-positive-emotions #right ul li:hover, .emotional-energy-additional-resources #right ul li:hover,
+.introduction-to-physical-energy #right ul li:hover, .physical-energy-exercise #right ul li:hover, .physical-energy-brain-foods #right ul li:hover, .physical-energy-sleep #right ul li:hover, .physical-energy-brain-breaks #right ul li:hover, 
+.physical-energy-additional-resources #right ul li:hover{
+    background: url(https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_hover.png?1440351165);
+    background-repeat: no-repeat;
+}
+
+.megs-course-outline #right ul li:hover h4, .shelleys-brain-states-tour #right ul li:hover h4, .introduction-to-intentional #right ul li:hover h4, 
+.intentional-executive-control #right ul li:hover h4, .intentional-experiencing-brain-states #right ul li:hover h4, .intentional-goals #right ul li:hover h4,
+.intentional-drive #right ul li:hover h4, .intentional-meaning-purpose #right ul li:hover h4, .intentional-imagine #right ul li:hover h4, .intentional-curiosity #right ul li:hover h4, 
+.intentional-confidence #right ul li:hover h4, .intentional-additional-resources #right ul li:hover h4, .introduction-to-deep #right ul li:hover h4, .deep-thinking #right ul li:hover h4, .deep-flow #right ul li:hover h4,
+.deep-conversation #right ul li:hover h4, .deep-collaboration #right ul li:hover h4, .deep-distractions #right ul li:hover h4,.deep-impulses-and-cravings #right ul li:hover h4, .deep-mind-wandering #right ul li:hover h4, 
+.deep-additional-resources #right ul li:hover h4, .introduction-to-agile #right ul li:hover h4, .agile-shift-brain-states #right ul li:hover h4, .agile-brain-break #right ul li:hover h4, .agile-creativity #right ul li:hover h4,
+.agile-nonlinear-thinking #right ul li:hover h4, .agile-strategic-thinking #right ul li:hover h4, .agile-self-awareness #right ul li:hover h4, .agile-learning-and-changing #right ul li:hover h4, 
+.agile-additional-resources #right ul li:hover h4, .introduction-to-diverse #right ul li:hover h4, .diverse-your-creative-brain #right ul li:hover h4, .diverse-thinking-states #right ul li:hover h4, 
+.diverse-creative #right ul li:hover h4, .diverse-experiencing #right ul li:hover h4, .diverse-additional-resources #right ul li:hover h4, .introduction-to-emotional-energy #right ul li:hover h4, .emotional-energy-negative-emotions #right ul li:hover h4, .emotiemotional-energy-positive-emotions #right ul li:hover h4,
+.emotional-energy-frenzy-acceptance #right ul li:hover h4, .emotional-energy-frenzy-compassion #right ul li:hover h4,
+.emotional-energy-positive-in-the-negative #right ul li:hover h4,  
+.emotional-energy-simplify-and-declutter #right ul li:hover h4, .emotional-energy-positive-emotions #right ul li:hover h4, .emotional-energy-additional-resources #right ul li:hover h4,
+.introduction-to-physical-energy #right ul li:hover h4, .physical-energy-exercise #right ul li:hover h4, .physical-energy-brain-foods #right ul li:hover h4, .physical-energy-sleep #right ul li:hover h4, .physical-energy-brain-breaks #right ul li:hover h4, 
+.physical-energy-additional-resources #right ul li:hover h4  {
+    display: block;
+}
+
+.megs-course-outline h3, .shelleys-brain-states-tour h3, .introduction-to-intentional h3, 
+.intentional-executive-control h3, .intentional-experiencing-brain-states h3, .intentional-goals h3,
+.intentional-drive h3, .intentional-meaning-purpose h3, .intentional-imagine h3, .intentional-curiosity h3, 
+.intentional-confidence h3, .intentional-additional-resources h3, .introduction-to-deep h3, .deep-thinking h3, .deep-flow h3,
+.deep-conversation h3, .deep-collaboration h3, .deep-distractions h3,.deep-impulses-and-cravings h3, .deep-mind-wandering h3, 
+.deep-additional-resources h3, .introduction-to-agile h3, .agile-shift-brain-states h3, .agile-brain-break h3, .agile-creativity h3,
+.agile-nonlinear-thinking h3, .agile-strategic-thinking h3, .agile-self-awareness h3, .agile-learning-and-changing h3, 
+.agile-additional-resources h3, .introduction-to-diverse h3, .diverse-your-creative-brain h3, .diverse-thinking-states h3, 
+.diverse-creative h3, .diverse-experiencing h3, .diverse-additional-resources h3, .introduction-to-emotional-energy h3, .emotional-energy-negative-emotions h3, .emotiemotional-energy-positive-emotions h3,
+.emotional-energy-frenzy-acceptance h3, .emotional-energy-frenzy-compassion h3,
+.emotional-energy-positive-in-the-negative h3,  
+.emotional-energy-simplify-and-declutter h3, .emotional-energy-positive-emotions h3, .emotional-energy-additional-resources h3,
+.introduction-to-physical-energy h3, .physical-energy-exercise h3, .physical-energy-brain-foods h3, .physical-energy-sleep h3, 
+.physical-energy-brain-breaks h3, .physical-energy-additional-resources h3 {
+    font-size: 18px !important;
+}
+body #container #content #right > h3 {
+    margin-bottom: 0px !important;
+    border-bottom: 0 !important;
+    margin-top: 0px;
+}
+.megs-course-outline #right h3, .shelleys-brain-states-tour #right h3, .introduction-to-intentional #right h3, 
+.intentional-executive-control #right h3, .intentional-experiencing-brain-states #right h3, .intentional-goals #right h3,
+.intentional-drive #right h3, .intentional-meaning-purpose #right h3, .intentional-imagine #right h3, .intentional-curiosity #right h3, 
+.intentional-confidence #right h3, .intentional-additional-resources #right h3, .introduction-to-deep #right h3, .deep-thinking #right h3, .deep-flow #right h3,
+.deep-conversation #right h3, .deep-collaboration #right h3, .deep-distractions #right h3,.deep-impulses-and-cravings #right h3, .deep-mind-wandering #right h3, 
+.deep-additional-resources #right h3, .introduction-to-agile #right h3, .agile-shift-brain-states #right h3, .agile-brain-break #right h3, .agile-creativity #right h3,
+.agile-nonlinear-thinking #right h3, .agile-strategic-thinking #right h3, .agile-self-awareness #right h3, .agile-learning-and-changing #right h3, 
+.agile-additional-resources #right h3, .introduction-to-diverse #right h3, .diverse-your-creative-brain #right h3, .diverse-thinking-states #right h3, 
+.diverse-creative #right h3, .diverse-experiencing #right h3, .diverse-additional-resources #right h3, .introduction-to-emotional-energy #right h3, .emotional-energy-negative-emotions #right h3, .emotiemotional-energy-positive-emotions #right h3,
+.emotional-energy-frenzy-acceptance #right h3, .emotional-energy-frenzy-compassion #right h3,
+.emotional-energy-positive-in-the-negative #right h3,  
+.emotional-energy-simplify-and-declutter #right h3, .emotional-energy-positive-emotions #right h3, .emotional-energy-additional-resources #right h3,
+.introduction-to-physical-energy #right h3, .physical-energy-exercise #right h3, .physical-energy-brain-foods #right h3, .physical-energy-sleep #right h3, 
+.physical-energy-brain-breaks #right h3, .physical-energy-additional-resources #right h3 {
+    color: #ffffff;
+}
+body.organize-your-mind-ecourse, .organize-your-mind-ecourse p {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+}
+.organize-your-mind-ecourse h1,
+.organize-your-mind-ecourse h2,
+.organize-your-mind-ecourse h3,
+.organize-your-mind-ecourse h4,
+.organize-your-mind-ecourse h5 {
+    color: #4a4a4a;
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+.organize-your-mind-ecourse h1#page_header {
+    display: none;
+}
+.organize-your-mind-ecourse h2 {
+    font-weight: 400;
+}
+.organize-your-mind-ecourse h3 {
+    font-size: 18px !important;
+}
+.organize-your-mind-ecourse #left {
+    width: 100%;
+}
+
+.organize-your-mind-ecourse #logo img {
+    display: none;
+}
+.organize-your-mind-ecourse #logo {
+    background: url("https://tenants-production.s3.amazonaws.com/organizeyourmind/course_logos/6/white_bold.png");
+    width: 333px;
+    height: 42px;
+    background-repeat: no-repeat;
+    padding: 0px;
+    margin: 30px;
+}
+.organize-your-mind-ecourse #header {
+    background: #f15a29; /* Old browsers */
+    background: -moz-linear-gradient(top, #f15a29 0%, #f47f59 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f15a29), color-stop(100%,#f47f59)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f15a29 0%,#f47f59 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f15a29 0%,#f47f59 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f15a29', endColorstr='#f47f59',GradientType=0 ); /* IE6-9 */
+    border-radius: 0px;
+}
+.organize-your-mind-ecourse #container {
+    box-shadow: rgba(0,0,0,0.3) 0 0 22px;
+    width: 1060px;
+    margin: 0 auto 20px;
+}
+.organize-your-mind-ecourse #account-bar>li {
+    margin: 20px 24px;
+}
+.organize-your-mind-ecourse #account-bar .profile-link {
+    color: #ffffff;
+}
+.organize-your-mind-ecourse .drop-list ul {
+    box-shadow: none;
+}
+.organize-your-mind-ecourse #container #navbar {
+    background: transparent;
+    border-top: none;
+    border-bottom: none;
+    min-height: 0px;
+}
+.organize-your-mind-ecourse ul.topnav>li>a {
+    line-height: 150%;
+    font-weight: 400;
+}
+.organize-your-mind-ecourse ul.topnav>li:hover,
+.organize-your-mind-ecourse ul.topnav>li.current {
+    background: #FCDED4;
+}
+.organize-your-mind-ecourse ul.topnav>li:hover>a,
+.organize-your-mind-ecourse ul.topnav>li.current>a {
+    color: #f15a29;
+}
+.organize-your-mind-ecourse ul.topnav>li:hover>a,
+.organize-your-mind-ecourse ul.topnav>li:hover .dwn,
+.organize-your-mind-ecourse ul.topnav>li.current>a,
+.organize-your-mind-ecourse ul.topnav>li.current .dwn {
+    color: #f15a29;
+}
+.organize-your-mind-ecourse ul.topnav>li.current:hover {
+    background: #FCDED4;
+}
+.organize-your-mind-ecourse ul.topnav>li>a {
+    border: none;
+    border-right: 1px solid #ffffff;
+}
+.organize-your-mind-ecourse #page_content img {
+    max-width: 100% !important;
+    max-width: 600px !important;
+    height: auto;
+}
+.organize-your-mind-ecourse #page_content iframe {
+    max-width: 600px !important;
+}
+.organize-your-mind-ecourse #page_content table {
+    border-collapse: collapse;
+    border: none;
+}
+.organize-your-mind-ecourse #page_content table td {
+  padding: 0px;
+}
+.organize-your-mind-ecourse #page_content table td:first-child {
+  padding-right: 40px;
+}
+.organize-your-mind-ecourse #page_content table tr {
+    border: none;
+}
+.organize-your-mind-ecourse #page_header {
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-family: "Garamond", Georgia, serif;
+    font-weight: bold;
+    letter-spacing: .02em;
+}
+.organize-your-mind-ecourse .down-arrow {
+    font-size: 10px;
+    vertical-align: middle;
+    display: inline-block;
+}
+.organize-your-mind-ecourse .down-arrow {
+    float: right;
+    padding: 0 12px 0 20px;
+    border-left: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+.organize-your-mind-live-classes #left, .organize-your-mind-ecourse #left {
+  width: 61% !important;
+}
+.organize-your-mind-ecourse #right {
+  width: 30% !important;
+  padding-left: 80px;
+  position: relative;
+}
+.organize-your-mind-ecourse #content {
+  padding: 60px;
+}
+.organize-your-mind-ecourse #content:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.organize-your-mind-ecourse #right h3 {
+    font-weight: 300;
+    margin-bottom: 0px;
+}
+.organize-your-mind-ecourse #right ul {
+    list-style: none !important;
+}
+.organize-your-mind-ecourse #right h3 a {
+    font-weight: 300 !important;
+    font-size: 18px !important;
+}
+.organize-your-mind-ecourse #right ul, .organize-your-mind-ecourse #right ul li {
+    padding: 0px !important;
+}
+.organize-your-mind-ecourse #right ul, .organize-your-mind-live-classes #right ul{
+    padding-bottom: 17px !important;
+    margin-top: 10px !important;
+    margin-left: 0px !important;
+    position: relative;
+}
+.organize-your-mind-ecourse #right ul li, .organize-your-mind-live-classes #right ul li{
+    display: inline-block !important;
+    position: relative;
+}
+.organize-your-mind-ecourse #right h4, .organize-your-mind-live-classes #right h4{
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    font-size: 14px !important;
+}
+.organize-your-mind-ecourse #right h4, .organize-your-mind-live-classes #right h4{
+    background-color: #e1f6fd;
+    border-color: #1daeef;
+    border-style: solid;
+    border-width: 1px;
+    z-index: 99999;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+    color: #1daeef !important;
+}
+.organize-your-mind-ecourse #right h4 a, .organize-your-mind-live-classes #right h4 a{
+    padding: 14px 28px;
+    display: block;
+}
+.organize-your-mind-ecourse #right ul li, .organize-your-mind-live-classes #right ul li{
+    width: 14px;
+    height: 24px;
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_inactive.png?1440351165");
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    cursor: pointer;
+    padding: 0 10px 0 0 !important;
+    margin-left: 0px;
+}
+.organize-your-mind-ecourse #right ul li:hover, .organize-your-mind-live-classes #right ul li:hover{
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_hover.png?1440351165");
+    background-repeat: no-repeat;
+}
+.organize-your-mind-ecourse #right ul li.current, .organize-your-mind-ecourse #right ul li.current:hover, 
+.organize-your-mind-live-classes #right ul li.current, .organize-your-mind-live-classes #right ul li.current:hover{
+    background: url("https://d2ma5jma76a61i.cloudfront.net/images/1429/thumb/css_dot_active.png?1440351165");
+    background-repeat: no-repeat;
+}
+.organize-your-mind-ecourse #right ul li:hover h4, .organize-your-mind-live-classes #right ul li:hover h4{
+    display: block;
+}
+body #container #navigation #navbar .topnav li.current {
+  background: transparent;
+}
+/*
+body #container #header.oym-header {
+  background: #EDEEEE !important;
+}
+*/
+.organize-your-mind-ecourse #right ul li:hover h4, .organize-your-mind-live-classes #right ul li:hover h4 {
+    display: block;
+    padding: 0 !important;
+    /*margin: 0 !important;*/
+    border-bottom: 1px solid #1daeef !important;
+    min-width: 200px;
+}
+.rounded-corners{
+ border-radius: 20px;
+ border-top-left-radius: 20px;
+ border-top-right-radius: 20px;
+ border-bottom-right-radius: 20px;
+ border-bottom-left-radius: 20px;
+}

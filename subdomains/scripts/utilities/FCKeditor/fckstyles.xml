@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2006 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * "Support Open Source software. What about a donation today?"
+ * 
+ * File Name: fckstyles.xml
+ * 	This is the sample style definitions file. It makes the styles combo
+ * 	completely customizable.
+ * 	See FCKConfig.StylesXmlPath in the configuration file.
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+-->
+<Styles>
+	<Style name="Image on Left" element="img">
+		<Attribute name="style" value="padding: 5px; margin-right: 5px" />
+		<Attribute name="border" value="2" />
+		<Attribute name="align" value="left" />
+	</Style>
+	
+	<Style name="Image on Right" element="img">
+		<Attribute name="style" value="padding: 5px; margin-left: 5px" />
+		<Attribute name="border" value="2" />
+		<Attribute name="align" value="right" />
+	</Style>
+	
+	<Style name="Custom Bold" element="b" />
+	
+	<Style name="Custom Italic" element="em" />
+	
+	<Style name="Topics" element="p">
+		<Attribute name="class" value="topics" />
+	</Style>
+	
+	<Style name="General Content" element="span">
+		<Attribute name="class" value="Content" />
+	</Style>
+	
+	<Style name="Title" element="p">
+		<Attribute name="class" value="title" />
+	</Style>
+	
+	<Style name="Copyright" element="p">
+		<Attribute name="class" value="copyright" />
+	</Style>
+	
+	<Style name="Custom Paragraph" element="p">
+		<Attribute name="color:" value="#000000" />
+		<Attribute name="font-family" value="Arial" />
+	</Style>
+
+	<Style name="Page Title" element="p">
+		<Attribute name="class" value="welcome" />
+	</Style>
+
+</Styles>

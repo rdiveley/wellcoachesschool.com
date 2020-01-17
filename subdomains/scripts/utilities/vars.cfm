@@ -1,0 +1,13 @@
+<cfset PhysicalPath="c:\websites\wellcoachesSchool">
+<cfset WebSitePath="wellcoachesSchool">
+<cfset UploadPath="c:\websites\wellcoachesSchool">
+<cfset DSN="wellcoach">
+<cfset DSNuName="sa">
+<cfset DSNpWord="gg89kf72">
+<cfset ReturnPath="http://www.wellcoachesschool.com">
+<cfset securePath=replacenocase(#returnpath#,"http","https")>
+<cfset IPAddress="67.59.141.60">
+<cfset EMAIL="scheri@musesforge.com">
+<cfset MailServer="mail.wellcoach.com">
+<cfset PWORD="wellcoaches">
+<cfset USERNAME="winter4915">
