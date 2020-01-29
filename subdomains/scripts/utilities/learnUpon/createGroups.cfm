@@ -22,6 +22,8 @@
 133731 = Core Coach Training: Module 1  (California Univ of PA)
 166047 = Professional Coach Training 2020
 196765 = Core Coach Training: Module 1 (April 2020: 4-day residential)
+133730 = Core Coach Training: Module 2 (California University of PA)
+133731 = Core Coach Training: Module 1  (California Univ of PA)
 --->
 
 <!--- IS tags:
@@ -65,6 +67,15 @@
 13237 	Res Apr2020 [FL] Mod 1*
 200614 	Core Coach Training: Module 1  (Mar 2020 cohort)
 200727 Core Coach Training: Module 1  (April 2020 cohort)
+
+13671	CalU Jan2020 [714]
+13673	CalU Jan2020 [754]
+13673	CalU Jan2020 [754]
+13489	Core May2020 Mod 1*
+13577	Res Jun2020 [NC] Mod 1*
+
+
+
 --->
 
 <cfif structKeyExists(form,'email')>
@@ -73,7 +84,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
- <cfset local.group_id = "200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+ <cfset local.group_id = "204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 
 <!--- 2. create the associated tags to the groups --->
 
@@ -101,7 +112,6 @@
 <cfset local.LU135804_tags = "1382,1384,11448">
 <!--- 133731 = Core Coach Training: Module 1  (University of California of PA) --->
 <cfset local.LU133731_tags="11372,12583,1382,1384" >
-
 <!--- 133732 = Core Coach Training: Module 1  (University of Wisconsin) --->
 <cfset local.LU133732_tags="11420,1382,1384" >
 <!--- 138684 = Core Coach Training: Module 1  (May 2019 cohort) --->
@@ -138,7 +148,14 @@
 <cfset local.LU200614_tags = "13091,1382,1384">
 <!--- Core Coach Training: Module 1  (April 2020 cohort) --->
 <cfset local.LU200727_tags = "13343,1382,1384">
-
+<!--- Core Coach Training: Module 2 (California University of PA) --->
+<cfset local.LU133730_tags = "13673,1382,1384">
+<!--- Core Coach Training: Module 1  (California Univ of PA) --->
+<cfset local.LU133731_tags = "12583,13671,13673,1382,1384">
+<!---Core Coach Training: Module 1  (May 2020 cohort) --->
+<cfset local.LU204039_tags = "13489,1382,1384">
+<!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->
+<cfset local.LU204048_tags = "13577,1382,1384">
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
@@ -174,6 +191,8 @@
         data="#myResult1.Filecontent#"
         returnvariable="theData2">
 
+
+		
 	<cfif !arrayLen(theData2['Params'][1])>
 		User <cfoutput>#URL.email#</cfoutput> does not exist in our records.<br /><cfabort />
 	</cfif>
