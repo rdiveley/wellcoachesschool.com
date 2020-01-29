@@ -53,7 +53,7 @@ node_modules/
 /core/vendor/docbox/
 /core/vendor/testbox/
 /modules/dynamic_entities
-/subdomains/scripts/utilities/soEditor
+/subdomains/scripts/utilities/infusionSoft/automation/pajinate 
 
 # ignored 'config' directory files
 /config/mappings.cfm
