@@ -7,6 +7,7 @@
         <cfargument name="classTitle"  default="">
         <cfargument name="ce_requirements"  default="">
         <cfargument name="downloadLink"  default="">
+        <cfargument name="course_description"  default="">
         <cfargument name="facilitator"  default="">
         <cfargument name="handoutLink"  default="">
         <cfargument name="classDate"  default="">
@@ -27,6 +28,7 @@
                 class_title = <cfqueryparam value="#arguments.classTitle#" cfsqltype="cf_sql_varchar" />,
                 ce_requirements = <cfqueryparam value="#arguments.ce_requirements#" cfsqltype="cf_sql_varchar" />,
                 download_link = <cfqueryparam value="#arguments.downloadLink#" cfsqltype="cf_sql_varchar" />,
+                course_description = <cfqueryparam value="#arguments.course_description#" cfsqltype="cf_sql_varchar" />,
                 facilitator = <cfqueryparam value="#arguments.facilitator#" cfsqltype="cf_sql_varchar" />,
                 handout_link = <cfqueryparam value="#arguments.handoutLink#" cfsqltype="cf_sql_varchar" />,
                 class_date = <cfqueryparam value="#arguments.classDate#" cfsqltype="cf_sql_date" />,

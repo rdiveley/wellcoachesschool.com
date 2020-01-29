@@ -25,6 +25,7 @@ $(document).ready(function() {
 		var classTitle = $('#classTitle_'+element_id).val();
 		var ce_requirements = $('#ce_requirements_'+element_id).val();
 		var downLoadLink = $('#downloadLink_'+element_id).val();
+		var course_description = $('#course_description_'+element_id).val();
 		var facilitator = $('#facilitator_'+element_id).val();
 		var handoutLink = $('#handoutLink_'+element_id).val();
 //		var listenLink = $('#listenLink_'+element_id).val();
@@ -94,6 +95,7 @@ $(document).ready(function() {
 					classTitle : classTitle,
 					ce_requirements : ce_requirements,
 					downLoadLink : downLoadLink,
+					course_description: course_description,
 					facilitator : facilitator,
 					handoutLink : handoutLink,
 					classDate : classDate,
@@ -118,7 +120,8 @@ $(document).ready(function() {
             $('#show_handout_link_'+element_id).html(handoutLink);
             $('#show_listen_link_'+element_id).html(listenLink);
 			$('#show_class_date_'+element_id).html(classDate);
-            $('#show_download_link'+element_id).html(downLoadLink);
+			$('#show_download_link'+element_id).html(downLoadLink);
+			$('#show_course_description'+element_id).html(course_description);
             $('#show_cceh_'+element_id).html(cceh);
 		
 //			

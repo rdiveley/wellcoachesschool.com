@@ -53,6 +53,7 @@ node_modules/
 /core/vendor/docbox/
 /core/vendor/testbox/
 /modules/dynamic_entities
+/subdomains/scripts/utilities/soEditor
 
 # ignored 'config' directory files
 /config/mappings.cfm

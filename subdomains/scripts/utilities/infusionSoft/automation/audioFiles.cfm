@@ -21,6 +21,7 @@
             ,class_title
             ,ce_requirements
             ,download_link
+            ,course_description
             ,facilitator
             ,handout_link
             <!--- ,listen_link --->
@@ -41,6 +42,7 @@
                 <cfqueryparam value="#form.add_class_title#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_class_title))#" />,
                 <cfqueryparam value="#form.add_ce_requirements#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_ce_requirements))#" />,
                 <cfqueryparam value="#form.add_download_link#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_download_link))#" />,
+                <cfqueryparam value="#form.add_course_description#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_course_description))#" />,
                 <cfqueryparam value="#form.add_facilitator#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_facilitator))#" />,
                 <cfqueryparam value="#form.add_handout_link#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_handout_link))#" />,
                <!---  <cfqueryparam value="#form.add_listen_link#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_listen_link))#" />, --->
@@ -98,6 +100,7 @@
             ,class_title
             ,ce_requirements
             ,download_link
+            ,course_description
             ,facilitator
             ,handout_link
             ,id
@@ -133,6 +136,7 @@
 			,boc
 			,cdr
             ,ichwc
+            ,course_description
             order by class_date desc, class_title asc
     </cfquery>
 <cfelse>
@@ -220,10 +224,11 @@ Text:<input type="text" name="query"></input>
             <th>Class Date</th>
             <th width="50">Member<br/>Class Title</th>
             <th width="200">Facilitator/<br/> Author</th>
-            <th width="400">Approved course by these continuing education providers</th>
-            <th>Requirements for CE's</th>
+            <th width="250">Approved course by these continuing education providers</th>
+            <th width="250">Requirements for CE's</th>
             <th width="200">Handout(s)<br/> Link</th>
-            <th width="400">Download Link</th>
+            <th width="200">Download Link</th>
+            <th width="200">Course Description</th>
             <th width="5">Category</th>
             
                   
@@ -244,9 +249,10 @@ Text:<input type="text" name="query"></input>
                     <span id="show_cdr_#id#"><cfif CDR EQ 1>CDR</cfif></span>
                     <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>ICHWC</cfif></span>
                 </td>
-                <td><span id="show_ce_requirements#id#">#ce_requirements#</span></td>
+                <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span></td>
                 <td ><span id="show_handout_link_#id#">#handout_link#</span></td>
                 <td ><span id="show_download_link#id#">#download_link#</span></td>
+                <td ><span id="show_course_description#id#"><a href="javascript:void(0)" title="#htmlEditFormat(course_description)#"  style="color:##000000;text-decoration:none">#left(course_description,50)#</a><cfif len(course_description) GT 50>...</cfif></span></td>
                 <td ><span id="show_category_#id#">#category#</span></td>
                 
                 
@@ -274,6 +280,7 @@ Text:<input type="text" name="query"></input>
                     <td><textarea cols="15" rows="5" name="ce_requirements_#id#" id="ce_requirements_#id#"  />#ce_requirements#</textarea></td>
                     <td><textarea cols="15" rows="5" name="handout_link_#id#" id="handoutLink_#id#"  />#handout_link#</textarea></td>
                     <td><textarea cols="15" rows="5" name="download_link_#id#" id="downloadLink_#id#"  />#download_link#</textarea></td>
+                    <td><textarea cols="15" rows="5" name="course_description_#id#" id="course_description_#id#"  />#course_description#</textarea></td>
                     <td>
 						<input type="hidden" name="id" value="#id#">
                         <input size="10" type="text" name="category_#id#" id="category_#id#" value="#category#" /><br />
@@ -304,7 +311,7 @@ Text:<input type="text" name="query"></input>
                     <th>Handout(s) Link</th>
                     <th>Requirements for CE's</th>
                     <th>Download Link</th>
-                    
+                    <th>Course Description</th>
                     <th>Date</th>
                     <th>CCEH Approved</th>
                     <th>&nbsp;</th>
@@ -324,7 +331,7 @@ Text:<input type="text" name="query"></input>
                       <td valign="top"><textarea cols="15" rows="5" name="add_handout_link" id="add_handout_link" /></textarea></td>
                       <td valign="top"><textarea cols="15" rows="5" name="add_ce_requirements" id="add_ce_requirements"/></textarea></td> 
                       <td valign="top"><textarea cols="15" rows="5" name="add_download_link" id="add_download_link" /></textarea></td>
-                     
+                      <td valign="top"><textarea cols="15" rows="5" name="add_course_description" id="add_course_description" /></textarea></td>
                       <td valign="top"><input type="text" class="datepicker" name="add_class_date" id="add_classDate" /></td>
                       <td nowrap="nowrap">
                         <input size="5" type="checkbox" name="add_nchec" value="1"  id="add_nchec" /> NCHEC<br />
