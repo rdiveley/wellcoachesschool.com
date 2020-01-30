@@ -101,3 +101,8 @@ mxp-site-bundle.zip
 *.rar
 *.tar
 *.zip
+subdomains/scripts/utilities/soEditor/infusionSoft/automation/pajinate
+subdomains/search/utilities/infusionSoft/automation/pajinate
+subdomains/search/utilities/soEditor/infusionSoft/automation/pajinate
+utilities/infusionSoft/automation/pajinate
+utilities/soEditor/infusionSoft/automation/pajinate
