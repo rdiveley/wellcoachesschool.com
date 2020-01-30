@@ -43,7 +43,7 @@
 			<option value="CM7V9SRFTZBSL03">OYE (Jan19-Sep19)</option>
 			
 			<option value="9TGAVYYWUAL5KUQ">OYM Class 1 (Oct19 -Dec19)</option>
-			<option value="DHFIHNZBDXNFXBDY">Oym Class 2 (Oct19 -Dec19)</option>
+			<option value="DHFIHNZBDXNFXBDY">OYM Class 2 (Oct19 -Dec19)</option>
 			<option value="39QQYKT3NEVQUV2B">Wellness Vision (Oct19 -Dec19)</option>
 			<option value="JPNQ23L97HYMNTAK">Generative Moments (Oct19 -Dec19)</option>
 			<option value="1CHRTF12D1XK7S">OYE (Oct19 -Dec19)</option>
