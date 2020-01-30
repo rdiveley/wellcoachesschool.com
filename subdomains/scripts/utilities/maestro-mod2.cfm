@@ -30,26 +30,23 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
-			<option value="UID5RMEYEQUK102MXPI">OYM class 1 (Jan-Mar)</option>
-			<option value="UIDRHGT6VYVNB0T7QNM">OYM Live Class 1</option>
-			<option value="UIDABSF0LFALJO5RTPG">OYE (Jan- Mar) </option>
-			<option value="UIDAKKPQUAPTN7H5Y0Y">Generative Moments (Jan-Mar)</option>
-			<option value="UIDY5S561STUDMYKC51">Wellness Vision (Jan-Mar)</option>
-			<option value="IUK71SORPXKWNWWX">Module 2: OYM Live Class 1</option>
-			<option value="G9XM06OV4GX1C9">Module 2: OYM Live Class 2</option>
-			<option value="KGHSD8LZBLWVRFT">Module 2: Generative Moments Course</option>
-			<option value="OMKY1U9I5E863NZA">Module 2: Wellness Vision Course</option>
-			<option value="CM7V9SRFTZBSL03">Module 2: Organize Your Emotions Course</option>
-			<option value="9TGAVYYWUAL5KUQ">Module 2: OYM CLASS 1 (OCT-DEC)</option>
-			<option value="DHFIHNZBDXNFXBDY">Module 2: OYM Class 2 (Oct-Dec)</option>
-			<option value="39QQYKT3NEVQUV2B">Module 2: Wellness Vision (Oct-Dec)</option>
-			<option value="JPNQ23L97HYMNTAK">Module 2: Generative Moments (Oct-Dec)</option>
-			<option value="1CHRTF12D1XK7S">Module 2: Organize Your Emotions (Oct-Dec)</option>
-			<option value="IUK71SORPXKWNWWX">OYM Live Class 1</option>
-			<option value="G9XM06OV4GX1C9">OYM Live Class 2</option>
-			<option value="KGHSD8LZBLWVRFT">Generative Moments Course</option>
-			<option value="OMKY1U9I5E863NZA">Wellness Vision Course</option>
-			<option value="CM7V9SRFTZBSL03">Organize Your Emotions Course</option>
+			<option value="5RMEYEQUK102MXPI">OYM Class 1 (Jan20-Mar20)</option>
+			<option value="ABSF0LFALJO5RTPG">OYE (Jan20-Mar20)</option>
+			<option value="AKKPQUAPTN7H5Y0Y">Generative Moments (Jan20-Mar20)</option>
+			<option value="Y5S561STUDMYKC51">Wellness Vision (Jan20-Mar20)</option>
+			<option value="RHGT6VYVNB0T7QNM">OYM Class 2 (Jan20-Mar20)</option>
+		
+			<option value="IUK71SORPXKWNWWX">OYM Live class 1 (Jan19-Sep19)</option>
+			<option value="G9XM06OV4GX1C9">OYM live class 2 (Jan19-Sep19)</option>
+			<option value="KGHSD8LZBLWVRFT">Generative Moments (Jan19-Sep19)</option>
+			<option value="OMKY1U9I5E863NZA">Wellness Vision (Jan19-Sep19)</option>
+			<option value="CM7V9SRFTZBSL03">OYE (Jan19-Sep19)</option>
+			
+			<option value="9TGAVYYWUAL5KUQ">OYM Class 1 (Oct19 -Dec19)</option>
+			<option value="DHFIHNZBDXNFXBDY">Oym Class 2 (Oct19 -Dec19)</option>
+			<option value="39QQYKT3NEVQUV2B">Wellness Vision (Oct19 -Dec19)</option>
+			<option value="JPNQ23L97HYMNTAK">Generative Moments (Oct19 -Dec19)</option>
+			<option value="1CHRTF12D1XK7S">OYE (Oct19 -Dec19)</option>
 			
 			
 		</select>
