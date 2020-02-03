@@ -30,6 +30,8 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
+			<option value="9BY8ANI1STJLYSZX">wellcoaches Feb 2020-A cohort</option>
+			<option value="6DJKL7N9K64FQK55">Wellcoaches Feb 2020-B cohort</option>
 			<option value="296ZXEWWZPF3WA4">Wellcoaches January 2020 cohort</option>
 			<option value="5TV1AYK0Y71NPMEC">Wellcoaches November 2019 Module 1 training</option>
 			<option value="7XHU8ZC1PQ5Y880V">Wellcoaches Sept 2019 Module 1 training </option>

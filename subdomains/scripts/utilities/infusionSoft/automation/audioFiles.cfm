@@ -218,7 +218,7 @@ Text:<input type="text" name="query"></input>
 <form name="WellcoachesMemberClasses" action="#action#" id="WCMC" method="post">
 <input type="submit" name="submitMeHidden" style="display:none" />
 
- <table >
+ <table style="padding:20px">
 	<thead>
         <tr>
             <th>Class Date</th>
@@ -237,7 +237,7 @@ Text:<input type="text" name="query"></input>
      </thead>
   <tbody>
         <cfloop query="listFiles">
-            <tr id="show_row_#id#" bgcolor="###iif(currentrow MOD 2,DE('ffffff'),DE('efefef'))#">
+            <tr id="show_row_#id#" bgcolor="###iif(currentrow MOD 2,DE('ffffff'),DE('efefef'))#" >
                 <td ><span id="show_class_date_#id#">#DateFormat(class_date,'m/dd/yyyy')#</span></td>
                 <td ><span id="show_class_title_#id#">#class_title#</span></td>
                 <td ><span id="show_facilitator_#id#">#facilitator#</span></td>
@@ -249,7 +249,7 @@ Text:<input type="text" name="query"></input>
                     <span id="show_cdr_#id#"><cfif CDR EQ 1>CDR</cfif></span>
                     <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>ICHWC</cfif></span>
                 </td>
-                <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span></td>
+                <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span><br /></td>
                 <td ><span id="show_handout_link_#id#">#handout_link#</span></td>
                 <td ><span id="show_download_link#id#">#download_link#</span></td>
                 <td ><span id="show_course_description#id#"><a href="javascript:void(0)" title="#htmlEditFormat(course_description)#"  style="color:##000000;text-decoration:none">#left(course_description,50)#</a><cfif len(course_description) GT 50>...</cfif></span></td>
