@@ -247,7 +247,7 @@ Text:<input type="text" name="query"></input>
 					<span id="show_acsm_#id#"><cfif ACSM EQ 1>ACSM</cfif></span>
 					<span id="show_boc_#id#"><cfif BOC EQ 1>BOC</cfif></span>
                     <span id="show_cdr_#id#"><cfif CDR EQ 1>CDR</cfif></span>
-                    <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>ICHWC</cfif></span>
+                    <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>NBHWC</cfif></span>
                 </td>
                 <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span><br /></td>
                 <td ><span id="show_handout_link_#id#">#handout_link#</span></td>
@@ -275,7 +275,7 @@ Text:<input type="text" name="query"></input>
 						<input size="5" type="checkbox" value="1" id="acsm_#id#" name="acsm_#id#" <cfif ACSM EQ 1>checked</cfif> />ACSM<br />
 						<input size="5" type="checkbox" value="1" id="boc_#id#" name="boc_#id#" <cfif BOC EQ 1>checked</cfif> />BOC<br />
                         <input size="5" type="checkbox" value="1" id="cdr_#id#" name="cdr_#id#" <cfif CDR EQ 1>checked</cfif> />CDR<br />
-                        <input size="5" type="checkbox" value="1" id="ichwc_#id#" name="ichwc_#id#" <cfif ICHWC EQ 1>checked</cfif> />ICHWC<br />
+                        <input size="5" type="checkbox" value="1" id="ichwc_#id#" name="ichwc_#id#" <cfif ICHWC EQ 1>checked</cfif> />NBHWC<br />
                     </td>
                     <td><textarea cols="15" rows="5" name="ce_requirements_#id#" id="ce_requirements_#id#"  />#ce_requirements#</textarea></td>
                     <td><textarea cols="15" rows="5" name="handout_link_#id#" id="handoutLink_#id#"  />#handout_link#</textarea></td>
@@ -339,7 +339,7 @@ Text:<input type="text" name="query"></input>
 						<input size="5" type="checkbox" name="add_acsm" value="1"  id="add_acsm" /> ACSM<br />
 						<input size="5" type="checkbox" name="add_boc" value="1"  id="add_boc" /> BOC<br />
                         <input size="5" type="checkbox" name="add_cdr" value="1"  id="add_cdr" /> CDR<br />
-                        <input size="5" type="checkbox" name="add_ichwc" value="1"  id="add_ichwc" /> ICHWC<br />
+                        <input size="5" type="checkbox" name="add_ichwc" value="1"  id="add_ichwc" /> NBHWC<br />
                       </td>
 
                       <td><input  class="button" type="submit" id="AddNew" name="AddNew" value="Add New" /></td>
