@@ -56,6 +56,7 @@
     <cfmodule template="inc/habits/feb2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/mar2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/apr2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/apr2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/may2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/jun2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 

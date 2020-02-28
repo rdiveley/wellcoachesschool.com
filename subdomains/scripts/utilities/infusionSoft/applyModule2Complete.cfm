@@ -50,6 +50,7 @@
    <cfmodule template="inc/module2/aug2019Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/sept2019Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/oct2019res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/nov2019core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/dec2019res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
    <cfmodule template="inc/module2/jan2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
