@@ -36,6 +36,10 @@
         data="#myResult1.Filecontent#"
         returnvariable="theData2">
 
+        <cfif !arrayLen(theData2.Params[1])>
+            The email you entered <cfoutput><em>#URL.email#</em></cfoutput> does not exist in our records.  Please contact your concierge for further assistance.<cfabort />
+        </cfif>
+
 		<cfset memberID =  theData2.Params[1][1]['Id']>
 
         <cfset selectedFieldStruct =structNew()>
