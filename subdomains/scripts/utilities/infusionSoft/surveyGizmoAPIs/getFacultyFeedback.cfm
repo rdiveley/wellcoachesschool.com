@@ -82,7 +82,11 @@ $(document).ready(function() {
 <form action="#cgi.SCRIPT_NAME#?coachName=#url.coachName#"  method="post">
 
   <select name="survey">
-  	<option value="0">--Please Select Feedback Survey --</option>
+    <option value="0">--Please Select Feedback Survey --</option>
+    <option value="4238384" <cfif form.survey EQ "4238384">Selected</cfif>>Module 2 courses</option>
+    <option value="5121979" <cfif form.survey EQ "5121979">Selected</cfif>>Professional Coach Training Program (10-month) - Naples 2020</option>
+    <option value="4543424" <cfif form.survey EQ "4543424">Selected</cfif>>Professional Coach Training Program (10-month) - LaJolla 2019</option>
+    <option value="3839954" <cfif form.survey EQ "3839954">Selected</cfif>>Professional Coach Training Program (10-month) - Indianapolis Sept 2017 - May 2018</option>
  	  <option value="2913540" <cfif form.survey EQ "2913540">Selected</cfif>>Professional Coach Training Program (10-month) - LaJolla Sept 2016 - May 2017</option>
     <option value="2338773" <cfif form.survey EQ "2338773">Selected</cfif>>Professional Coach Training Program (10-month) - Minnesota Sept 2015 - June 2016</option>
     <option value="1849174" <cfif form.survey EQ "1849174">Selected</cfif>>Professional Coach Training Program (10-month) - Sept 2014 through June 2015</option>

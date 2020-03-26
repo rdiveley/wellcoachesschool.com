@@ -1,6 +1,8 @@
 <!---<cfdump var="#URL#"><cfabort>--->
 <cfoutput>
 
+
+
 <cfparam name="FORM.fileName" default="">
 <cfparam name="URL.other" default="">
 <cfparam name="URL.hours" default="">
@@ -63,11 +65,13 @@
     data="#myResult.Filecontent#"
     returnvariable="theData">
 
-    <cfif !arrayLen(theData.Params[1])>
+    
+    <!--- don't show this message if the survey is Navigating Through Uncertainty --->
+    <cfif !arrayLen(theData.Params[1]) AND URLEncodedFormat(url.lesson) DOES NOT CONTAIN 'Uncertainty'>
         The email you entered <cfoutput><em>#local.email#</em></cfoutput> does not exist in our records.  Please contact your concierge for further assistance.<cfabort />
     </cfif>
         
-   
+  <cfif URLEncodedFormat(url.lesson) DOES NOT CONTAIN 'Uncertainty'>
   <cfdocument format="pdf" name="pdfGenerate">
   		<table width="800"  style="font-family:Arial, Helvetica, sans-serif;size:auto">
         	<tr>
@@ -174,6 +178,7 @@
         </table>
   
   </cfdocument> 
+</cfif>
   <cftry>
   
   
