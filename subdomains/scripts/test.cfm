@@ -1,1 +1,1 @@
-<cfoutput>Working from scripts</cfoutput>
+<cfoutput><cfdump var="#SERVER#" /></cfoutput>

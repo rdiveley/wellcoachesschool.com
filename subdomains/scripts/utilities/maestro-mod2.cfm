@@ -30,6 +30,12 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
+			<option value="F6WP9IOYWYW8W6VI">OYM Class 1 (Apr20-Jun20)</option>
+			<option value="5FVYH9TGN9GM3L1">OYM Class 2 (Apr 20-Jun20)</option>  
+			<option value="VUXB57NLLET3H5B">OYE (Apr20-Jun20)</option> 
+			<option value="RB5OPS377IXNIMBK">Generative Moments (Apr20-Jun20)</option> 
+			<option value="OIGI6N69EX729FJL">Wellness Vision (Apr20-Jun20)</option> 
+
 			<option value="5RMEYEQUK102MXPI">OYM Class 1 (Jan20-Mar20)</option>
 			<option value="ABSF0LFALJO5RTPG">OYE (Jan20-Mar20)</option>
 			<option value="AKKPQUAPTN7H5Y0Y">Generative Moments (Jan20-Mar20)</option>

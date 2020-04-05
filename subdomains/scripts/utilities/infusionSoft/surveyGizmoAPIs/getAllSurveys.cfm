@@ -369,7 +369,11 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 								#DateFormat(originalDate,'mm/dd/yyyy')#
 
 							<cfelse>
-								#DateFormat(datesubmitted,'mm/dd/yyyy')#
+								<cfif isDate(datesubmitted)>
+									#DateFormat(datesubmitted,'mm/dd/yyyy')#
+								<cfelse>
+									--	
+								</cfif>
 							</cfif>
 						</td>
 						<cfif !listFind(NoHours,surveyTitle)>
