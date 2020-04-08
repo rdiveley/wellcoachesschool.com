@@ -10,7 +10,7 @@
 
 <cfset DSN = "wellcoachesSchool">
 
-<cfset uniqueFileName = "#URL.email#_#URLEncodedFormat(classTitle)#_#dateFormat(now(),'mm-dd-yyyy')#.pdf">
+<cfset uniqueFileName = "#URL.email#_#URLEncodedFormat(url.classTitle)#_#dateFormat(now(),'mm-dd-yyyy')#.pdf">
 
    
 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
@@ -134,7 +134,7 @@
   </cfmail>
   </cfcatch>
   </cftry>
-  <cffile action="write"
+   <!---<cffile action="write"
   	file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#uniqueFileName#"
     output="#pdfGenerate#" >
     
@@ -170,7 +170,7 @@
         
         <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+        </cfhttp>--->
         
 		 <cfif isDefined("myResult")>
          	<cflocation url="thankyou.cfm">

@@ -22,6 +22,10 @@
     <cfset local.email = url.email />
 </cfif>
 
+<cfif structKeyExists(url,'lesson')>
+    <cfset lesson = url.lesson />
+</cfif>
+
 <cfif structKeyExists(url, 'emailForm')>
     <cfset local.email = url.emailForm />
 </cfif>

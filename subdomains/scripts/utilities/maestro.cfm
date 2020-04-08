@@ -30,6 +30,10 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
+			<option value="2A6OQNHALS3R9FYB">Wellcoaches April 2020 cohort</option>
+			<option value="EY4O3810QHIKAVT0">Wellcoaches June 2020 (4-day) </option>
+			<option value="YZXKDGQ8URS4HSRU">Wellcoaches May 2020 cohort</option>
+			<option value="MN41ZAL0P92RU1CM">Wellcoaches June 2020 (9wk) cohort</option>
 			<option value="9BY8ANI1STJLYSZX">wellcoaches Feb 2020-A cohort</option>
 			<option value="6DJKL7N9K64FQK55">Wellcoaches Feb 2020-B cohort</option>
 			<option value="296ZXEWWZPF3WA4">Wellcoaches January 2020 cohort</option>
@@ -44,38 +48,6 @@
 			<option value="5TLFE4S6SBS46OI1">CalU HWC PRF714 With Christina</option>
 			<option value="A0WFG2KYUKRBQJ1S">HWC Competencies PRF754 with Christina</option>
 			<option value="FIFXMRQEK4KK8QM1">UWM HWC Competencies With Christina</option>
-			<option value="7WK7KVG8FRDVYWQ">Wellcoaches November 2018 Module 1</option>
-			<option value="A55HGQ1VNE33ZBP4">Wellcoaches September 2018 Module 1 </option>
-			<option value="2XNFS1HUMVO649PS">Wellcoaches July 2018 Module 1</option>	
-			<option value="TJ4V4TKY0YRFA0MA">Wellcoaches Jan2018 Core Program - Mon 9am ET</option>
-			<option value="GODZZKAM89OBQV77">Wellcoaches Jan2018 Core Program - Thu 3pm ET</option>
-			<option value="09LQNOANL3HQYOS2">Wellcoaches Mar2017 Core Program - Sun 7pm ET</option>
-			<option value="FP4M3K04SM9J7NOT">Wellcoaches Mar2017 Core Program - Tue 8am ET</option>
-			<option value="TUOK51971GRNMMO">Wellcoaches Jan2017 Core Program - Tue 11am ET</option>
-			<option value="FFOAXXXJ37XB363Y">Wellcoaches Mar2017 Core Program - Mon 2pm ET</option>
-			<option value="GIZQDXKN9333QRI">Wellcoaches May2017 Core Program - Mon 12pm ET</option>
-			<option value="DYAG5Q7M5AJK54I">Wellcoaches May2017 Core Program - Tue 3pm ET</option>
-			<option value="H7TQHY9GMBS5EBQO">Wellcoaches May2017 Core Program - Wed 9am ET</option>
-			<option value="ECAWF7ZGQS3XH0H">Wellcoaches May2017 Core Program - Thu 8pm ET</option>
-			<option value="IB5OVNWJ958ASZNS">Wellcoaches Jul2017 Core Program - Mon 9pm ET</option>
-			<option value="YMTTPPYEAFZ5FIYM">Wellcoaches Jul2017 Core Program - Tue 11am ET</option>
-			<option value="PMVLSKE02GU61Z">Wellcoaches Jul2017 Core Program - Wed 4pm ET</option>
-			<option value="WXJLJ8HIPAH4YU6S">Wellcoaches Jul2017 Core Program - Thu 9am ET </option>
-			<option value="G146LQ0JQPF7M1X">Wellcoaches Sep2017 Core Program - Sun 7pm ET </option>
-			<option value="Z5GKXHMAJE55YEWV">Wellcoaches Sep2017 Core Program - Mon 2pm ET</option>
-			<option value="MBIK8LUOVCFLVFRD">Wellcoaches Sep2017 Core Program - Tue 8am ET</option>
-			<option value="8MBS0TCNMAW8R3J">Wellcoaches Nov2017 Core Program - Mon 12pm ET </option>
-			<option value="7H5BC5XWSEO6Z5RF">Wellcoaches Nov2017 Core Program - Tue 3pm ET</option>
-			<option value="K8JTKO7JCY1MUUFW">Wellcoaches Nov2017 Core Program - Wed 9am ET</option>
-			<option value="JDCFWUXL9RDD3GF">Wellcoaches Nov2017 Core Program - Thu 8pm ET </option>
-			<option value="RZPIR5JFKFAPZOIV">Wellcoaches Jan2018 Core Program - Wed 9pm ET </option>
-			<option value="1PEV1LW4J7SDM4">Wellcoaches Mar2018 Core Program – Sun 7pm ET </option>
-			<option value="0MLUDEPR6KOUD6FJ">Wellcoaches Mar2018 Core Program – Mon 2pm ET</option>
-			<option value="GQ39PWAB3F1SO3">Wellcoaches Mar2018 Core Program – Thu 11am ET</option>
-			<option value="ZF3Y6UMZLL1IOP2M">Wellcoaches May2018 Core Program – Mon 12pm ET</option>
-			<option value="3Q26E9E88WK0S9K">Wellcoaches May2018 Core Program – Wed 9am ET</option>
-			<option value="FK5PMXEUOUAY1OB">Wellcoaches May2018 Core Program – Thu 8pm ET</option>
-			<option value="3F2XB8ILEXCH4BR">UWM HWC Competencies with Christina</option>
 		</select>
 		<input type="submit" name="displayAttendance" id="button" value="Show my attendance">
 
