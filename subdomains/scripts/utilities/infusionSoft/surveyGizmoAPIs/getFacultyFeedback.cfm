@@ -46,6 +46,7 @@ $(document).ready(function() {
 
 <cfparam name="url.coachName" default="Pam Schmid" />
 <cfparam name="URL.PageIndex" default="0">
+<cfparam name="PageIndex" default="0">
 <cfset coachName = '#listFirst(url.coachName,"_")# #listLast(url.coachName,"_")#' />
 
 
@@ -118,7 +119,7 @@ $(document).ready(function() {
   <button name="Go" value="Go" onclick="this.form.submit()" />Go</button>
 
 
-<cfif structKeyExists(form, 'survey')>
+<cfif structKeyExists(form, 'survey') and form.survey NEQ 0>
 
 		<cfif findNoCase('Martin',coachName)>
         	<cfset coachName = ReplaceNoCase(coachName,'-',' ','all') />
@@ -141,7 +142,7 @@ $(document).ready(function() {
        
         <cfset arrayappend(params,"filter[field][0]=datesubmitted") />
         <cfset arrayappend(params,"filter[operator][0]=>") />
-        <cfset arrayappend(params,"filter[value][0]=#year_filter#-#month_filter#-01") />
+        <cfset arrayappend(params,"filter[value][0]=#form.year_filter#-#form.month_filter#-01") />
 
         <cfset arrayappend(params,"filter[field][1]=[question(12)]") />
         <cfset arrayappend(params,"filter[operator][1]==") />
@@ -149,7 +150,7 @@ $(document).ready(function() {
 
         <cfset arrayappend(params,"filter[field][2]=datesubmitted") />
         <cfset arrayappend(params,"filter[operator][2]=<") />
-        <cfset arrayappend(params,"filter[value][2]=#year_filter#-#month_filter#-31") />
+        <cfset arrayappend(params,"filter[value][2]=#form.year_filter#-#form.month_filter#-31") />
         <cfset arrayappend(params,"resultsperpage=500") />
         <CFSET local.body=ArrayToList(Params, "&")>
        
@@ -161,7 +162,7 @@ $(document).ready(function() {
 
 			      <cfhttpparam type="url"  value="datesubmitted" name="filter[field][0]"/>
             <cfhttpparam type="url"  value=">" name="filter[operator][0]"/>
-            <cfhttpparam type="url"  value="#year_filter#-#month_filter#-01" name="filter[value][0]"/>
+            <cfhttpparam type="url"  value="#form.year_filter#-#form.month_filter#-01" name="filter[value][0]"/>
             
             <cfhttpparam type="url"  value="[question(12)]" name="filter[field][1]"/>
             <cfhttpparam type="url"  value="=" name="filter[operator][1]"/>
@@ -169,7 +170,8 @@ $(document).ready(function() {
             
             <cfhttpparam type="url"  value="datesubmitted" name="filter[field][2]"/>
             <cfhttpparam type="url"  value="<" name="filter[operator][2]"/>
-			      <cfhttpparam type="url"  value="#year_filter#-#month_filter#-31" name="filter[value][2]"/>
+            <cfhttpparam type="url"  value="#form.year_filter#-#form.month_filter#-31" name="filter[value][2]"/>
+            <cfhttpparam type="url"  value="500" name="resultsperpage"/>
 			 
            
           </cfhttp>
