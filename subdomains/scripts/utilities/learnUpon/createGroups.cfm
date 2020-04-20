@@ -84,7 +84,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
- <cfset local.group_id = "215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+ <cfset local.group_id = "270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 
 <!--- 2. create the associated tags to the groups --->
 
@@ -160,6 +160,12 @@
 <cfset local.LU215036_tags = "13975,1382,1384">
 <!---  Core Coach Training: Module 1  (June 2020 cohort) --->
 <cfset local.LU215044_tags = "13887,1382,1384">
+<!--- Core Coach Training: Module 1 (April 2020 Singapore) --->
+<cfset local.LU270378_tags = "14557,1382,1384">
+
+
+
+
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">

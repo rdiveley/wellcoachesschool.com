@@ -116,8 +116,9 @@
             ,ichwc
             ,max(id) as maxID
         FROM memberClasses
+        WHERE 1=1 and (archive IS NULL or archive = 0)
         <cfif StructKeyExists(URL,'wcm')>
-           	WHERE wcm = 1
+           	AND wcm = 1
         </cfif>
             group by id,category, cceh
             ,class_title

@@ -117,7 +117,7 @@
 		<!--- update fields --->
 		<cfset updateField = structNew()>
         <cfset updateField['_SupportingNBCdocumentationreceived']='YES'>
-		<cfset updateField['_NBCHWCExamResult']=form.score>
+		<!---<cfset updateField['_NBCHWCExamResult']=form.score>--->
 		<cfset updateField['_RecertificationExpiryDate']=DateAdd('yyyy',3,DateFormat(form.examDate,'mm-dd-yyyy'))>
 		<cfset updateField['_CertificationRenewedDate']=DateAdd('d',1,DateFormat(form.examDate,'mm-dd-yyyy'))>
 		<cfset updateField['_PleaseselecttheNBCexamperiodyouparticipatedin0']=" #DateFormat(form.examDate,'mm-dd-yyyy')# ">
@@ -126,7 +126,7 @@
 		<cfset myArray = ArrayNew(1)>
          <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
          <cfset myArray[2]=key>
-         <cfset myArray[3]='(int)#memberID#'>
+         <cfset myArray[3]='(int)#FORM.memberID#'>
          <cfset myArray[4]=updateField>
 
 
@@ -165,9 +165,9 @@
 				errors = 1;
 				alert("Please choose a file to upload");
 			}else if(!$.trim($('##score').val())) {
-				errors = 1;
-				alert("Please provide your score");
-				$('##score').focus();
+				//errors = 1;
+				//alert("Please provide your score");
+				//$('##score').focus();
 			}
 			if(errors){
 				return false
@@ -229,7 +229,7 @@
 				<input type="hidden" name="userFiles" value="NBC-HWC-DOCUMENTATION" />
 
 				<p>
-					NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br />
+					<!---  NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br /> --->
 					Please select the NBC exam period you participated in: <!-- <input  readonly="readonly" placeholder="mm/dd/yyyy" id="examDate" type="date" name="examDate" > -->
 
 					 <select name="examDate" id="examDate">
