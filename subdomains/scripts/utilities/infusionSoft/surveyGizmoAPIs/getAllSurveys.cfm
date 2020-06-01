@@ -384,7 +384,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 	                            <cfelseif  surveyTitle eq 4229417 OR surveyTitle eq 4051290 >
 									<cfset local.habits++>
 									
-	                            	<cfif habitsComplete EQ "Y" AND (local.habits eq 8 AND !structKeyExists(local, 'habitsAdded'))>
+	                            	<cfif (habitsComplete EQ "Y" OR habitsComplete EQ 'STANDALONE') AND (local.habits eq 8 AND !structKeyExists(local, 'habitsAdded'))>
 		                                10
 										<cfset total = total + 10>
 										<cfset local.habitsAdded  = 1 />
