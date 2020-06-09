@@ -1,5 +1,5 @@
 <cfif !structKeyExists(attributes,'runstep')>
-    <cfif listFindNoCase(attributes.tagList,11371) AND listFindNoCase(attributes.tagList,13361) >
+    <cfif listFindNoCase(attributes.tagList,13371) AND listFindNoCase(attributes.tagList,13361) >
         <!-- [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete  -->
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup">
