@@ -58,11 +58,13 @@
    <cfmodule template="inc/module2/feb2020Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/mar2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/apr2020Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/apr2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/may2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/may2020Monarch.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/june2020Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/HUMBER.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   <cfmodule template="inc/module2/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+  
 
 
 
