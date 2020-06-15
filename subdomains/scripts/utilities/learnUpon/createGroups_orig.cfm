@@ -197,19 +197,17 @@
 			
 
 				<!--- send an email to the concierge letting them know of the Portal Invite --->
-				<cfset local.julie = "a,b,c,d">
-				<cfset local.angela = "e,f,gh,i,j,k">
-				<cfset local.nathan = "l,m,n,o,p,q">
-				<cfset local.sheryl = "r,s,t,u,v,w,x,y,z">
+				<cfset julie = "a,b,c,d,e,f,g">
+				<cfset angela = "h,i,j,k,l,m,n,o">
+				<cfset nathan = "p,q,r,s,t,u,v,w,x,y,z">
 				
-				<cfif listFindNoCase(local.julie,Left(local.userInfo['lastName'], 1))>
-					<cfset local.concierge = "jcummings@wellcoaches.com">
-				<cfelseif listFindNoCase(local.angela,Left(local.userInfo['lastName'], 1))>
-					<cfset local.concierge = "amillerbarton@wellcoaches.com">
-				<cfelseif listFindNoCase(local.sheryl,Left(local.userInfo['lastName'], 1))>
-					<cfset local.concierge = "srichard@wellcoaches.com">
-				<cfelseif listFindNoCase(local.nathan,Left(local.userInfo['lastName'], 1))>
-					<cfset local.concierge = "nmikeska@wellcoaches.com">	
+
+				<cfif listFindNoCase(julie,Left(URL.Lastname, 1))>
+					<cfset concierge = "jcummings@wellcoaches.com">
+				<cfelseif listFindNoCase(angela,Left(URL.Lastname, 1))>
+					<cfset concierge = "amillerbarton@wellcoaches.com">
+				<cfelseif listFindNoCase(nathan,Left(URL.Lastname, 1))>
+					<cfset concierge = "nmikeska@wellcoaches.com">
 				</cfif>
 
 				<cfmail to="#local.concierge#,mthom@wellcoaches.com" from="techsupport@wellcoaches.com" subject="LearnUpon Portal Invite" type="html">

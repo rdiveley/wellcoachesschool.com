@@ -5,17 +5,18 @@
 <cfparam name="URL.lastname" default="Diveley">
 <cfparam name="concierge" default="rdiveley@wellcoaches.com">
 
-		<cfset julie = "a,b,c,d,e,f,g">
-        <cfset angela = "h,i,j,k,l,m,n,o">
-        <cfset sheryl = "p,q,r,s,t,u,v,w,x,y,z">
-        
-        <cfif listFindNoCase(julie,Left(URL.Lastname, 1))>
-        	<cfset concierge = "jcummings@wellcoaches.com">
-		<cfelseif listFindNoCase(angela,Left(URL.Lastname, 1))>
-        	<cfset concierge = "amillerbarton@wellcoaches.com">
-		<cfelseif listFindNoCase(sheryl,Left(URL.Lastname, 1))>
-        	<cfset concierge = "srichard@wellcoaches.com">
-        </cfif>
+<cfset julie = "a,b,c,d,e,f,g">
+<cfset angela = "h,i,j,k,l,m,n,o">
+<cfset nathan = "p,q,r,s,t,u,v,w,x,y,z">
+
+
+<cfif listFindNoCase(julie,Left(URL.Lastname, 1))>
+    <cfset concierge = "jcummings@wellcoaches.com">
+<cfelseif listFindNoCase(angela,Left(URL.Lastname, 1))>
+    <cfset concierge = "amillerbarton@wellcoaches.com">
+<cfelseif listFindNoCase(nathan,Left(URL.Lastname, 1))>
+    <cfset concierge = "nmikeska@wellcoaches.com">
+</cfif>
         
    
 <cfif structKeyExists(FORM,"fileUpload")>
