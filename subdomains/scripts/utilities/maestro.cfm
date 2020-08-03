@@ -30,6 +30,8 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
+			
+			<option value="YHGN8IC1NSBW84TN">Wellcoaches Aug 2020 (9wk) cohort</option>
 			<option value="GG1FDN6SMHNE249C">Wellcoaches July 2020 cohort</option>
 			<option value="NNGP08TEDCBKLE8Y">Monarch (DG) May 2020 </option>
 			<option value="DQPPOYB6EKG0XNSI">Singapore (DG) April 2020 cohort </option>

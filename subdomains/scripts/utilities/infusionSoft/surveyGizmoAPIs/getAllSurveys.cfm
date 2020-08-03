@@ -47,7 +47,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
 
- <cfset allsurveys = "5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+ <cfset allsurveys = "5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
    <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
@@ -84,7 +84,9 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 		<cfelseif Find(4051290,column)  >
 				<cfset emailParam = "[question(93)]" />		
 		<cfelseif Find(5508580,column)  >
-				<cfset emailParam = "[question(35)]" />									
+				<cfset emailParam = "[question(35)]" />	
+		<cfelseif Find(5664658,column)  >
+				<cfset emailParam = "[question(35)]" />											
         </cfif>
 		<!--- https://apihelp.surveygizmo.com/help/surveyresponse-sub-object#filtering --->
 
@@ -254,6 +256,10 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 				<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 			<cfelseif column eq 5508580>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(120)]'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
+				<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
+			<cfelseif column eq 5664658 >
+                <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(29)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 		   </cfif>
