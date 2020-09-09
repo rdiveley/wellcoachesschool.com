@@ -62,6 +62,9 @@
     <cfmodule template="inc/habits/jun2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/jun2020-res.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/aug2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/july2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+
 
     <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -89,10 +92,13 @@
     <cfmodule template="inc/core/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/mar2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/may2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
-
+    
     <cfmodule template="inc/core/june2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/DGJuly2020AU.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+
+    <cfmodule template="inc/core/july2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/aug2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     
     <cfif listFindNoCase(local.tagList,9783) AND listFindNoCase(local.tagList,9673) AND listFindNoCase(local.tagList,9693)>
 		<!-- THEN 9559 can be applied [Core Jul2018 Mod 1 Habits Surveys Complete]
