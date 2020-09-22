@@ -47,7 +47,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
 
- <cfset allsurveys = "5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+ <cfset allsurveys = "5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
    <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
@@ -69,7 +69,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
          	<cfset emailParam = "[question(32)]" />
         <cfelseif Find(1382009,column)>
 			 <cfset emailParam = "[question(21)]" />
-		<cfelseif Find(4543424,column) >
+		<cfelseif Find(4543424,column) OR Find(5121979,column) >
 				<cfset emailParam = "[question(26)]" />		 
         <cfelseif Find(1959806,column) or Find(4305174,column) OR find(4776929,column)>
          	<cfset emailParam = "[question(37)]" />
@@ -242,7 +242,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 			<cfelseif column eq 4320651>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Lifestyle Medicine for Coaches" )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(61)]'] )/>	
-			<cfelseif column eq 4543424>
+			<cfelseif column eq 4543424 or column eq 5121979>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]']  )/>
                
 		    <cfelseif column eq 4144821>
@@ -346,7 +346,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 	                                 #iif(len(hours),hours,0)#
 	                                 <cfset total = total + iif(len(hours),hours,0)>
 
-	                        <cfelseif surveyTitle eq 1117522 OR surveyTitle eq 2913540>
+	                        <cfelseif surveyTitle eq 1117522 OR surveyTitle eq 2913540 OR surveyTitle EQ 5121979>
 	                                  1.5
 	                            	 <cfset total = total + 1.5>
 	                        <cfelse>
@@ -387,10 +387,15 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 						</td>
 						<cfif !listFind(NoHours,surveyTitle)>
 	                        <td>
-	                            <cfif surveyTitle eq 1120644 OR surveyTitle eq 1117522 OR surveyTitle eq 2913540 or surveyTitle eq 5508580>
-	                                1.5
-	                                <cfset total = total + 1.5>
-	                            <cfelseif  surveyTitle eq 4229417 OR surveyTitle eq 4051290 >
+								<cfif surveyTitle eq 1120644 OR surveyTitle eq 1117522 OR surveyTitle eq 2913540 or surveyTitle eq 5508580 OR surveyTitle EQ 5121979>
+									<cfif findNoCase('Residential', lesson) AND surveyTitle EQ 5121979>
+										20
+										<cfset total = total + 20 />
+									<cfelse>
+										1.5
+										<cfset total = total + 1.5>
+									</cfif>	
+								<cfelseif  surveyTitle eq 4229417 OR surveyTitle eq 4051290 >
 									<cfset local.habits++>
 									
 	                            	<cfif (habitsComplete EQ "Y" OR habitsComplete EQ 'STANDALONE') AND (local.habits eq 8 AND !structKeyExists(local, 'habitsAdded'))>

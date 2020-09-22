@@ -30,7 +30,7 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
-			
+			<option value="KU1YPPO78VTYVQU">Wellcoaches Sept 2020 cohort</option>
 			<option value="YHGN8IC1NSBW84TN">Wellcoaches Aug 2020 (9wk) cohort</option>
 			<option value="GG1FDN6SMHNE249C">Wellcoaches July 2020 cohort</option>
 			<option value="NNGP08TEDCBKLE8Y">Monarch (DG) May 2020 </option>
@@ -70,7 +70,11 @@
 					<cfhttpparam type="formfield"  value="#local.confId#" name="conferenceUID"/>
 			</cfhttp>
 
+
+
 			<cfset local.rtnJsonDetails = deserializeJSON(callerDetails.fileContent)>
+
+
 			
 			<cfset local.AllPins = '' />
 			<cfset person = {}>
@@ -84,18 +88,17 @@
 			<cfif isDefined('local.rtnJsonDetails.value.calls')>
 
 			<cfloop array="#local.rtnJsonDetails.value.calls#" index="local.calls">
+				<CFX_HTTP5
+					url="http://myaccount.maestroconference.com/_access/getCallData?customer=L7B5XVTQOHXET688&key=4ad1c09c3e999b00e3923522c0ff3602&conferenceUID=#local.confId#&callUID=#local.calls#"
+					method="get"
+					customer="L7B5XVTQOHXET688"
+					key="4ad1c09c3e999b00e3923522c0ff3602"
+					conferenceUID="#local.confId#"
+					callUID="#local.calls#"
+					headers="Content-Type: application/json; charset=utf-8"
+					out="callerInfo"  >
 
-				<cfhttp method="get" url="http://myaccount.maestroconference.com/_access/getCallData" result="callerInfo">
-					<cfhttpparam type="URL" name="customer"  value="L7B5XVTQOHXET688" />
-					<cfhttpparam type="URL" name="key"  value="4ad1c09c3e999b00e3923522c0ff3602"/>
-					<cfhttpparam type="formfield"  value="json" name="type"/>
-					<!--- conference ID --->
-					<cfhttpparam type="formfield"  value="#local.confId#" name="conferenceUID"/>
-					<!--- call ID --->
-					<cfhttpparam type="formfield"  value="#local.calls#" name="callUID"/>
-				</cfhttp>
-
-				<cfset local.rtnJSON = deserializeJSON(callerInfo.filecontent)>
+				<cfset local.rtnJSON = deserializeJSON(callerInfo)>
 				<cfset local.calledInList = "">
 				<!--- all the callers for this conference --->
 				<cfif isDefined('local.rtnJSON.value.caller')>
