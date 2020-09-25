@@ -17,6 +17,28 @@
     left: 0;
     opacity: 0.5;
 }
+
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
 </style>
 
 <cfoutput>
@@ -119,7 +141,7 @@
                             
                             <cfscript>
 
-                                caller={email=lcase(local.caller.email),name=local.caller.tag,start=DateFormat(parsedateTime(local.rtnJSON.value.call.actualStartTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),end=DateFormat(parsedateTime(local.rtnJSON.value.call.actualEndTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),calltime=local.time};
+                                caller={email=lcase(local.caller.email),name=lcase(local.caller.tag),start=DateFormat(parsedateTime(local.rtnJSON.value.call.actualStartTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),end=DateFormat(parsedateTime(local.rtnJSON.value.call.actualEndTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),calltime=local.time};
                                 QueryAddRow(myQuery,caller);
 
                             </cfscript>
@@ -136,44 +158,37 @@
 <cfquery name="result" dbtype="query" >
     select *
     from myQuery
+   
     order by email asc, start
     
 </cfquery>
-
-<cfquery name="result2" dbtype="query" >
-    select distinct start
-    from result
-</cfquery>
-
-<cfset local.lessons = valuelist(result2.start) />
-
-
-<table border=1>
+<table id="customers">
     <tr>
         <td>&nbsp;</td>
         <th>Name</th>
         <th>Email</th>
-       
-        <cfloop  list="#local.lessons#" index="local.lesson">
-            <th>#DateFormat(local.lesson,'mm/dd/yyyy')#</th>
-        </cfloop>
+        <th colspan="100%" style="align:center">Lessons</th>
     </tr>
+
     <cfset local.count = 1 />
     <cfloop query="result" group="email">
         <tr>
-            <td>#local.count++#</td>
-            <td>#name#</td>
-            <td>#email#</td>
+            <td style="width:2%">#local.count++#</td>
+            <td style="width:10%">#name#</td>
+            <td style="width:10%">#email#</td>
             
             <cfloop group="start">
                 <cfset local.time = 0 />
                 <cfloop>
                     <cfset local.time = local.time + calltime />
                 </cfloop>
-                <td>#local.time#</td>
+                <td>
+                    #DateFormat(result.start,'mm/dd/yyyy')#<br />
+                    #local.time#
+                </td>
             </cfloop>
         </tr>
-    </cfloop>
+    </cfloop> 
 </table>
 
 
