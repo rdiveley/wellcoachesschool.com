@@ -283,7 +283,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
       	where cast(datesubmitted AS DATE) >= <cfqueryparam cfsqltype="cf_sql_date" value="#renewedDate#">
            AND cast(datesubmitted AS DATE) <= <cfqueryparam cfsqltype="cf_sql_date" value="#REcertEndDate#">
       </cfif> 
-      order by datesubmitted asc
+      order by datesubmitted desc
     </cfquery>
 
 
