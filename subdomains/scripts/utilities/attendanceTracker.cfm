@@ -155,10 +155,7 @@
                 </cfloop>
                 <td <cfif local.time lte 5>style="background-color:red;color:white"</cfif>>
                     #DateFormat(result.start,'mm/dd/yyyy')#<br />
-                   
-                        #local.time#
-                  
-                    
+                    #local.time#
                 </td>
             </cfloop>
         </tr>
