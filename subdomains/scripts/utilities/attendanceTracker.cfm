@@ -130,7 +130,6 @@
 <cfquery name="result" dbtype="query" >
     select *
     from myQuery
-    
     order by email asc, startdate
 </cfquery>
 
@@ -165,23 +164,37 @@
                 <cfloop from="#DateFormat(DateAdd("d", "-#DayOfWeek(startdate.startdate) - 1#", startdate.startdate), "mm/dd/yyyy")#" to="#enddate.enddate#" index="local.date" step="#CreateTimeSpan(7,0,0,0)#">
                     <cfset local.fromdate = dateFormat(local.date,'mm/dd/yyyy') />
                     <cfset local.todate = DateFormat(DateAdd("d",7,local.date),'mm/dd/yyyy') />
-                     <cfset local.count = "" />
+                    <cfset local.count = "" />
                     <td>
                         <cfloop group="startdate"> 
+                            
                             <cfset local.startdate = dateFormat(result.startdate,'mm/dd/yyyy') />
                             <cfset local.enddate = dateFormat(result.enddate,'mm/dd/yyyy') />
                             <!--- start date is >= column header and < next column header --->
                             <cfif ( dateCompare(local.startdate, local.fromdate) EQ 1 OR dateCompare(local.startdate, local.fromdate) EQ 0 ) AND ( dateCompare(local.enddate, local.todate) EQ -1 ) >
                                 <cfloop>
                                     <cfset local.count = listRemoveDuplicates(listAppend(local.count, calltime)) />
+                                  
                                 </cfloop>
                             </cfif>
                         </cfloop>
+                       
                         <cfset local.calltime = 0 />
-                        <cfloop list="#local.count#" item="local.calltime">
-                            <cfset local.calltime += local.calltime />
+                        <cfloop list="#local.count#" item="local.time">
+                            <cfset local.calltime = local.calltime + local.time />
                         </cfloop>
-                        #local.calltime#
+                            <cfset local.style = "" />
+                            <cfif local.calltime lt 50>
+                                <cfset local.style="background-color:red;color:white" />
+                            </cfif>
+                            <cfif local.calltime gt 51 and local.calltime lt 71 >
+                                <cfset local.style="background-color:yellow" />
+                            </cfif>
+
+                            <div style="#local.style#">
+                                #local.calltime# 
+                            </div>
+                       
                     </td>
                 </cfloop>
                 </tr>
