@@ -18,7 +18,7 @@
     <cfset concierge = "amillerbarton@wellcoaches.com">
 <cfelseif listFindNoCase(nathan,Left(URL.Lastname, 1))>
     <cfset concierge = "nmikeska@wellcoaches.com">
-</cfif>s
+</cfif>
 
 
 <cfif structKeyExists(FORM,"fileUpload")>
@@ -77,56 +77,99 @@
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
-		<!-- ID 9837: NBC-HWC Certified and eligible for LM Mod 4 Course Certificate -->
-		<cfset local.tagToApply="9837">
+        <cfset memberID = FORM.memberid>
 
-		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        <cfset selectedFieldStruct =structNew()>
+        <cfset selectedFieldStruct["Id"]=memberID>
+
+        <cfset selectedFieldsArray = ArrayNew(1)>
+        <cfset selectedFieldsArray[1] = "Groups">
+        <cfset selectedFieldsArray[2] = "Id">
+
         <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
+        <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
         <cfset myArray[2]=key>
-        <cfset myArray[3]="(int)#FORM.memberID#">
-        <cfset myArray[4]="(int)#local.tagToApply#"> <!-- NBC-HWC Documentation Submitted -->
-
+        <cfset myArray[3]='Contact'>
+        <cfset myArray[4]='(int)10'>
+        <cfset myArray[5]='(int)0'>
+        <cfset myArray[6]=selectedFieldStruct>
+        <cfset myArray[7]=selectedFieldsArray>
 
         <cfinvoke component="utilities/XML-RPC"
             method="CFML2XMLRPC"
             data="#myArray#"
             returnvariable="myPackage">
 
-
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
-		<!--- update fields --->
-		<cfset updateField = structNew()>
-        <cfset updateField['_SupportingNBCdocumentationreceived']='YES'>
-
-		<cfset myArray = ArrayNew(1)>
-         <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-         <cfset myArray[2]=key>
-         <cfset myArray[3]='(int)#memberID#'>
-         <cfset myArray[4]=updateField>
+          <cfinvoke component="utilities/XML-RPC"
+            method="XMLRPC2CFML"
+            data="#myResult3.Filecontent#"
+            returnvariable="theData3">
 
 
-		 <cfinvoke component="utilities/XML-RPC"
+
+       <cfset memberTags =  theData3.Params[1][1]['Groups']>
+
+
+        <cfif listFindNoCase(memberTags, 1828 )>
+
+            <!-- ID 9837: NBC-HWC Certified and eligible for LM Mod 4 Course Certificate -->
+            <cfset local.tagToApply="9837">
+
+            <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+            <cfset myArray = ArrayNew(1)>
+            <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
+            <cfset myArray[2]=key>
+            <cfset myArray[3]="(int)#FORM.memberID#">
+            <cfset myArray[4]="(int)#local.tagToApply#"> <!-- NBC-HWC Documentation Submitted -->
+
+
+            <cfinvoke component="utilities/XML-RPC"
                 method="CFML2XMLRPC"
                 data="#myArray#"
-                returnvariable="myPackage4">
+                returnvariable="myPackage">
 
-           <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-                <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+
+            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+                <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
 
-    	<cfif isDefined("myResult")>
-			Thank you, your NBC-HWC Certification document has been uploaded. <br />
-			Please allow two business days for a 'YES' to appear beside the statement: Supporting NBC documentation received (located at the National Board Certification sub-page under Certification at your Wellcoaches Customer Hub Account).
+            <!--- update fields --->
+            <cfset updateField = structNew()>
+            <cfset updateField['_SupportingNBCdocumentationreceived']='YES'>
 
-      		<cfmail to="#concierge#;mthom@wellcoaches.com" from="wellcoaches@wellcoaches.com" subject="#FORM.userFiles#" type="html">
-            	User: #FORM.fname#  #FORM.lname#<br /><br />
-                has uploaded their NBC-HWC Documentation
-            </cfmail>
-       </cfif>
+            <cfset myArray = ArrayNew(1)>
+            <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
+            <cfset myArray[2]=key>
+            <cfset myArray[3]='(int)#memberID#'>
+            <cfset myArray[4]=updateField>
+
+
+            <cfinvoke component="utilities/XML-RPC"
+                    method="CFML2XMLRPC"
+                    data="#myArray#"
+                    returnvariable="myPackage4">
+
+            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
+                    <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+                </cfhttp>
+
+            <cfif isDefined("myResult")>
+                Thank you, your NBC-HWC Certification document has been uploaded. <br />
+                Please allow two business days for a 'YES' to appear beside the statement: Supporting NBC documentation received (located at the National Board Certification sub-page under Certification at your Wellcoaches Customer Hub Account).
+
+                <cfmail to="#concierge#;mthom@wellcoaches.com" from="wellcoaches@wellcoaches.com" subject="#FORM.userFiles#" type="html">
+                    User: #FORM.fname#  #FORM.lname#<br /><br />
+                    has uploaded their NBC-HWC Documentation
+                </cfmail>
+        </cfif>
+    <cfelse>
+            You must be certified before you can recertify.
+            Please contact your concierge for further assistance: <a href="mailto:#concierge#">#concierge#</a>
+    </cfif>    
        <cfabort>
 </cfif>
 

@@ -57,7 +57,7 @@
 
 
     <cfif structKeyExists(form, 'displayAttendance')>
-        <cfset  myQuery = queryNew("email,name,start,end,calltime","Varchar,Varchar,Varchar,Varchar,Varchar") />
+        <cfset  myQuery = queryNew("email,name,startdate,enddate,calltime","Varchar,Varchar,Varchar,Varchar,Varchar") />
         <cfset caller=StructNew() />
         <cfset local.emails = "" />
 		<cfloop list="#form.conferenceId#" index="local.confId">
@@ -109,13 +109,12 @@
 
                     <cfloop array="#local.rtnJSON.value.caller#" index="local.caller">
                            
-                                    
                         <cfif listFindNoCase(local.emails, local.caller.email)>
                             
                             <cfset local.time = ceiling(dateDiff("n",listGetat(local.caller.startTime,4,' '),listGetat(local.caller.endTime,4,' '))) />
                             
                             <cfscript>
-                                caller={email=lcase(local.caller.email),name=lcase(local.caller.tag),start=DateFormat(parsedateTime(local.rtnJSON.value.call.actualStartTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),end=DateFormat(parsedateTime(local.rtnJSON.value.call.actualEndTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),calltime=local.time};
+                                caller={email=lcase(local.caller.email),name=lcase(local.caller.tag),startdate=DateFormat(parsedateTime(local.rtnJSON.value.call.actualStartTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),enddate=DateFormat(parsedateTime(local.rtnJSON.value.call.actualEndTime,'EEE MMM dd HH:nn:ss zzz yyyy'),'mm/dd/yyyy'),calltime=local.time};
                                 QueryAddRow(myQuery,caller);
                             </cfscript>
                         </cfif>
@@ -131,35 +130,65 @@
 <cfquery name="result" dbtype="query" >
     select *
     from myQuery
-    order by email asc, start
+    
+    order by email asc, startdate
 </cfquery>
-<table id="customers">
-    <tr>
-        <td>&nbsp;</td>
-        <th>Name</th>
-        <th>Email</th>
-        <th colspan="100%" style="align:center">Lessons</th>
-    </tr>
 
-    <cfset local.count = 1 />
-    <cfloop query="result" group="email">
+<cfquery name="startdate" dbtype="query">
+    select min(startdate) as startdate
+    from result
+</cfquery>
+
+<cfquery name="enddate" dbtype="query">
+    select max(enddate) as enddate
+    from result
+</cfquery>
+
+
+<cfif result.recordcount>
+    <table id="customers">
         <tr>
-            <td style="width:2%">#local.count++#</td>
-            <td style="width:10%">#name#</td>
-            <td style="width:10%">#email#</td>
-            
-            <cfloop group="start">
-                <cfset local.time = 0 />
-                <cfloop>
-                    <cfset local.time = local.time + calltime />
-                </cfloop>
-                <td <cfif local.time lte 5>style="background-color:red;color:white"</cfif>>
-                    #DateFormat(result.start,'mm/dd/yyyy')#<br />
-                    #local.time#
-                </td>
+            <td>&nbsp;</td>
+            <th>Name</th>
+            <th>Email</th>
+            <cfloop from="#DateFormat(DateAdd("d", "-#DayOfWeek(startdate.startdate) - 1#", startdate.startdate), "mm/dd/yyyy")#" to="#enddate.enddate#" index="local.date" step="#CreateTimeSpan(7,0,0,0)#">
+                <th  style="align:center">#dateformat(local.date, "mm/dd/yyyy")#</th>
             </cfloop>
         </tr>
-    </cfloop> 
-</table>
+        
+            <cfloop query="result" group="email">
+                <tr>
+                <td>&nbsp;</td>
+                <td style="width:10%">#name#</td>
+                <td style="width:10%">#email#</td>
+
+                <cfloop from="#DateFormat(DateAdd("d", "-#DayOfWeek(startdate.startdate) - 1#", startdate.startdate), "mm/dd/yyyy")#" to="#enddate.enddate#" index="local.date" step="#CreateTimeSpan(7,0,0,0)#">
+                    <cfset local.fromdate = dateFormat(local.date,'mm/dd/yyyy') />
+                    <cfset local.todate = DateFormat(DateAdd("d",7,local.date),'mm/dd/yyyy') />
+                     <cfset local.count = "" />
+                    <td>
+                        <cfloop group="startdate"> 
+                            <cfset local.startdate = dateFormat(result.startdate,'mm/dd/yyyy') />
+                            <cfset local.enddate = dateFormat(result.enddate,'mm/dd/yyyy') />
+                            <!--- start date is >= column header and < next column header --->
+                            <cfif ( dateCompare(local.startdate, local.fromdate) EQ 1 OR dateCompare(local.startdate, local.fromdate) EQ 0 ) AND ( dateCompare(local.enddate, local.todate) EQ -1 ) >
+                                <cfloop>
+                                    <cfset local.count = listRemoveDuplicates(listAppend(local.count, calltime)) />
+                                </cfloop>
+                            </cfif>
+                        </cfloop>
+                        <cfset local.calltime = 0 />
+                        <cfloop list="#local.count#" item="local.calltime">
+                            <cfset local.calltime += local.calltime />
+                        </cfloop>
+                        #local.calltime#
+                    </td>
+                </cfloop>
+                </tr>
+            </cfloop>
+
+ 
+    </table>
+</cfif>    
 </cfif>	
 </cfoutput>
