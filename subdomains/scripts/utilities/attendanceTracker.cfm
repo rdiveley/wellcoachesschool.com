@@ -151,7 +151,7 @@
             <th>Name</th>
             <th>Email</th>
             <cfloop from="#DateFormat(DateAdd("d", "-#DayOfWeek(startdate.startdate) - 1#", startdate.startdate), "mm/dd/yyyy")#" to="#enddate.enddate#" index="local.date" step="#CreateTimeSpan(7,0,0,0)#">
-                <th  style="align:center">#dateformat(local.date, "mm/dd/yyyy")#</th>
+                <th  style="align:center">#dateformat(local.date, "mm/dd/yyyy")# - #DateFormat(DateAdd("d", "6", local.date), "mm/dd/yyyy")#</th>
             </cfloop>
         </tr>
         
@@ -174,7 +174,6 @@
                             <cfif ( dateCompare(local.startdate, local.fromdate) EQ 1 OR dateCompare(local.startdate, local.fromdate) EQ 0 ) AND ( dateCompare(local.enddate, local.todate) EQ -1 ) >
                                 <cfloop>
                                     <cfset local.count = listRemoveDuplicates(listAppend(local.count, calltime)) />
-                                  
                                 </cfloop>
                             </cfif>
                         </cfloop>
@@ -191,7 +190,7 @@
                                 <cfset local.style="background-color:yellow" />
                             </cfif>
 
-                            <div style="#local.style#">
+                            <div style="#local.style#;padding:5px">
                                 #local.calltime# 
                             </div>
                        
