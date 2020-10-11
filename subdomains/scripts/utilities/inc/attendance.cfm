@@ -1,5 +1,6 @@
 <select name="conferenceId">
     <option value="">-Select Conference-</option>
+    <option value="GH1OQRAH6X53ESY">Wellcoaches Oct 2020 (9wk) cohort</option>
     <option value="KU1YPPO78VTYVQU">Wellcoaches Sept 2020 cohort</option>
     <option value="YHGN8IC1NSBW84TN">Wellcoaches Aug 2020 (9wk) cohort</option>
     <option value="GG1FDN6SMHNE249C">Wellcoaches July 2020 cohort</option>

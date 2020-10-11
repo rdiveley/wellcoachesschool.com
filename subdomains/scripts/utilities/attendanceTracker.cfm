@@ -186,7 +186,7 @@
                             <cfif local.calltime lt 50>
                                 <cfset local.style="background-color:red;color:white" />
                             </cfif>
-                            <cfif local.calltime gt 51 and local.calltime lt 71 >
+                            <cfif local.calltime gt 50 and local.calltime lt 71 >
                                 <cfset local.style="background-color:yellow" />
                             </cfif>
 
