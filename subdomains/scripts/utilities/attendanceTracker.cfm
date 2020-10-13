@@ -1,4 +1,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $( ".conferenceid" ).change(function() {
+       $('#conference').val($(' option:selected').text());
+    });
+});    
+</script>
 <style>
 
 #loading-img {
@@ -48,11 +55,12 @@
 	<cfset local.foundConference = 0>
 
 	<form name="maestroClass" method="post">
-		
+		<input type="hidden" name="conference" id="conference" />
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<cfinclude template="inc/attendance.cfm" />
 		<input type="submit" name="displayAttendance" id="button" value="Show my attendance">
-
+        <input type="checkbox" name="export" value="1">Export
+        
 	</form>
 
 
@@ -142,9 +150,21 @@
     select max(enddate) as enddate
     from result
 </cfquery>
-
+<style>
+    span {
+    font-family: "Arial";
+    font-size: 15px;
+    display: inline-block;
+    vertical-align: top;
+    }
+</style>
 
 <cfif result.recordcount>
+
+<cfif structKeyExists(form, 'export') and form.export EQ 1>
+    <cfheader name="content-disposition" value="inline;filename=AccessToExcelDump.xls">
+    <cfcontent type="application/msexcel">
+</cfif> 
     <table id="customers">
         <tr>
             <td>&nbsp;</td>
@@ -165,6 +185,7 @@
                     <cfset local.fromdate = dateFormat(local.date,'mm/dd/yyyy') />
                     <cfset local.todate = DateFormat(DateAdd("d",7,local.date),'mm/dd/yyyy') />
                     <cfset local.count = "" />
+                   
                     <td>
                         <cfloop group="startdate"> 
                             
@@ -173,6 +194,9 @@
                             <!--- start date is >= column header and < next column header --->
                             <cfif ( dateCompare(local.startdate, local.fromdate) EQ 1 OR dateCompare(local.startdate, local.fromdate) EQ 0 ) AND ( dateCompare(local.enddate, local.todate) EQ -1 ) >
                                 <cfloop>
+                                    <cfif form.conference contains '(9wk)'>
+                                        <span > #dateFormat(local.enddate,'mm/dd')# - <span style="color:green">#calltime#</span> </span><br />
+                                    </cfif>
                                     <cfset local.count = listRemoveDuplicates(listAppend(local.count, calltime)) />
                                 </cfloop>
                             </cfif>
@@ -184,13 +208,13 @@
                         </cfloop>
                             <cfset local.style = "" />
                             <cfif local.calltime lt 50>
-                                <cfset local.style="background-color:red;color:white" />
+                                <cfset local.style="background-color:##F08080" />
                             </cfif>
                             <cfif local.calltime gt 50 and local.calltime lt 71 >
                                 <cfset local.style="background-color:yellow" />
                             </cfif>
 
-                            <div style="#local.style#;padding:5px">
+                            <div style="#local.style#;padding:5px;padding-top:5px">
                                 #local.calltime# 
                             </div>
                        
@@ -198,8 +222,6 @@
                 </cfloop>
                 </tr>
             </cfloop>
-
- 
     </table>
 </cfif>    
 </cfif>	
