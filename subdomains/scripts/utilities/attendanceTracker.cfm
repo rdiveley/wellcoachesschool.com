@@ -162,7 +162,7 @@ $( document ).ready(function() {
 <cfif result.recordcount>
 
 <cfif structKeyExists(form, 'export') and form.export EQ 1>
-    <cfheader name="content-disposition" value="inline;filename=AccessToExcelDump.xls">
+    <cfheader name="content-disposition" value="inline;filename=attendance-#dateFormat(now(),'mm-dd/yyyy')#.xls">
     <cfcontent type="application/msexcel">
 </cfif> 
     <table id="customers">

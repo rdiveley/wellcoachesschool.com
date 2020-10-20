@@ -64,7 +64,7 @@
     <cfmodule template="inc/habits/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/aug2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/july2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-
+    <cfmodule template="inc/habits/oct2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
     <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -78,6 +78,7 @@
     <cfmodule template="inc/residential/feb2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/apr2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/jun2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/residential/oct2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
 
     <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -96,7 +97,6 @@
     <cfmodule template="inc/core/june2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     
-
     <cfmodule template="inc/core/july2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/aug2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     
