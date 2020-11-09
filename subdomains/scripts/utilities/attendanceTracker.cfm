@@ -63,6 +63,7 @@ $( document ).ready(function() {
         
 	</form>
 
+    
 
     <cfif structKeyExists(form, 'displayAttendance')>
         <cfset  myQuery = queryNew("email,name,startdate,enddate,calltime","Varchar,Varchar,Varchar,Varchar,Varchar") />
@@ -197,26 +198,38 @@ $( document ).ready(function() {
                                     <cfif form.conference contains '(9wk)'>
                                         <span > #dateFormat(local.enddate,'mm/dd')# - <span style="color:green">#calltime#</span> </span><br />
                                     </cfif>
-                                    <cfset local.count = listRemoveDuplicates(listAppend(local.count, calltime)) />
+                                    <cfset local.count = listAppend(local.count, calltime) />
                                 </cfloop>
                             </cfif>
                         </cfloop>
                        
                         <cfset local.calltime = 0 />
+                        
                         <cfloop list="#local.count#" item="local.time">
                             <cfset local.calltime = local.calltime + local.time />
                         </cfloop>
                             <cfset local.style = "" />
+
+                        <cfif form.conference contains '(9wk)'>
+                            <cfif local.calltime lte 100>
+                                <cfset local.style="background-color:##F08080" />
+                            </cfif>
+                            <cfif local.calltime gte 102 and local.calltime lte 143 >
+                                <cfset local.style="background-color:yellow" />
+                            </cfif>
+
+                        <cfelse>
                             <cfif local.calltime lt 50>
                                 <cfset local.style="background-color:##F08080" />
                             </cfif>
                             <cfif local.calltime gt 50 and local.calltime lt 71 >
                                 <cfset local.style="background-color:yellow" />
                             </cfif>
+                        </cfif>
 
-                            <div style="#local.style#;padding:5px;padding-top:5px">
-                                #local.calltime# 
-                            </div>
+                        <div style="#local.style#;padding:5px;padding-top:5px">
+                            #local.calltime# 
+                        </div>
                        
                     </td>
                 </cfloop>

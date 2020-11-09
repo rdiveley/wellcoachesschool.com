@@ -35,7 +35,10 @@
    </cfif>
 
 
-    <cfparam name="URL.retake" default="No" />
+
+<!---     
+     
+     <cfparam name="URL.retake" default="No" /> 
 
 
     <cfset memberID = theData['params'][1][1]['Id'] />
@@ -67,12 +70,11 @@
 
      <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
           <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-     </cfhttp>
+     </cfhttp>--->
 
 <cfif URL.score GTE 80>
-	<!---  4226 pass
-	4228 did not pass--->
-   	<cfset contactList = ArrayNew(1)>
+	<!---  27757 pas --->
+    	<cfset contactList = ArrayNew(1)> 
      <cfset contactList[1] = "(int)#theData.Params[1][1]['Id']#">
 
      <cfset contactArray = ArrayNew(1)>
@@ -80,7 +82,7 @@
      <cfset contactArray[1]="APIEmailService.sendEmail"><!---Service.method always first param--->
      <cfset contactArray[2]='fb7d1fc8a4aab143f6246c090a135a41'>
      <cfset contactArray[3]='#contactList#'>
-     <cfset contactArray[4]='(int)4226'>
+     <cfset contactArray[4]='(int)27757'>
 
      <cfinvoke component="utilities/XML-RPC"
          method="CFML2XMLRPC"
@@ -91,7 +93,7 @@
                <cfhttpparam type="XML" value="#getEmailTemplate.Trim()#"/>
          </cfhttp>
 
-          <cfmail to="#URL.examiner_email#;lho@wellcoaches.com;" subject="Practical Exam Results - Pass" from="wellcoaches@wellcoaches.com" type="html">
+          <cfmail to="smyers@wellcoaches.com;" subject="Practical Exam Results - Pass" from="wellcoaches@wellcoaches.com" type="html">
                <p>Hi #URL.concierge#,</p>
                <br />
                <p>
@@ -108,8 +110,8 @@
           Thank you for scoring the Practical Exam.  #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']# has been emailed their results!
 <cfelse>
 
-	<cfmail to="erika@wellcoaches.com" cc="#URL.examiner_email#;#URL.concierge#" subject="Practical Exam Results - No Pass" from="wellcoaches@wellcoaches.com" type="html">
-     	<p>Hi Erika,</p>
+	<cfmail to="smyers@wellcoaches.com" cc="#URL.examiner_email#;#URL.concierge#" subject="Practical Exam Results - No Pass" from="wellcoaches@wellcoaches.com" type="html">
+     	<p>Hi Sam,</p>
           <br />
           <p>
           	Student: #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']#  <br />
