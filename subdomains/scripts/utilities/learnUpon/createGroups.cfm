@@ -1,82 +1,5 @@
 <cfinclude template="credentials.cfm">
-<!--- Learn Upon Group Ids:
 
-86550 = Fundamentals of Lifestyle Medicine 
-92767 = NBC-HWC Exam Preparation 2018 
-121229 = Core Coach Training - Knowledge Assessment for September 2018 Cohort 
-122134 = Core Coach Training - 18 Week Teleclasses
-122751 = Core Coach Training - 4-day Residential 
-124692 = Member Classes
-132795 = Core Coach Training: Module 1 - January 2019
-132796 = Core Coach Training: Module 1 (Mar 2019 Cohort)
-133227 = Core Coach Training: Module 2
-134579 = Professional Coach Training 2019
-135804 = Burnout Prevention Program for Physicians
-133731 = Core Coach Training: Module 1  (University of California of PA)
-133732 = Core Coach Training: Module 1  (University of Wisconsin)
-138684 = Core Coach Training: Module 1  (May 2019 cohort)
-143303 = Core Coach Training: Module 1 (August 2019: 4-day residential)
-158563 = Core Coach Training: Module 1  (September 2019 cohort)
-165525 = Core Coach Training: Module 1 (Singapore 2019)
-172370 = Core Coach Training: Module 1 (Feb 2020: 4-day residential)
-133731 = Core Coach Training: Module 1  (California Univ of PA)
-166047 = Professional Coach Training 2020
-196765 = Core Coach Training: Module 1 (April 2020: 4-day residential)
-133730 = Core Coach Training: Module 2 (California University of PA)
-133731 = Core Coach Training: Module 1  (California Univ of PA)
---->
-
-<!--- IS tags:
-
-1382 Wellcoaches Operations Team
-1384 Wellcoaches Faculty
-1826 I have a Membership Paid
-3054 I have a Membership Free
-7892 Free Trainee Membership Access to CH
-9821 LM Mod 4 Complimentary
-9831 LM Mod 4 Course Access
-9777 NBC-HWC Preparation Course
-10371 Core Jan2019 Mod 1*
-10145 PCTP Jan 2019
-10910	Res Apr2019 [Marina CA] Mod 1*
-10480 Res Dec2018 [Bemidji] Mod 1
-10610 Res Feb2019 [Ft Worth] Mod 1*
-10706 Knowledge Assessment_Sep2018
-10732 Core Mar2019 Mod 1*
-11372 CalU Jan2019 [714]
-11108 Res Aug2019 [Indy IN] Mod 1*
-11384 CalU Jan2019 Final Notice
-11420 UWM Core Jan2019        
-11649 LU Access to Mod 1 [Universities] 
-11909 Core Sep2019 Mod 1*
-9617  CH LearnUpon Access to Module 2
-11448 Burnout Prevention Program (BPP)
-11458  Core May2019 Mod 1*
-11012 Res Jun2019 [Asheville NC] Mod 1*
-11669	Core Jul2019 Mod 1*
-11204	Res Oct2019 [Naples FL] Mod 1*
-12383	Res Jul2019 [Singapore] Mod 1*
-12229	Core Nov2019 Mod 1*
-12319 CH Access to Burnout Prevention
-12649    Res Feb2020 [AZ] Mod 1*
-12583    CalU Aug2019 [714]
-12877	Res Dec2019 [OH] Mod 1*s
-12771	Core Jan2020 Mod 1*
-13001	Core Feb2020 Mod 1*
-12535   PCTP Jan2020
-13237 	Res Apr2020 [FL] Mod 1*
-200614 	Core Coach Training: Module 1  (Mar 2020 cohort)
-200727 Core Coach Training: Module 1  (April 2020 cohort)
-
-13671	CalU Jan2020 [714]
-13673	CalU Jan2020 [754]
-13673	CalU Jan2020 [754]
-13489	Core May2020 Mod 1*
-13577	Res Jun2020 [NC] Mod 1*
-
-
-
---->
 
 <cfif structKeyExists(form,'email')>
 	<cfset URL.email = FORM.email>
@@ -208,6 +131,19 @@
     <cfset myArray[3]=URL.email>
     <cfset myArray[4]=selectedFieldsArray>
 
+    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset selectedFieldsArray = ArrayNew(1)>
+    <cfset selectedFieldsArray[1] = "Id">
+    <cfset selectedFieldsArray[2] = "FirstName">
+    <cfset selectedFieldsArray[3] = "LastName">
+	<cfset selectedFieldsArray[4] = "Password">
+	<cfset selectedFieldsArray[5] = "Groups">
+    <cfset myArray = ArrayNew(1)>
+    <cfset myArray[1]="ContactService.findByEmail"><!----Service.method always first param---->
+    <cfset myArray[2]=key>
+    <cfset myArray[3]=URL.email>
+    <cfset myArray[4]=selectedFieldsArray>
+
     <cfinvoke component="utilities/XML-RPC"
         method="CFML2XMLRPC"
         data="#myArray#"
@@ -222,39 +158,13 @@
         data="#myResult1.Filecontent#"
         returnvariable="theData2">
 
-
-		
 	<cfif !arrayLen(theData2['Params'][1])>
 		User <cfoutput>#URL.email#</cfoutput> does not exist in our records.<br /><cfabort />
 	</cfif>
 
-	<cfset local.userInfo = theData2['Params'][1][1]>
+	<cfset local.userInfo = theData2.Params[1][1]>
+	<cfset local.tagList =  theData2.Params[1][1]['Groups'] />
 
-	<!--- get their tags --->
-	<cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Groups">
-
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.load"><!----Service.method always first param---->
-    <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
-    <cfset myArray[3]='(int)#local.userInfo["Id"]#'>
-    <cfset myArray[4]=selectedFieldsArray>
-
-    <cfinvoke component="utilities/XML-RPC"
-        method="CFML2XMLRPC"
-        data="#myArray#"
-        returnvariable="myPackage4">
-
-    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-    </cfhttp>
-
-    <cfinvoke component="utilities/XML-RPC"
-            method="XMLRPC2CFML"
-            data="#result.Filecontent#"
-            returnvariable="theData">
-
-    <cfset local.tagList =  theData.Params[1]['Groups'] />
 
 	<cfset local.assignGroups = "">
 

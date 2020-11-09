@@ -47,7 +47,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
 
- <cfset allsurveys = "5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+ <cfset allsurveys = "5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
    <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
@@ -85,7 +85,8 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 				<cfset emailParam = "[question(93)]" />		
 		<cfelseif Find(5508580,column)  OR Find(5664658,column) OR Find(5769769,column) >
 				<cfset emailParam = "[question(35)]" />	
-												
+		<cfelseif Find(5820302,column)  >
+				<cfset emailParam = "[question(93)]" />											
         </cfif>
 		<!--- https://apihelp.surveygizmo.com/help/surveyresponse-sub-object#filtering --->
 
@@ -156,13 +157,17 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 				<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 			</cfif>
 			   
-			<cfif column eq 4238384>
+			<cfif column eq 4238384 >
 				<cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(43)]']  )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(93)]'] )/>
 			</cfif>
+
+			<cfif column eq 5820302 >
+				<cfset temp = QuerySetCell(SurveyList,"lesson", 'Wellcoaches Behavior Change Agent'  )/>
+				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(93)]'] )/>
+			</cfif>
 			
-			
-			
+		
             <cfif column eq 1994464>
          		<cfset temp = QuerySetCell(SurveyList,"lesson", 'organize your mind online+mobile course - Feedback Survey' )/>
             </cfif>
@@ -311,7 +316,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 		<cfset local.habits = 0>
 		<cfset local.module1 = 0>
 		<cfset local.module2 = 0>
-    	 <cfloop query="results">
+    	 <cfloop query="results" group="lesson">
 
 
 	         <form action="./surveyPDF.cfm" name="openPDF#id#" method="post">
@@ -421,7 +426,10 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 										<cfset total = total + 0>
 								<cfelseif surveyTitle eq 4320651 >
 										18
-	                            		<cfset total = total + 18>		
+										<cfset total = total + 18>		
+								<cfelseif surveyTitle eq 5820302 >
+										5.5
+	                            		<cfset total = total + 5.5>		
 								<cfelseif surveyTitle eq 1994464>
 								 	4
 									<cfset total = total + 4>
