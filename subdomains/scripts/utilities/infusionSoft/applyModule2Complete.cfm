@@ -70,6 +70,10 @@
    <cfmodule template="inc/module2/aug2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/oct2020Virtual.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/nov2020Australia.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/sept2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/oct2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/nov2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
   
 
 

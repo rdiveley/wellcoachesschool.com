@@ -2,41 +2,52 @@
 <!--- coach2 details to coach1  --->
 <cfquery name="local.insert" datasource="wellcoachesschool">
     update coach2coach
-    set coach = '#url.coach2#'
-    where email = '#url.coach1#'
+    set coach = '#url.coach#'
+    ,client = '#url.client#'
+    where email = '#url.coach#'
 </cfquery>
 
-<cfquery name="local.coach1" datasource="wellcoachesschool">
+<cfquery name="local.coach" datasource="wellcoachesschool">
     select *
     from coach2coach
-    where email = '#url.coach1#'
+    where email = '#url.coach#'
 </cfquery>
 
-<cfquery name="local.coach2" datasource="wellcoachesschool">
+<cfquery name="local.client" datasource="wellcoachesschool">
     select *
     from coach2coach
-    where email = '#url.coach2#'
+    where email = '#url.client#'
 </cfquery>
 
-#local.coach1.email#
+
 <cfmail to="rdiveley@wellcoaches.com"
     from="wellcoaches@wellcoaches.com"
     subject="Confirmation email"
     type="html">
 
-    <p>#local.coach1.name#,</p>
+    <p>#local.coach.name#,</p>
 
-    <p>#local.coach2.name# has confirmed their interest.</p>
+    <p>#local.client.name# has confirmed coach to coach agreement.  </p>
 
-    <p>#local.coach2.name# preferes: #local.coach2.availability# #local.coach2.preference# and is located in #local.coach2.location#</p>
+    <p>Coach: #local.coach.name# preferes: #local.coach.availability# #local.coach.preference# and is located in #local.coach.location#  Please be sure to complete this form if you are the coach: <a target="_blank" href="https://my982.infusionsoft.app/app/form/coach-to-coach-agreement-coach?">Coach Form</a></p>
 
-    <p>You may contact #local.coach2.name# at: #local.coach2.phone#</p>
+    <p>Client: #local.client.name# preferes: #local.client.availability# #local.client.preference# and is located in #local.client.location#  Please be sure to complete this form if you are the client: <a target="_blank" href="https://my982.infusionsoft.app/app/form/coach-to-coach-agreement---client?">Client Form</a></p>
+
+    <p>Contact information: <br />
+        <br>
+        Coach: #local.coach.name# at phone: #local.coach.phone# or email at: #local.coach.email#
+        <br /><br />
+        <p>Client: #local.client.name# at phone: #local.client.phone# or email at: #local.client.email#</p>
+
+    </p>
+
+    
 
     <p>Thank you.</p>
 
 </cfmail>
 
-An email has been sent to #url.coach1# confirming your pairing.
+An email has been sent to confirming your pairing.
 
 
 

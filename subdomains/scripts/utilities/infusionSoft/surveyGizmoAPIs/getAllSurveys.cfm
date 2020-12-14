@@ -46,8 +46,8 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 <!---<cftry>--->
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
-
- <cfset allsurveys = "5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,1382009,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+<!--- Removed Practical skill assesment for now  1382009 --->
+ <cfset allsurveys = "5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
    <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
@@ -285,14 +285,12 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
       select distinct email, hours, id, lesson, premiumhours, score, surveyTitle, originaldate, datesubmitted
 	  from SurveyList
       <cfif isDate(renewedDate) AND isDate(REcertEndDate) AND !structKeyExists(url,'concierge')>
-      	where cast(datesubmitted AS DATE) >= <cfqueryparam cfsqltype="cf_sql_date" value="#renewedDate#">
-           AND cast(datesubmitted AS DATE) <= <cfqueryparam cfsqltype="cf_sql_date" value="#REcertEndDate#">
+      <!---	where cast(datesubmitted AS DATE) >= <cfqueryparam cfsqltype="cf_sql_date" value="#renewedDate#">
+           AND cast(datesubmitted AS DATE) <= <cfqueryparam cfsqltype="cf_sql_date" value="#REcertEndDate#"> --->
       </cfif> 
       order by datesubmitted desc
     </cfquery>
 
-<!--- CFDUMP: Debugging by rdiveley --->
-<cfdump var="#results#" abort="true" format="html" output="" top="3">
 
 <cfif local.results.recordcount EQ 0>
      You currently have no records.

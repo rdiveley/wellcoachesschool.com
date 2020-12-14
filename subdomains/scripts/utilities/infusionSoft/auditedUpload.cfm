@@ -13,15 +13,15 @@
      <cffile
         action="upload"
         nameconflict="overwrite"
-        destination="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#.#extension#"
+        destination="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"
         filefield="fileUpload">
 
-
+        
 		<cfif NOT ListFind(acceptedMimeType,lcase(listLast(CFFILE.clientFile,".")))>
             Please only upload files of type: docx, xlsx, xls, doc, pdf <br>
             <cffile
                 action="DELETE"
-                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#.#extension#"/>
+                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"/>
             <a href="javascript:history.go(-1)"> &lt;&lt;Back</a>
             <cfabort>
         <cfelseif CFFILE.FileSize GT (5 * 1024 * 1024)>
@@ -29,14 +29,14 @@
             <a href="histor.go(-1)"> &lt;&lt;Back</a>
              <cffile
                 action="DELETE"
-                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#.#extension#"/>
+                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"/>
                  <a href="javascript:history.go(-1)"> &lt;&lt;Back</a><cfabort>
                 <cfabort>
 
         </cfif>
 
 
-        <cffile action="readbinary" file="#expandPath('./temp/#TempfileName#.#extension#')#" variable="readFile">
+        <cffile action="readbinary" file="#expandPath('./temp/#TempfileName#')#" variable="readFile">
 		<cfset TempfileName = listdeleteat(TempfileName,1,"_")>
 
 	    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">

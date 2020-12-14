@@ -73,7 +73,7 @@
      </cfhttp>--->
 
 <cfif URL.score GTE 80>
-	<!---  27757 pas --->
+	<!---  27757 pass
     	<cfset contactList = ArrayNew(1)> 
      <cfset contactList[1] = "(int)#theData.Params[1][1]['Id']#">
 
@@ -91,10 +91,10 @@
 
          <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
                <cfhttpparam type="XML" value="#getEmailTemplate.Trim()#"/>
-         </cfhttp>
+         </cfhttp> --->
 
           <cfmail to="smyers@wellcoaches.com;" subject="Practical Exam Results - Pass" from="wellcoaches@wellcoaches.com" type="html">
-               <p>Hi #URL.concierge#,</p>
+               <p>Hi Sam,</p>
                <br />
                <p>
                     Student: #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']#  <br />
