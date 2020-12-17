@@ -51,6 +51,7 @@
     <cfmodule template="inc/core/DGApr2020SG.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" /> 
     <cfmodule template="inc/core/july2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  />
     <cfmodule template="inc/core/aug2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  /> 
+    <cfmodule template="inc/core/sept2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  />
     <cfmodule template="inc/core/oct2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  /> 
     <cfmodule template="inc/core/nov2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  /> 
     
