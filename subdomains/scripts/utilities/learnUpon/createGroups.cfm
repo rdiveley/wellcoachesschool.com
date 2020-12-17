@@ -7,7 +7,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
- <cfset local.group_id = "383008,345594,357954,345594,133730,133731,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+ <cfset local.group_id = "394270,383008,345594,357954,345594,133730,133731,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 
 <!--- 2. create the associated tags to the groups --->
 
@@ -111,7 +111,8 @@
 <cfset local.LU345594_tags = "15644,15646,1382,1384" />
 <!--- Core Coach Training: Module 1  (Feb 2021 9-wk cohort)s --->
 <cfset local.LU383008_tags = "15762,15646,1382,1384" />
-
+<!--- 15942	Core Mar2021 Mod 1* --->
+<cfset local.LU394270_tags = "15942,1382,1384" />
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
@@ -121,17 +122,7 @@
 	</cfloop>
 </cfloop>
 
-	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-    <cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Id">
-    <cfset selectedFieldsArray[2] = "FirstName">
-    <cfset selectedFieldsArray[3] = "LastName">
-	<cfset selectedFieldsArray[4] = "Password">
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.findByEmail"><!----Service.method always first param---->
-    <cfset myArray[2]=key>
-    <cfset myArray[3]=URL.email>
-    <cfset myArray[4]=selectedFieldsArray>
+	
 
     <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
     <cfset selectedFieldsArray = ArrayNew(1)>
