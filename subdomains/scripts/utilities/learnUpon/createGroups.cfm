@@ -127,7 +127,6 @@
 	</cfloop>
 </cfloop>
 
-	
 
     <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
     <cfset selectedFieldsArray = ArrayNew(1)>
