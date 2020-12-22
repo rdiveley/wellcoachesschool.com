@@ -59,7 +59,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
         	<cfset emailParam = "[question(9), option(0)]" />
         <cfelseif Find(1117522,column)>
          	<cfset emailParam = "[question(11)]" />
-		<cfelseif Find(1026874,column)>
+		<cfelseif Find(1026874,column) OR Find(5664658, column)>
          	<cfset emailParam = "[question(9), option(0)]" />
         <cfelseif Find(1117550,column)>
          	<cfset emailParam = "[question(17)]" />
@@ -113,6 +113,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 		    <cfparam name="field['[question(6)]']" default="">
             <cfparam name="field['[question(8)]']" default="">
 			<cfparam name="field['[question(9)]']" default="">
+			<cfparam name="field['[question(9), option(0)]']" default="">
 			<cfparam name="field['[question(11)]']" default="">
 			<cfparam name="field['[question(16), option(0)]']" default="">
 			<cfparam name="field['[question(17)]']" default="">
@@ -128,6 +129,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
             <cfparam name="field['[question(43)]']" default="">
           	<cfparam name="field['[question(61)]']" default="">
 			<cfparam name="field['[question(93)]']" default="">
+			<cfparam name="field['[question(80)]']" default="">
 
 			<cfif column eq 1144369 AND len(field['[question(49)]'])>
 				<cfset temp = QuerySetCell(SurveyList,"dateSubmitted", field['[question(49)]'] )/>
@@ -186,7 +188,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
             <cfelseif column eq 1117522>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(3)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['#emailParam#'] )/>
-            <cfelseif column eq 1026874>
+            <cfelseif column eq 1026874 OR column eq 5664658>
 
             	 <cfif (field['[question(29)]'] eq 'Other' OR field['[question(29)]'] eq '') AND len(field['[question(30)]'])>
                 	<cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(30)]'] )/>
@@ -199,7 +201,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
                 </cfif>
 
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
-
+				
                 <cfset temp = QuerySetCell(SurveyList,"PremiumHours", field['[question(80)]'] )/>
 
                 <cfset temp = QuerySetCell(SurveyList,"email", field['#emailParam#'] )/>
@@ -439,7 +441,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 								<cfelseif surveyTitle eq 1117550>
 	                                7.5
 	                                <cfset total = total + 7>
-	                            <cfelseif surveyTitle eq 1026874 AND datePart('yyyy',datesubmitted) GTE '2016' >
+	                            <cfelseif (surveyTitle eq 1026874 OR surveyTitle eq 5664658) AND datePart('yyyy',datesubmitted) GTE '2016' >
 								 <!---clear the subtotal when it's a new month--->
 	                                    <cfif currentMonthYear NEQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
 	                                        <cfset subtotal = 0 />
