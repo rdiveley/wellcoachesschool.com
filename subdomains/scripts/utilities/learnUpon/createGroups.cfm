@@ -7,7 +7,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
- <cfset local.group_id = "397128,133730,133731,394270,383008,345594,357954,345594,133730,133731,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+ <cfset local.group_id = "399396,397128,133730,133731,394270,383008,357954,345594,133730,133731,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 
 <!--- 2. create the associated tags to the groups --->
 
@@ -103,12 +103,10 @@
 <cfset local.LU133730_tags = "15445,1382,1384" />
 <!--- : Core Coach Training: Module 1 (California Univ of PA) --->
 <cfset local.LU133731_tags = "15443,15445,1382,1384" />
-<!--- BCA Course [Purchased]--->
-<cfset local.LU345594_tags = "15644,1382,1384" />
 <!--- Core Coach Training: Module 1  (Jan 2021 cohort)--->
 <cfset local.LU357954_tags = "15506,1382,1384" />
 <!--- behavior change agent --->
-<cfset local.LU345594_tags = "15644,15646,1382,1384" />
+<cfset local.LU345594_tags = "15644,15660,1382,1384" />
 <!--- Core Coach Training: Module 1  (Feb 2021 9-wk cohort)s --->
 <cfset local.LU383008_tags = "15762,15646,1382,1384" />
 <!--- 15942	Core Mar2021 Mod 1* --->
@@ -119,6 +117,9 @@
 <cfset local.LU133730_tags = "16438,1382,1384" />
 <!--- 16138 Core Coach Training: Module 1  (April 2021 9-wk cohort)--->
 <cfset local.LU397128_tags = "16138,1382,1384" />
+<!--- Core Coach Training: Module 1  (Apr 2021, 4-Friday  cohort) --->
+<cfset local.LU399396_tags = "16044,1382,1384" />
+
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
 	<cfset 'local.LU#local.id#' = {} />

@@ -427,8 +427,8 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 										&mdash;
 										<cfset total = total + 0>
 								<cfelseif surveyTitle eq 4320651 >
-										18
-										<cfset total = total + 18>		
+										21.5
+										<cfset total = total + 21.5>		
 								<cfelseif surveyTitle eq 5820302 >
 										5.5
 	                            		<cfset total = total + 5.5>		

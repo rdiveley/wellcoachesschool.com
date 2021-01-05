@@ -1,6 +1,7 @@
 <cfparam name="form.conferenceid" default="" />
 <select name="conferenceId" class="conferenceid">
     <option value="">-Select Conference-</option>
+    <option value="QLC4QKW6LYIPFWXT" <cfif form.conferenceid EQ 'QLC4QKW6LYIPFWXT'>selected</cfif>>Wellcoaches Jan 2021 cohort </option>
     <option value="ST8FEX3T5SW13FWB" <cfif form.conferenceid EQ 'ST8FEX3T5SW13FWB'>selected</cfif>>Wellcoaches Nov 2020 cohort </option>
     <option value="GH1OQRAH6X53ESY" <cfif form.conferenceid EQ 'GH1OQRAH6X53ESY'>selected</cfif>>Wellcoaches Oct 2020 (9wk) cohort</option>
     <option value="KU1YPPO78VTYVQU" <cfif form.conferenceid EQ 'KU1YPPO78VTYVQU'>selected</cfif>>Wellcoaches Sept 2020 cohort</option>
@@ -20,10 +21,5 @@
     <option value="7XHU8ZC1PQ5Y880V" <cfif form.conferenceid EQ '7XHU8ZC1PQ5Y880V'>selected</cfif>>Wellcoaches Sept 2019 Module 1 training </option>
     <option value="PJIR1M5WJIK33LZE" <cfif form.conferenceid EQ 'PJIR1M5WJIK33LZE'>selected</cfif>>Wellcoaches July 2019 Module 1 training </option>
     <option value="H0XTS36RWDCVXPM1" <cfif form.conferenceid EQ 'H0XTS36RWDCVXPM1'>selected</cfif>>Wellcoaches May 2019 Module 1 training </option>
-    <option value="I1Y0T00QO8JNGBPX" <cfif form.conferenceid EQ 'I1Y0T00QO8JNGBPX'>selected</cfif>>Wellcoaches January 2019 Module 1 Training</option>
     <option value="SCPNN5HU1U4OWN7" <cfif form.conferenceid EQ 'SCPNN5HU1U4OWN7'>selected</cfif>>Wellcoaches March 2019 Module 1 Training</option>
-    <option value="MYTFRE7MJS0E5ITB" <cfif form.conferenceid EQ 'MYTFRE7MJS0E5ITB'>selected</cfif>>Professional Coach Training - January - September 2019</option>
-    <option value="5TLFE4S6SBS46OI1" <cfif form.conferenceid EQ '5TLFE4S6SBS46OI1'>selected</cfif>>CalU HWC PRF714 With Christina</option>
-    <option value="A0WFG2KYUKRBQJ1S" <cfif form.conferenceid EQ 'A0WFG2KYUKRBQJ1S'>selected</cfif>>HWC Competencies PRF754 with Christina</option>
-    <option value="FIFXMRQEK4KK8QM1" <cfif form.conferenceid EQ 'FIFXMRQEK4KK8QM1'>selected</cfif>>UWM HWC Competencies With Christina</option>
 </select>
