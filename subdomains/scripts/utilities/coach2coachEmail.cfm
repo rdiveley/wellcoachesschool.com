@@ -1,6 +1,8 @@
 <cfoutput>
 
 
+
+
 <!---   the coach doing the asking --->
 <cfquery name="local.coach1" datasource="wellcoachesschool">
     select * 

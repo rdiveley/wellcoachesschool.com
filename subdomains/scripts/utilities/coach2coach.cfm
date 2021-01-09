@@ -37,7 +37,7 @@
             </div>
             <div class="showform" style="display:none">
                 <div class="form-group">
-                    <label for="user">Name:</label>
+                    <label for="user">Full Name:</label>
                     <input type="text" name="name" class="form-control" id="user" required="true">
                 </div>
                 <div class="form-group">
@@ -167,7 +167,7 @@
     </form>
 </div>
 <cfoutput>
-    <cfif structKeyExists(form, 'email')>
+    <cfif structKeyExists(form, 'email') and LEN(form.email)>
 
         <cfquery name="insertPref" datasource="wellcoachesschool">
             insert into coach2coach
@@ -197,7 +197,7 @@
         </cfquery>    
 
         <cflocation url="http://#cgi.server_name#/utilities/coach2coachList.cfm?email=#form.email#&tz=#form.timezone#" />
-</cfif>
+    </cfif>
     
 
     
