@@ -40,7 +40,7 @@
 <cfquery name="checkexisting" datasource="wellcoachesschool">
     select * 
     from coach2coach
-    where email = '#url.email#'
+    where email = <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
 <cfset local.showBtn = TRUE />
 
@@ -48,7 +48,7 @@
 <cfquery name="getcoaches" datasource="wellcoachesschool">
     select * 
     from coach2coach
-    where coach IS NULL
+    where (complete IS NULL OR complete = 0)
     order by ABS(timezone - (#url.tz#)) #local.sort#, email
 </cfquery>
 
@@ -56,13 +56,26 @@
 <div class="container bs-example col-md-6" >
     <cfif LEN(checkexisting.coach)>
         <cfset local.showBtn = FALSE />
-        <h3 style="color:red">You have been matched with #checkexisting.coach# please notify your concierge if you would like to make a change.</h3>
+        <div class="alert alert-danger" role="alert">
+            You have been matched with #checkexisting.coach# please notify your concierge if you would like to make a change.
+        </div>
+    </cfif>
+    <cfif structKeyExists(url, 'message') AND url.message EQ 1>
+        <div class="alert alert-success" role="alert">
+            You have opted to receive emails 
+        </div>
+    </cfif>
+    <cfif structKeyExists(url, 'message') AND url.message EQ 2>
+        <div class="alert alert-danger" role="alert">
+            You must be either be a coach or a client, please select again.
+        </div>
     </cfif>
 
     <cfif getcoaches.recordcount gte 2>
         <form method="post" action="coach2coachEmail.cfm" >
             <!---  coach expressing interest --->
             <input type="hidden" name="email" value="#url.email#" />
+            <input type="hidden" name="tz" value="#url.tz#" />
             <table class="table table-bordered sortable">
             <thead>
             <tr>
@@ -102,15 +115,19 @@
            
         </table>
         <cfif local.showBtn>
-            <button type="submit" class="btn btn-primary" name="sendEmail">Send Email</button> 
+            <button type="submit" class="btn btn-primary" name="sendEmail">Confirm</button> 
             <button type="button" class="btn btn-secondary reset" name="clear">Clear</button> 
         </cfif>
         </form>
     <cfelse>
         <cfif structKeyExists(url, 'message') AND url.message EQ 1>
-            <h3>You will be notified via email when new coaches register.</h3>   
+            <div class="alert alert-success" role="alert">
+                You will be notified via email when new coaches register.
+            </div> 
         <cfelse>
-            <h3>There are no coaches that currently match your criteria</h3>   
+            <div class="alert alert-danger" role="alert">
+                There are no coaches that currently match your criteria
+            </div> 
 
         </cfif>
     </cfif>
@@ -156,6 +173,7 @@ $( document ).ready(function() {
             $('[data-coach="'+email+'"]').prop('checked',false);
         }
     });
+    
     $(".reset").click(function() {
         $('input[name="coach"]').prop('checked', false);
         $('input[name="client"]').prop('checked', false);

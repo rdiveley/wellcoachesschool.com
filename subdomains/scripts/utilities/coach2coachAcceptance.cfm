@@ -1,24 +1,39 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href="https://drvic10k.github.io/bootstrap-sortable/Contents/bootstrap-sortable.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.js"></script>
+
+<script src="https://drvic10k.github.io/bootstrap-sortable/Scripts/bootstrap-sortable.js"></script>
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
 <cfoutput>
 <!--- coach2 details to coach1  --->
 <cfquery name="local.insert" datasource="wellcoachesschool">
     update coach2coach
-    set coach = '#url.coach#'
-    ,client = '#url.client#'
-    where email = '#url.coach#'
+    set coach = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
+    ,client = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
+    ,complete = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    where email = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
+
 
 <cfquery name="local.coach" datasource="wellcoachesschool">
     select *
     from coach2coach
-    where email = '#url.coach#'
+    where email = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
 
 <cfquery name="local.client" datasource="wellcoachesschool">
     select *
     from coach2coach
-    where email = '#url.client#'
+    where email = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
-
 
 <cfmail to="rdiveley@wellcoaches.com"
     from="wellcoaches@wellcoaches.com"
@@ -27,7 +42,7 @@
 
     <p>#local.coach.name#,</p>
 
-    <p>#local.client.name# has confirmed coach to coach agreement.  </p>
+    <p>#local.client.name# has confirmed the coach to coach agreement.  </p>
 
     <p>Coach: #local.coach.name# preferes: #local.coach.availability# #local.coach.preference# and is located in #local.coach.location#  Please be sure to complete this form if you are the coach: <a target="_blank" href="https://my982.infusionsoft.app/app/form/coach-to-coach-agreement-coach?">Coach Form</a></p>
 
@@ -47,7 +62,12 @@
 
 </cfmail>
 
-An email has been sent to confirming your pairing.
+
+
+<div class="alert alert-success" role="alert">
+    An email has been sent to confirming your pairing.
+</div>
+
 
 
 

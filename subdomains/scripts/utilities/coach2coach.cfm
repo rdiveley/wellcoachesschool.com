@@ -14,6 +14,18 @@
 </head>
 <body>
 
+<cfquery name="local.checkExisting" datasource="wellcoachesschool">
+    select email
+            ,complete
+            ,timezone
+    from coach2coach
+    where email= <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_NVARCHAR">
+    and complete  = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+</cfquery>
+
+<cfif local.checkExisting.recordcount>
+    <cflocation  url="coach2coachList.cfm?email=#local.checkExisting.email#&tz=#local.checkExisting.timezone#">
+</cfif>
 
 <script>
     $( document ).ready(function() {
@@ -168,6 +180,33 @@
 </div>
 <cfoutput>
     <cfif structKeyExists(form, 'email') and LEN(form.email)>
+
+        
+    <cfquery name="local.notifycoach" datasource="wellcoachesschool">
+        select *
+        from coach2coach
+        where optin = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    </cfquery>
+
+    <cfif local.notifycoach.recordcount>
+        <cfmail to="#local.notifycoach.email#" 
+            from="wellcoaches@wellcoaches.com"
+            subject="New coach register"
+            type="html">
+
+            <p>This email is to inform you that a new coach has registered.</p>
+            <p>Coach: #form.name#</p>
+            <p>Location: #form.location#</p>
+            <p>Availability: #form.availability#</p>
+            <p>Preference: #form.preference#</p>
+            
+            <p>If you wish to no longer receive this notification click <a href="http://#cgi.server_name#/utilities/coach2coachOptOut.cfm?coach=#local.notifycoach.email#">here</a></p>
+
+            <p>Thank you.</p>
+
+        </cfmail>
+    </cfif>
+
 
         <cfquery name="insertPref" datasource="wellcoachesschool">
             insert into coach2coach
