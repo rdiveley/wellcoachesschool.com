@@ -4,6 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <br />
+<cfparam name="local.dsn" default="wellcoachesschool" />
 <cfoutput>
     <p>Use this form to clear the coach, client and completed fields.</p>
 <form method="post" >
@@ -19,9 +20,8 @@
 
 
 <cfif structKeyExists(form, 'email') and len(form.email)>
-    <cfquery name="local.notifycoach" datasource="wellcoachesschool">
+    <cfquery name="local.notifycoach" datasource="#local.dsn#">
         update coach2coach
-        set complete = NULL
         ,coach = NULL
         ,client = NULL
         where email = <CFQUERYPARAM VALUE="#form.email#" CFSQLType="CF_SQL_VARCHAR">

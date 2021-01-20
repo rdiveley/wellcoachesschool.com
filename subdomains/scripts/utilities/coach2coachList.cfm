@@ -18,6 +18,7 @@
 
 <cfparam name="url.tz" default="1" />
 <cfparam name="url.email" default="" />
+<cfparam name="local.dsn" default="wellcoachesschool" />
 
 <style>
     .bs-example{
@@ -37,27 +38,31 @@
         <cfset local.sort = 'desc' />
    </cfif>
 
-<cfquery name="checkexisting" datasource="wellcoachesschool">
+<cfquery name="checkexisting" datasource="#local.dsn#">
     select * 
     from coach2coach
     where email = <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_VARCHAR">
+    and clientAgree =  <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT"> 
+    and coachAgree = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT"> 
 </cfquery>
 <cfset local.showBtn = TRUE />
 
 
-<cfquery name="getcoaches" datasource="wellcoachesschool">
+<cfquery name="getcoaches" datasource="#local.dsn#">
     select * 
     from coach2coach
-    where (complete IS NULL OR complete = 0)
+    where (client <> <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_VARCHAR">  OR client IS NULL)
+    and email != <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_VARCHAR">
     order by ABS(timezone - (#url.tz#)) #local.sort#, email
 </cfquery>
 
 
-<div class="container bs-example col-md-6" >
-    <cfif LEN(checkexisting.coach)>
+<div class="container bs-example  >
+    <div class="col-md-6">
+    <cfif checkexisting.recordcount>
         <cfset local.showBtn = FALSE />
-        <div class="alert alert-danger" role="alert">
-            You have been matched with #checkexisting.coach# please notify your concierge if you would like to make a change.
+        <div class="alert alert-success" role="alert">
+            You have been matched with client/volunteer: #checkexisting.client#<br />
         </div>
     </cfif>
     <cfif structKeyExists(url, 'message') AND url.message EQ 1>
@@ -71,11 +76,12 @@
         </div>
     </cfif>
 
-    <cfif getcoaches.recordcount gte 2>
+    <cfif getcoaches.recordcount>
         <form method="post" action="coach2coachEmail.cfm" >
             <!---  coach expressing interest --->
             <input type="hidden" name="email" value="#url.email#" />
             <input type="hidden" name="tz" value="#url.tz#" />
+            <input type="hidden" name="coach" value="#url.email#" />
             <table class="table table-bordered sortable">
             <thead>
             <tr>
@@ -86,7 +92,6 @@
                 <th scope="col">Preference</th>
                 <th scope="col">Timezone</th>
                 <cfif local.showBtn>
-                    <th>Select Coach</th>
                     <th>Select Client</th>
                 </cfif>
             </tr>
@@ -105,7 +110,6 @@
                         <td>#getcoaches.location#</td>
                         <!--- proposed coach --->
                         <cfif local.showBtn>
-                            <td><input type="radio" name="coach" class="selectcoachclient"   data-coach="#getcoaches.email#" value="#getcoaches.email#" required></td>
                             <td><input type="radio" name="client" class="selectcoachclient" data-client="#getcoaches.email#" value="#getcoaches.email#" required></td>
                         </cfif>
                     </tr>
@@ -131,37 +135,85 @@
 
         </cfif>
     </cfif>
+</div>
 
+<cfquery name="checkexisting" datasource="#local.dsn#">
+    select * 
+    from coach2coach
+    where email = <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_VARCHAR">
+    
+</cfquery>
+
+<div class="col-md-6">
+    <cfif checkexisting.optin NEQ 1>
+        <form class="bs-example">
+            <input type="hidden" name="email" id="coachemail" value="#url.email#">
+            <input type="hidden" name="tz" id="coachtz" value="#url.tz#">
+            
+                <table>
+                    <tr>&nbsp;</tr>
+                    <tr>
+                        <td>If you wish to be notified when new coaches register, please 'opt-In' and confirm.</td>
+                    </tr>
+                    <tr>
+                        <td> <input type="checkbox" class="radioOptIn" value="1" name="optin" <cfif checkexisting.optin EQ 1>checked</cfif>> Opt-In (to receive notifications) </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-primary confirmoptin" name="sendEmail">Confirm</button> 
+                        </td>
+                    </tr>
+                    
+                </table>
+            
+        </form>
+    </cfif>
 </div>    
+</div>
 
-
-
-<form action="coach2coachOptin.cfm" method="post" class="bs-example">
-    <input type="hidden" name="email" value="#url.email#">
-    <input type="hidden" name="tz" value="#url.tz#">
     
-        <table>
-            <tr>&nbsp;</tr>
-            <tr>
-                <td>If you wish to be notified when new coaches register, please 'opt-In'</td>
-            </tr>
-            <tr>
-                <td> <input type="radio" class="radioOptIn" value="1" name="optin" <cfif checkexisting.optin EQ 1>checked</cfif>> Opt-In (to receive notifications)
-                    <br />
-                    <input type="radio" class="radioOptIn" value="0" name="optin" <cfif checkexisting.optin EQ 0>checked</cfif>> Opt-Out (do not wish to receive notifications)
-                </td>
-            </tr>
-            <tr>
-                <td> <button type="submit" class="btn btn-secondary" name="sendEmail">Submit</button> </td>
-            </tr>
-        </table>
-    
-</form>
 
 </cfoutput>
 
 <script>
 $( document ).ready(function() {
+
+    $(".radioOptIn").on('click', function(event){
+        var email = $("#coachemail").val();
+        var tz = $("#coachtz").val();
+        if($('.radioOptIn').prop('checked') == true){
+            var optin = 1;
+        }else{
+            var optin = 0;
+        }
+        
+        $.ajax({
+                url: "/utilities/coach2coachOptin.cfm?email="+email+"&tz="+tz+"&optin="+optin
+                , type: 'post'
+                , cache: false
+            })
+    });
+
+    $(".confirmoptin").on('click', function(event){
+        $(this).attr('disabled',true);
+        var email = $("#coachemail").val();
+        var tz = $("#coachtz").val();
+        if($('.radioOptIn').prop('checked') == true){
+            var optin = 1;
+        }else{
+            var optin = 0;
+        }
+        
+        $.ajax({
+                url: "/utilities/coach2coachSendEmailNotification.cfm?email="+email+"&tz="+tz+"&optin="+optin
+                , type: 'post'
+                , cache: false
+            })
+            
+    });
+
+
     $(".selectcoachclient").on('click', function(event){
         $('.selectcoachclient').removeAttr('disabled');
         var email = $(this).val();

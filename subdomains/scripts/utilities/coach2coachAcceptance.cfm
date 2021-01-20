@@ -11,29 +11,46 @@
 <script src="https://drvic10k.github.io/bootstrap-sortable/Scripts/bootstrap-sortable.js"></script>
 
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-
+<cfparam name="local.dsn" default="wellcoachesschool" />
 <cfoutput>
+
 <!--- coach2 details to coach1  --->
-<cfquery name="local.insert" datasource="wellcoachesschool">
+<cfquery name="local.insertclient" datasource="#local.dsn#">
     update coach2coach
-    set coach = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
-    ,client = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
-    ,complete = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    set clientAgree = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    where email = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
+</cfquery>
+
+<cfquery name="local.insertcoach" datasource="#local.dsn#">
+    update coach2coach
+    set client = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
     where email = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
 
 
-<cfquery name="local.coach" datasource="wellcoachesschool">
+<cfquery name="local.coach" datasource="#local.dsn#">
     select *
     from coach2coach
     where email = <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
+
+    update coach2coach
+    set coachAgree = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    where email= <CFQUERYPARAM VALUE="#url.coach#" CFSQLType="CF_SQL_VARCHAR">
 </cfquery>
 
-<cfquery name="local.client" datasource="wellcoachesschool">
+<cfquery name="local.client" datasource="#local.dsn#">
     select *
     from coach2coach
     where email = <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
+
+    update coach2coach
+    set clientAgree = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
+    where email= <CFQUERYPARAM VALUE="#url.client#" CFSQLType="CF_SQL_VARCHAR">
+
 </cfquery>
+
+
+
 
 <cfmail to="rdiveley@wellcoaches.com"
     from="wellcoaches@wellcoaches.com"
@@ -65,7 +82,9 @@
 
 
 <div class="alert alert-success" role="alert">
-    An email has been sent to confirming your pairing.
+   You have confirmed!  <br />
+   Coach: #local.coach.name#<br />
+   Client/Volunteer: #local.client.name#
 </div>
 
 

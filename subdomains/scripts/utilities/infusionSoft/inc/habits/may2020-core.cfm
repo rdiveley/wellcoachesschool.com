@@ -15,11 +15,11 @@
             <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
-            <cfset local.tag13109 = 1 />
+            <cfset local.tag13519 = 1 />
     </cfif>
 </cfif>  
 
-<cfif listFindNoCase(attributes.tagList,13489) >
+<cfif listFindNoCase(attributes.tagList,13489)  OR structKeyExists(local,'tag13519')>
     <!-- Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete -->
       <cfset myArray = ArrayNew(1)>
       <cfset myArray[1]="ContactService.addToGroup">

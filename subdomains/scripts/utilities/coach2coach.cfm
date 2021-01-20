@@ -13,14 +13,14 @@
 </style>
 </head>
 <body>
-
-<cfquery name="local.checkExisting" datasource="wellcoachesschool">
+<cfparam name="local.dsn" default="wellcoachesschool" />
+<!--- if you exist, just go to listing screen --->
+<cfquery name="local.checkExisting" datasource="#local.dsn#">
     select email
-            ,complete
+            ,client
             ,timezone
     from coach2coach
     where email= <CFQUERYPARAM VALUE="#url.email#" CFSQLType="CF_SQL_NVARCHAR">
-    and complete  = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
 </cfquery>
 
 <cfif local.checkExisting.recordcount>
@@ -30,7 +30,7 @@
 <script>
     $( document ).ready(function() {
         $('form').each(function() { this.reset() });
-        $('input[type="checkbox"]').click(function(){
+        $('#agree').click(function(){
         $('.showform').toggle();
       });
       $("select#timezone").change(function(){
@@ -163,14 +163,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="sel1"></label>
-                    <select class="form-control" name="preference" id="sel1" required>
-                    <option value="">- Please Select -</option>
-                      <option value="monring">Morning</option>
-                      <option value="afternoon">Afternoon</option>
-                      <option value="evenings">Evenings</option>
-                     
-                    </select>
+                    <label for="sel1">Please select your preference:</label><br />
+                    <input type="checkbox" name="preference" value="Morning"> Morning <br />
+                    <input type="checkbox" name="preference" value="Afternoon"> Afternoon<br />
+                    <input type="checkbox" name="preference" value="Evening"> Evenings
+                    
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>   
             </div>    
@@ -181,34 +178,7 @@
 <cfoutput>
     <cfif structKeyExists(form, 'email') and LEN(form.email)>
 
-        
-    <cfquery name="local.notifycoach" datasource="wellcoachesschool">
-        select *
-        from coach2coach
-        where optin = <CFQUERYPARAM VALUE="1" CFSQLType="CF_SQL_BIT">
-    </cfquery>
-
-    <cfif local.notifycoach.recordcount>
-        <cfmail to="#local.notifycoach.email#" 
-            from="wellcoaches@wellcoaches.com"
-            subject="New coach register"
-            type="html">
-
-            <p>This email is to inform you that a new coach has registered.</p>
-            <p>Coach: #form.name#</p>
-            <p>Location: #form.location#</p>
-            <p>Availability: #form.availability#</p>
-            <p>Preference: #form.preference#</p>
-            
-            <p>If you wish to no longer receive this notification click <a href="http://#cgi.server_name#/utilities/coach2coachOptOut.cfm?coach=#local.notifycoach.email#">here</a></p>
-
-            <p>Thank you.</p>
-
-        </cfmail>
-    </cfif>
-
-
-        <cfquery name="insertPref" datasource="wellcoachesschool">
+        <cfquery name="insertPref" datasource="#local.dsn#">
             insert into coach2coach
             (
                 name

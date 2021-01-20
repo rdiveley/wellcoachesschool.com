@@ -19,7 +19,7 @@
     </cfif>
 </cfif>  
 
-<cfif listFindNoCase(attributes.tagList,13091) >
+<cfif listFindNoCase(attributes.tagList,13091) OR structKeyExists(local,'tag13109')>
     <!-- Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete -->
       <cfset myArray = ArrayNew(1)>
       <cfset myArray[1]="ContactService.addToGroup">
