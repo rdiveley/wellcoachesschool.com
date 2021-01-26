@@ -12,8 +12,10 @@
     }
 </style>
 </head>
+
 <body>
 <cfparam name="local.dsn" default="wellcoachesschool" />
+<cfparam name="url.email" default="" />
 <!--- if you exist, just go to listing screen --->
 <cfquery name="local.checkExisting" datasource="#local.dsn#">
     select email

@@ -62,7 +62,7 @@
     <cfif checkexisting.recordcount>
         <cfset local.showBtn = FALSE />
         <div class="alert alert-success" role="alert">
-            You have been matched with client/volunteer: #checkexisting.client#<br />
+            You have been matched with client/volunteer<br />
         </div>
     </cfif>
     <cfif structKeyExists(url, 'message') AND url.message EQ 1>
@@ -76,7 +76,7 @@
         </div>
     </cfif>
 
-    <cfif getcoaches.recordcount>
+    <cfif getcoaches.recordcount AND !checkexisting.recordcount>
         <form method="post" action="coach2coachEmail.cfm" >
             <!---  coach expressing interest --->
             <input type="hidden" name="email" value="#url.email#" />
@@ -145,7 +145,7 @@
 </cfquery>
 
 <div class="col-md-6">
-    <cfif checkexisting.optin NEQ 1>
+    <cfif checkexisting.optin NEQ 1 AND !checkexisting.recordcount>
         <form class="bs-example">
             <input type="hidden" name="email" id="coachemail" value="#url.email#">
             <input type="hidden" name="tz" id="coachtz" value="#url.tz#">

@@ -66,7 +66,7 @@ $( document ).ready(function() {
     
 
     <cfif structKeyExists(form, 'displayAttendance')>
-        <cfset  myQuery = queryNew("email,name,startdate,enddate,calltime","Varchar,Varchar,Varchar,Varchar,Varchar") />
+        <cfset  myQuery = queryNew("email,name,startdate,enddate,calltime","Varchar,Varchar,date,date,Varchar") />
         <cfset caller=StructNew() />
         <cfset local.emails = "" />
 		<cfloop list="#form.conferenceId#" index="local.confId">
@@ -135,7 +135,8 @@ $( document ).ready(function() {
 			</cfloop>
 			<!--- end local.rtnJsonDetails.value.calls --->
 			</cfif>
-	</cfloop>
+    </cfloop>
+
 <cfquery name="result" dbtype="query" >
     select *
     from myQuery

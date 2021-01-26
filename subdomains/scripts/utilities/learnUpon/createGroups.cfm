@@ -198,7 +198,7 @@
 					{"User": {    'last_name' : local.userInfo['lastName']
 								, 'first_name' : local.userInfo['firstName']
 								, 'email' : URL.email
-								, 'password' : local.userInfo['Password']
+								, 'password' : "#local.userInfo['Password']#"
 								, 'language' : 'en'
 								, 'membership_type' : 'Learner'
 							}
