@@ -52,8 +52,9 @@
 
 
 
-<cfmail to="rdiveley@wellcoaches.com"
+<cfmail to="#url.coach#"
     from="wellcoaches@wellcoaches.com"
+    bcc="smyers@wellcoaches.com"
     subject="Confirmation email"
     type="html">
 

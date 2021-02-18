@@ -90,20 +90,21 @@ $( document ).ready(function() {
 				</cfloop>
 			</cfif>
 			<!--- get all call information --->
-			<cfif isDefined('local.rtnJsonDetails.value.calls')>
+            <cfif isDefined('local.rtnJsonDetails.value.calls')>
+                
+                
 
 			<cfloop array="#local.rtnJsonDetails.value.calls#" index="local.calls">
-				<CFX_HTTP5
-					url="http://myaccount.maestroconference.com/_access/getCallData?customer=L7B5XVTQOHXET688&key=4ad1c09c3e999b00e3923522c0ff3602&conferenceUID=#local.confId#&callUID=#local.calls#"
-					method="get"
-					customer="L7B5XVTQOHXET688"
-					key="4ad1c09c3e999b00e3923522c0ff3602"
-					conferenceUID="#local.confId#"
-					callUID="#local.calls#"
-					headers="Content-Type: application/json; charset=utf-8"
-					out="callerInfo"  >
+				<cfhttp method="get" url="http://myaccount.maestroconference.com/_access/getCallData?customer=L7B5XVTQOHXET688&key=4ad1c09c3e999b00e3923522c0ff3602&conferenceUID=#local.confId#&callUID=#local.calls#" result="callerInfo">
+					<cfhttpparam type="URL" name="customer"  value="L7B5XVTQOHXET688" />
+					<cfhttpparam type="URL" name="key"  value="4ad1c09c3e999b00e3923522c0ff3602"/>
+					<cfhttpparam type="formfield"  value="json" name="type"/>
+                    <cfhttpparam type="formfield"  value="#local.confId#" name="conferenceUID"/>
+                    <cfhttpparam type="formfield"  value="#local.calls#" name="callUID"/>
+                </cfhttp>
 
-				<cfset local.rtnJSON = deserializeJSON(callerInfo)>
+
+				<cfset local.rtnJSON = deserializeJSON(callerInfo.filecontent)>
                 <cfset local.calledInList = "">
                 
 				<!--- all the callers for this conference --->

@@ -7,8 +7,8 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
- <cfset local.group_id = "399396,397128,133730,133731,394270,383008,357954,345594,133730,133731,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133731,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
-
+<cfset local.group_id = "415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
 <!--- IS tags for Learn Upon 86550 Fundamentals of Lifestyle Medicine--->
@@ -32,9 +32,7 @@
 <!--- #134579 Professional Coach Training 2019 --->
 <cfset local.LU134579_tags = "1382,1384,10145">
 <!--- 135804 = Burnout Prevention Program for Physicians --->
-<cfset local.LU135804_tags = "1382,1384,11448">
-<!--- 133731 = Core Coach Training: Module 1  (University of California of PA) --->
-<cfset local.LU133731_tags="11372,12583,1382,1384" >
+<cfset local.LU135804_tags = "1382,1384,11448,12319">
 <!--- 133732 = Core Coach Training: Module 1  (University of Wisconsin) --->
 <cfset local.LU133732_tags="11420,1382,1384" >
 <!--- 138684 = Core Coach Training: Module 1  (May 2019 cohort) --->
@@ -53,8 +51,6 @@
 <cfset local.LU165525_tags = "12383,1382,1384">
 <!--- Core Coach Training: Module 1  (Nov 2019 cohort) --->
 <cfset local.LU166587_tags = "12229,1382,1384">
-<!--- 12319 CH Access to Burnout Prevention --->
-<cfset local.LU135804_tags = "12319,1382,1384">
 <!--- 12649 Res Feb2020 [AZ] Mod 1* --->
 <cfset local.LU172370_tags = "12649,1382,1384">
 <!--- Core Coach Training: Module 1 (Dec 2019: 4-day residential) --->
@@ -72,9 +68,9 @@
 <!--- Core Coach Training: Module 1  (April 2020 cohort) --->
 <cfset local.LU200727_tags = "13343,1382,1384">
 <!--- Core Coach Training: Module 2 (California University of PA) --->
-<cfset local.LU133730_tags = "13673,1382,1384">
+<cfset local.LU133730_tags = "16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
-<cfset local.LU133731_tags = "12583,13671,13673,1382,1384">
+<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12583,13671,13673,1382,1384">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
 <cfset local.LU204039_tags = "13489,1382,1384">
 <!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->
@@ -99,10 +95,6 @@
 <cfset local.LU335393_tags = "15217,1382,1384" >
 <!--- Core Coach Training: Module 1  (Dec 2020 4-day)  --->
 <cfset local.LU335420_tags = "15311,1382,1384" >
-<!--- : Core Coach Training: Module 1 (California Univ of PA) --->
-<cfset local.LU133730_tags = "15445,1382,1384" />
-<!--- : Core Coach Training: Module 1 (California Univ of PA) --->
-<cfset local.LU133731_tags = "15443,15445,1382,1384" />
 <!--- Core Coach Training: Module 1  (Jan 2021 cohort)--->
 <cfset local.LU357954_tags = "15506,1382,1384" />
 <!--- behavior change agent --->
@@ -112,13 +104,14 @@
 <!--- 15942	Core Mar2021 Mod 1* --->
 <cfset local.LU394270_tags = "15942,1382,1384" />
 <!--- 16436 Core Coach Training: Module 1 (California Univ of PA) --->
-<cfset local.LU133731_tags = "16436,1382,1384" />
-<!--- 16438 Core Coach Training: Module 1 (California Univ of PA) --->
-<cfset local.LU133730_tags = "16438,1382,1384" />
-<!--- 16138 Core Coach Training: Module 1  (April 2021 9-wk cohort)--->
 <cfset local.LU397128_tags = "16138,1382,1384" />
 <!--- Core Coach Training: Module 1  (Apr 2021, 4-Friday  cohort) --->
 <cfset local.LU399396_tags = "16044,1382,1384" />
+<!--- Core Coach Training: Module 1  (May 2021 cohort) --->
+<cfset local.LU415521_tags = "16516,1382,1384" />
+<!--- Core Coach Training: Module 1  (June 2021 9-wk cohort) --->
+<cfset local.LU415904_tags = "16600,1382,1384" />
+
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
@@ -176,7 +169,7 @@
 	</cfloop>
 
 	<cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
-
+	
 		<cfset local.id = "">
 
 		<cfhttp method="get" url="https://wellcoaches.learnupon.com/api/v1/users/search?email=#URL.email#"
@@ -218,8 +211,6 @@
 			<cfset local.messgeStruct = deserializeJSON(myresult.filecontent)>
 
 			<cfif structKeyExists(local.messgeStruct,'message') AND local.messgeStruct.message contains 'user already exists'>
-
-				
 
 				<cfif listLen(local.assignGroups)>
 					<cfloop list="#local.assignGroups#" index="local.groupId">
@@ -307,7 +298,7 @@
 			<cfset local.allgroups = listappend(local.allgroups,local.group.id) />
 		</cfloop>
 
-
+		
 		<cfset local.deleteUserFromGroup = "" />
 
 		<!--- get list of ids user does not belong to --->

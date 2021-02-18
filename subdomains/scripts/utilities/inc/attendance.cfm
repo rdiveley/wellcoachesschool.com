@@ -1,6 +1,8 @@
 <cfparam name="form.conferenceid" default="" />
 <select name="conferenceId" class="conferenceid">
     <option value="">-Select Conference-</option>
+    <option value="HRGMHNT3ZCKRQHO" <cfif form.conferenceid EQ 'HRGMHNT3ZCKRQHO'>selected</cfif>>Wellcoaches Feb 2021 (9wk) cohort</option>
+    <option value="GEKR8M3IP9C2MZWE" <cfif form.conferenceid EQ 'GEKR8M3IP9C2MZWE'>selected</cfif>>Wellcoaches Mar 2021 cohort</option>
     <option value="QLC4QKW6LYIPFWXT" <cfif form.conferenceid EQ 'QLC4QKW6LYIPFWXT'>selected</cfif>>Wellcoaches Jan 2021 cohort </option>
     <option value="ST8FEX3T5SW13FWB" <cfif form.conferenceid EQ 'ST8FEX3T5SW13FWB'>selected</cfif>>Wellcoaches Nov 2020 cohort </option>
     <option value="GH1OQRAH6X53ESY" <cfif form.conferenceid EQ 'GH1OQRAH6X53ESY'>selected</cfif>>Wellcoaches Oct 2020 (9wk) cohort</option>
