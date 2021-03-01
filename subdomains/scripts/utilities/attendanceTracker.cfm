@@ -91,9 +91,7 @@ $( document ).ready(function() {
 			</cfif>
 			<!--- get all call information --->
             <cfif isDefined('local.rtnJsonDetails.value.calls')>
-                
-                
-
+            
 			<cfloop array="#local.rtnJsonDetails.value.calls#" index="local.calls">
 				<cfhttp method="get" url="http://myaccount.maestroconference.com/_access/getCallData?customer=L7B5XVTQOHXET688&key=4ad1c09c3e999b00e3923522c0ff3602&conferenceUID=#local.confId#&callUID=#local.calls#" result="callerInfo">
 					<cfhttpparam type="URL" name="customer"  value="L7B5XVTQOHXET688" />
