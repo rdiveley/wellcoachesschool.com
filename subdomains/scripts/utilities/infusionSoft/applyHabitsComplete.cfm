@@ -108,6 +108,10 @@
     <cfmodule template="inc/core/oct2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/nov2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
 
+    <cfmodule template="inc/core/jan2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/feb2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/march2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+
 
     
     <cfif listFindNoCase(local.tagList,9783) AND listFindNoCase(local.tagList,9673) AND listFindNoCase(local.tagList,9693)>
