@@ -106,3 +106,5 @@ subdomains/search/utilities/infusionSoft/automation/pajinate
 subdomains/search/utilities/soEditor/infusionSoft/automation/pajinate
 utilities/infusionSoft/automation/pajinate
 utilities/soEditor/infusionSoft/automation/pajinate
+subdomains/search/sitemap.xml
+*.xml
