@@ -5,7 +5,7 @@
         <cfset myArray[1]="ContactService.addToGroup">
         <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
         <cfset myArray[3]="(int)#attributes.memberID#">
-        <cfset myArray[4]="(int)16694">
+        <cfset myArray[4]="(int)16692">
 
             <cfinvoke component="utilities/XML-RPC"
                 method="CFML2XMLRPC"
@@ -19,7 +19,7 @@
     </cfif>
 </cfif>  
 
-<cfif listFindNoCase(attributes.tagList,15972) >
+<cfif listFindNoCase(attributes.tagList,15942) >
     <!-- Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete -->
       <cfset myArray = ArrayNew(1)>
       <cfset myArray[1]="ContactService.addToGroup">

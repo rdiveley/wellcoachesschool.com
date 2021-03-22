@@ -74,7 +74,7 @@
    <cfmodule template="inc/module2/oct2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/nov2020Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-  
+   <cfmodule template="inc/module2/untexasOct2020.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
 
 
