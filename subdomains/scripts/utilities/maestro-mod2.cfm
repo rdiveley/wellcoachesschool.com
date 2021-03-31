@@ -30,6 +30,12 @@
 		<p>Please select the conference from the drop down menu below to see your hours attended:</p>
 		<select name="conferenceId">
 			<option value="">-Select Conference-</option>
+			<option value="9L1KFCJNIPBIIR8H">OYM class 1 (Apr 21-Jun 21)</option>
+			<option value="PISADMESIX72IK8Y">OYM class 2 (Apr 21-Jun 21)</option>  
+			<option value="WTF80B2RYF045IJ">OYE (Apr 21-Jun 21)</option>  
+			<option value="2JJGR7LA2209SE4">Generative Moments (Apr 21-Jun 21)</option>  
+			<option value="Y8IEIUURN3LZU5D0">Wellness Vision (Apr 21-Jun 21)</option>  
+    
 			<option value="A97NY1P45U3RPNU">OYM class 1 (Jan 21-Mar 21)</option>
 			<option value="LXP27PTBQSRMCBGQ">OYE (Jan 21-Mar 21)</option>
 			<option value="33ZJ3NOOFEGBIG">Generative Moments (Jan 21-Mar 21)</option>
@@ -59,11 +65,6 @@
 			<option value="Y5S561STUDMYKC51">Wellness Vision (Jan20-Mar20)</option>
 			<option value="RHGT6VYVNB0T7QNM">OYM Class 2 (Jan20-Mar20)</option>
 		
-			<option value="IUK71SORPXKWNWWX">OYM Live class 1 (Jan19-Sep19)</option>
-			<option value="G9XM06OV4GX1C9">OYM live class 2 (Jan19-Sep19)</option>
-			<option value="KGHSD8LZBLWVRFT">Generative Moments (Jan19-Sep19)</option>
-			<option value="OMKY1U9I5E863NZA">Wellness Vision (Jan19-Sep19)</option>
-			<option value="CM7V9SRFTZBSL03">OYE (Jan19-Sep19)</option>
 			
 			<option value="9TGAVYYWUAL5KUQ">OYM Class 1 (Oct19 -Dec19)</option>
 			<option value="DHFIHNZBDXNFXBDY">OYM Class 2 (Oct19 -Dec19)</option>
