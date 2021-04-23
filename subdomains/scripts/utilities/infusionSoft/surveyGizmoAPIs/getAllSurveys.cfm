@@ -199,8 +199,10 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
                 <cfelse>
                 	<cfset temp = QuerySetCell(SurveyList,"lesson",  'Other' )/>
                 </cfif>
-
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
+				<cfif !LEN(field['[question(31)]'])>
+					<cfset temp = QuerySetCell(SurveyList,"hours", 1 )/>
+				</cfif> 
 				
                 <cfset temp = QuerySetCell(SurveyList,"PremiumHours", field['[question(80)]'] )/>
 

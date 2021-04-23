@@ -7,7 +7,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -117,7 +117,12 @@
 <cfset local.LU418067_tags = "16962,1382,1384" />
 <!--- Core Coach Training: Module 1 (June 2021 4-week)--->
 <cfset local.LU418135_tags = "16748,1382,1384" />
-
+<!--- Core Coach Training: Module 1 (July 2021 4-day)--->
+<cfset local.LU443398_tags = "17232,1382,1384" />
+<!--- Core Coach Training: Module 1 (May 2021 4-day) --->
+<cfset local.LU443399_tags = "17256,1382,1384" />
+<!--- Core Coach Training: Module 1 (July 2021 9-week) --->
+<cfset local.LU444680_tags = "17192,1382,1384" />
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
@@ -145,14 +150,22 @@
         method="CFML2XMLRPC"
         data="#myArray#"
         returnvariable="myPackage">
-
+	<!--- remove 
        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-       </cfhttp>
+       </cfhttp>--->
+
+
+	<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+		arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+		variable="myResult1"
+		timeout = "200">
+	</cfexecute>
+
 
 	 <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
+        data="#myResult1#"
         returnvariable="theData2">
 
 	<cfif !arrayLen(theData2['Params'][1])>
@@ -178,19 +191,20 @@
 	
 		<cfset local.id = "">
 
-		<cfhttp method="get" url="https://wellcoaches.learnupon.com/api/v1/users/search?email=#URL.email#"
-			result="myResult"
-			username="#local.username#"
-			password="#local.password#">
-		</cfhttp>
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/users/search?email=#URL.email#"
+			variable="myResult"
+			timeout = "200">
+		</cfexecute>
 
-		<cfset local.user = deserializeJSON(myResult.filecontent)>
 
+		<cfset local.user = deserializeJSON(myResult)>
 
 		<cfif !structKeyExists(local.user, 'response_code')>
-			<cfset local.user = deserializeJSON(myResult.filecontent).user[1]>
+			<cfset local.user = deserializeJSON(myResult).user[1]>
 			<cfset local.id = local.user.id>
 		</cfif>
+
 
 		<cfif !len(local.id)>
 			<cfset local.user =
@@ -204,17 +218,17 @@
 					}
 			/>
 
-			<!--- this creates the user --->
-			<cfhttp method="post" url="https://wellcoaches.learnupon.com/api/v1/users"
-				result="myResult"
-				username="#local.username#"
-				password="#local.password#">
+			<!--- this creates the user  --->
+			<cfset local.user = serializeJSON(local.user) />
 
-			    <cfhttpparam type="header" name="Content-Type" value="application/json; charset=utf-8">
-				<cfhttpparam type="body" value="#serializeJSON(local.user)#">
-			</cfhttp>
+			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+				arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/users -H "Content-Type: application/json" -d #ReplaceNoCase(local.user,'"','\"','all')# '
+				variable="myResult"
+				timeout = "200">
+			</cfexecute>
+			
 
-			<cfset local.messgeStruct = deserializeJSON(myresult.filecontent)>
+			<cfset local.messgeStruct = deserializeJSON(myresult)>
 
 			<cfif structKeyExists(local.messgeStruct,'message') AND local.messgeStruct.message contains 'user already exists'>
 
@@ -229,16 +243,14 @@
 									}
 							}
 						/>
-						<!-- send invite to each group -->
-						<cfhttp method="post" url="https://wellcoaches.learnupon.com/api/v1/group_invites"
-							result="myResult"
-							username="#local.username#"
-							password="#local.password#">
+						<!--- send invite to each group --->
+						<cfset local.user = serializeJSON(local.addUser) />
 
-						    <cfhttpparam type="header" name="Content-Type" value="application/json; charset=utf-8">
-							<cfhttpparam type="body" value="#serializeJSON(local.addUser)#">
-						</cfhttp>
-
+						<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+							arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/group_invites -H "Content-Type: application/json" -d #ReplaceNoCase(local.addUser,'"','\"','all')# '
+							variable="myResult"
+							timeout = "200">
+						</cfexecute>
 					</cfloop>
 
 				</cfif>
@@ -247,16 +259,16 @@
 				<cfabort>
 			</cfif>
 
-			<cfset local.id = deserializeJSON(myResult.filecontent).id>
+			<cfset local.id = deserializeJSON(myResult).id>
 		</cfif>
 
-		<cfhttp method="get" url="https://wellcoaches.learnupon.com/api/v1/group_memberships?user_id=#local.id#"
-			username="#local.username#"
-			password="#local.password#"
-			result="myGroups">
-		</cfhttp>
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships?user_id=#local.id#"
+			variable="myGroups"
+			timeout = "200">
+		</cfexecute>
 
-		<cfset local.groups = deserializeJSON(myGroups.filecontent)>
+		<cfset local.groups = deserializeJSON(myGroups)>
 
 
 		<cfset local.groupids = "" />
@@ -278,29 +290,29 @@
 							}
 						}
 					/>
-					<!--- this applies the newly created user to a group --->
-					<cfhttp method="post" url="https://wellcoaches.learnupon.com/api/v1/group_memberships"
-						result="myResult"
-						username="#local.username#"
-						password="#local.password#">
+					<!--- this applies the newly created user to a group  --->
+					<cfset local.groupMemberShip = serializeJSON(local.groupMemberShip) />
 
-						<cfhttpparam type="header" name="Content-Type" value="application/json; charset=utf-8">
-						<cfhttpparam type="body"  value="#serializeJSON(local.groupMemberShip)#">
-					</cfhttp>
+					<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+						arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/group_memberships -H "Content-Type: application/json" -d #ReplaceNoCase(local.groupMemberShip,'"','\"','all')# '
+						variable="myResult"
+						timeout = "200">
+					</cfexecute>
+
 				</cfif>	
 			</cfloop>
 		</cfif>
 
 		<!--- get all groups --->
-		<cfhttp method="get" url="https://wellcoaches.learnupon.com/api/v1/groups"
-				result="Allgroups"
-				username="#local.username#"
-				password="#local.password#">
-		</cfhttp>
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/groups"
+			variable="Allgroups"
+			timeout = "200">
+		</cfexecute>
 
 		<cfset local.allgroups = "" />
 
-		<cfloop array="#deserializeJSON(Allgroups.filecontent).groups#" index="local.group">
+		<cfloop array="#deserializeJSON(Allgroups).groups#" index="local.group">
 			<cfset local.allgroups = listappend(local.allgroups,local.group.id) />
 		</cfloop>
 
@@ -324,21 +336,18 @@
 				}
 			}
 		/>
-		<!--- cfhttp method="delete" doesnt work for some reason, had to use this cfx tag--->
-		<CFX_HTTP5
-			url="https://wellcoaches.learnupon.com/api/v1/group_memberships/0"
-			method="delete"
-			user="#local.username#"
-			pass="#local.password#"
-			headers="Content-Type: application/json; charset=utf-8"
-			body="#serializeJSON(local.deleteGroup)#"
-			out="myResult"  >
 
+		<cfset local.deleteGroup = serializeJSON(local.deleteGroup) />
+
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+				arguments = '-X DELETE -H "Content-Type: application/json" --user #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships/0  -d #ReplaceNoCase(local.deleteGroup,'"','\"','all')# '>
+		</cfexecute> 
+		
 	</cfloop>
 
 		<cfset local.message = "User was added successfully to LearnUpon!">
 		<cfif structKeyExists(url,'redirectFromCH')>
-			<cflocation url="https://wellcoaches.learnupon.com/sqsso?Email=#URL.email#&TS=#URL.TS#&SSOToken=#URL.SSOToken#" />
+				 <cflocation url="https://wellcoaches.learnupon.com/sqsso?Email=#URL.email#&TS=#URL.TS#&SSOToken=#URL.SSOToken#" />
 		</cfif>
 
 <cfoutput>
