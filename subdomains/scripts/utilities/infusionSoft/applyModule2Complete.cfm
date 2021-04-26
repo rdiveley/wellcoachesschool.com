@@ -76,6 +76,15 @@
    <cfmodule template="inc/module2/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/untexasOct2020.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
+   <cfmodule template="inc/module2/jan2021_18week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/feb2021_9week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/mar2021_4day.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/mar2021_18week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/apr2021_9week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   
+
 
 
 </cfoutput>

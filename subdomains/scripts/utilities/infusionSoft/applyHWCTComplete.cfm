@@ -60,6 +60,10 @@
     <cfmodule template="inc/core/march2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  />
     <cfmodule template="inc/core/march2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
+    <cfmodule template="inc/core/apr2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+
 
 
 

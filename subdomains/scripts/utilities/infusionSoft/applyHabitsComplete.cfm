@@ -69,11 +69,14 @@
     <cfmodule template="inc/habits/oct2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/nov2020-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-
     <cfmodule template="inc/habits/jan2021-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/feb2021-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/march2021-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/march2021-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+
+    <cfmodule template="inc/habits/apr2021-9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/apr2021-4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/apr2021-4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
 
     <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -118,6 +121,9 @@
     <cfmodule template="inc/core/feb2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/march2021.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     <cfmodule template="inc/core/march2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/apr2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
 
 
     

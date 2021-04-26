@@ -150,12 +150,7 @@
         method="CFML2XMLRPC"
         data="#myArray#"
         returnvariable="myPackage">
-	<!--- remove 
-       <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-           <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-       </cfhttp>--->
-
-
+	
 	<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
 		arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
 		variable="myResult1"
@@ -188,7 +183,7 @@
 	</cfloop>
 
 	<cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
-	
+
 		<cfset local.id = "">
 
 		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
@@ -303,30 +298,16 @@
 			</cfloop>
 		</cfif>
 
-		<!--- get all groups --->
-		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/groups"
-			variable="Allgroups"
-			timeout = "200">
-		</cfexecute>
-
-		<cfset local.allgroups = "" />
-
-		<cfloop array="#deserializeJSON(Allgroups).groups#" index="local.group">
-			<cfset local.allgroups = listappend(local.allgroups,local.group.id) />
-		</cfloop>
-
-		
+		<!--- Find group Ids user doesn't belong to --->
 		<cfset local.deleteUserFromGroup = "" />
-
-		<!--- get list of ids user does not belong to --->
-		<cfloop list="#local.allgroups#" index="local.currentid">
-			<cfif !listFind(local.assignGroups,local.currentid)>
-				<cfset local.deleteUserFromGroup = listAppend( local.deleteUserFromGroup,local.currentid) />
+		<cfloop list="#local.groupids#" index="local.groupid">
+			<cfif !listFind(local.assignGroups,local.groupid)>
+				<cfset local.deleteUserFromGroup = listAppend(local.deleteUserFromGroup,local.groupid) />
 			</cfif>
 		</cfloop>
 
-		<!--- remove user from groups he doesn't belong to--->
+
+	<!--- remove user from groups he doesn't belong to --->
 	<cfloop list="#local.deleteUserFromGroup#" index="local.deletegroupid">
 
 		<cfset local.deleteGroup =
