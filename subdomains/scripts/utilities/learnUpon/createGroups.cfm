@@ -215,9 +215,11 @@
 
 			<!--- this creates the user  --->
 			<cfset local.user = serializeJSON(local.user) />
+			<cfset local.user = ReplaceNoCase(local.user,'"','\"','all') />
+			<cfset local.user = ReplaceNoCase(local.user,' ','-','all') />
 
 			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-				arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/users -H "Content-Type: application/json" -d #ReplaceNoCase(local.user,'"','\"','all')# '
+				arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/users -H "Content-Type: application/json" -d #local.user#'
 				variable="myResult"
 				timeout = "200">
 			</cfexecute>
