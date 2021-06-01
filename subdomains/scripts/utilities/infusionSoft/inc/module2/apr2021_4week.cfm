@@ -1,4 +1,4 @@
-<cfif listFindNoCase(attributes.tagList,16044) AND listFindNoCase(attributes.tagList,17116)>
+<cfif listFindNoCase(attributes.tagList,16044) AND listFindNoCase(attributes.tagList,16696)>
     <cfset myArray = ArrayNew(1)>
     <cfset myArray[1]="ContactService.addToGroup">
     <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">

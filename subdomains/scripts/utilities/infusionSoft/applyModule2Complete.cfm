@@ -83,7 +83,8 @@
    <cfmodule template="inc/module2/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/apr2021_9week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   
+   <cfmodule template="inc/module2/may2021_18week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/may2021_4day.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
 
 
