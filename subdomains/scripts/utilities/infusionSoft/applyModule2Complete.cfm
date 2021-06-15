@@ -86,6 +86,9 @@
    <cfmodule template="inc/module2/may2021_18week.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/may2021_4day.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
+   <cfmodule template="inc/module2/nov2020Isreal.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/IsrealPartner.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+
 
 
 </cfoutput>

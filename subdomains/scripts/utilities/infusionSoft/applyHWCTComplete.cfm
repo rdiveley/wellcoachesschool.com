@@ -64,6 +64,18 @@
     <cfmodule template="inc/core/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
+    <cfmodule template="inc/core/aug2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/aug2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/july2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/july2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/jun2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/jun2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/may2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/may2021_18week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/sept2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+
 
 
 

@@ -125,6 +125,20 @@
     <cfmodule template="inc/core/apr2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     <cfmodule template="inc/core/apr2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
 
+    <cfmodule template="inc/core/aug2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/aug2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/july2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/july2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/jun2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/jun2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/may2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/may2021_18week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/sept2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+
+
+
 
     
     <cfif listFindNoCase(local.tagList,9783) AND listFindNoCase(local.tagList,9673) AND listFindNoCase(local.tagList,9693)>
