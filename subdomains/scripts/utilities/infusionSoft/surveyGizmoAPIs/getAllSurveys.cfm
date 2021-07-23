@@ -47,7 +47,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
 <!--- Removed Practical skill assesment for now  1382009 --->
- <cfset allsurveys = "6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+ <cfset allsurveys = "6439452,6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
    <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
@@ -69,7 +69,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
          	<cfset emailParam = "[question(32)]" />
         <cfelseif Find(1382009,column)>
 			 <cfset emailParam = "[question(21)]" />
-		<cfelseif Find(4543424,column) OR Find(5121979,column) >
+		<cfelseif Find(4543424,column) OR Find(5121979,column) OR find(6439452,column) >
 				<cfset emailParam = "[question(26)]" />		 
         <cfelseif Find(1959806,column) or Find(4305174,column) OR find(4776929,column)>
          	<cfset emailParam = "[question(37)]" />
@@ -251,7 +251,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 			<cfelseif column eq 4320651>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Lifestyle Medicine for Coaches" )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(61)]'] )/>	
-			<cfelseif column eq 4543424 or column eq 5121979>
+			<cfelseif column eq 4543424 or column eq 5121979 or column eq 6439452>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]']  )/>
                
 		    <cfelseif column eq 4144821 >

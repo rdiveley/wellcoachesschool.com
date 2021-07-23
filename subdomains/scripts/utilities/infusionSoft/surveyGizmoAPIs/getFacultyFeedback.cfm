@@ -130,9 +130,6 @@ $(document).ready(function() {
      
     </cfif>
     <cfset coachName = ListRemoveDuplicates(coachName, " ") />
-
- 		
-
         <cfparam name="questionParam" default="[question(12)]" />
 
         <cfset currentPage = evaluate(pageIndex + 1) />
@@ -163,8 +160,12 @@ $(document).ready(function() {
 			      <cfhttpparam type="url"  value="datesubmitted" name="filter[field][0]"/>
             <cfhttpparam type="url"  value=">" name="filter[operator][0]"/>
             <cfhttpparam type="url"  value="#form.year_filter#-#form.month_filter#-01" name="filter[value][0]"/>
-            
-            <cfhttpparam type="url"  value="[question(12)]" name="filter[field][1]"/>
+            <cfif form.survey EQ '4238384'>
+              <cfset local.coachquestion = '[question(48)]' />
+            <cfelse>
+              <cfset local.coachquestion = '[question(12)]' />
+            </cfif>
+            <cfhttpparam type="url"  value="#local.coachquestion#" name="filter[field][1]"/>
             <cfhttpparam type="url"  value="=" name="filter[operator][1]"/>
             <cfhttpparam type="url"  value="#coachName#" name="filter[value][1]"/>
             
@@ -196,24 +197,48 @@ $(document).ready(function() {
             <cfparam name="field['survey_data'][7]['answer']" default="" />
             <cfparam name="field['question(8)']" default="" />
 
-            <cfset temp = QuerySetCell(SurveyList,"dateSubmitted", field['datesubmitted'] )/>
-            <cfset temp = QuerySetCell(SurveyList,"Id", field['id'] )/>
-            <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]'] )/>
-            <cfif structKeyExists(field, '[question(9), option(0)]')>
-              <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9), option(0)]'])/>
-            <cfelse>
-              <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9)]'])/>
-            </cfif>
-            <cfset temp = QuerySetCell(SurveyList,"coaching_skills", field['[question(2)]'] )/>
-            <cfset temp = QuerySetCell(SurveyList,"faculty_expertise",field['[question(3)]'])/>
-            <cfif structKeyExists(field,'[question(4)]')>
-              <cfset temp = QuerySetCell(SurveyList,"lesson_relevance", field['[question(4)]'] )/>
-            </cfif>
-            <cfif structKeyExists(field,'[question(5)]')>
-              <cfset temp = QuerySetCell(SurveyList,"q5",field['[question(5)]'])/>
-            </cfif>
-            <cfset temp = QuerySetCell(SurveyList,"q6",field['[question(6)]'])/> 
-            <cfset temp = QuerySetCell(SurveyList,"q7",field['[question(7)]'])/>
+             <cfif form.survey EQ '4238384'>
+                <cfset temp = QuerySetCell(SurveyList,"dateSubmitted", field['datesubmitted'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"Id", field['id'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(43)]'] )/>
+                <cfif structKeyExists(field, '[question(37), option(0)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(37), option(0)]'])/>
+                <cfelse>
+                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(37)]'])/>
+                </cfif>
+                <cfset temp = QuerySetCell(SurveyList,"coaching_skills", field['[question(2)]'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"faculty_expertise",field['[question(3)]'])/>
+                <cfif structKeyExists(field,'[question(25)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"lesson_relevance", field['[question(25)]'] )/>
+                </cfif>
+                <cfif structKeyExists(field,'[question(5)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"q5",field['[question(5)]'])/>
+                </cfif>
+                <cfset temp = QuerySetCell(SurveyList,"q6",field['[question(6)]'])/> 
+                <cfset temp = QuerySetCell(SurveyList,"q7",field['[question(7)]'])/>
+
+             <cfelse>
+                <cfset temp = QuerySetCell(SurveyList,"dateSubmitted", field['datesubmitted'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"Id", field['id'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]'] )/>
+                <cfif structKeyExists(field, '[question(9), option(0)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9), option(0)]'])/>
+                <cfelse>
+                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9)]'])/>
+                </cfif>
+                <cfset temp = QuerySetCell(SurveyList,"coaching_skills", field['[question(2)]'] )/>
+                <cfset temp = QuerySetCell(SurveyList,"faculty_expertise",field['[question(3)]'])/>
+                <cfif structKeyExists(field,'[question(4)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"lesson_relevance", field['[question(4)]'] )/>
+                </cfif>
+                <cfif structKeyExists(field,'[question(5)]')>
+                  <cfset temp = QuerySetCell(SurveyList,"q5",field['[question(5)]'])/>
+                </cfif>
+                <cfset temp = QuerySetCell(SurveyList,"q6",field['[question(6)]'])/> 
+                <cfset temp = QuerySetCell(SurveyList,"q7",field['[question(7)]'])/>
+             </cfif>
+
+            
           </cfloop>
       </cfif>
 
