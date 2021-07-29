@@ -88,7 +88,7 @@
 
    <cfmodule template="inc/module2/nov2020Isreal.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/IsrealPartner.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-
+   <cfmodule template="inc/module2/genericpartners.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
 
 </cfoutput>
