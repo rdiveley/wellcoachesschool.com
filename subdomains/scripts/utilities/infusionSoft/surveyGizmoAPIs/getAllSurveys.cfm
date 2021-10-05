@@ -98,9 +98,16 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
              <cfhttpparam type="url"  value="status" name="filter[field][1]"/>
              <cfhttpparam type="url"  value="=" name="filter[operator][1]"/>
 			 <cfhttpparam type="url"  value="Complete" name="filter[value][1]"/>
-			 
-             <cfhttpparam type="url"  value="500" name="resultsperpage"/>
+			 <cfhttpparam type="url"  value="500" name="resultsperpage"/>
       </cfhttp>
+
+
+
+	  <!---<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+				arguments = '-X GET #SGurl# -d api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca&filter[field][0]=#emailParam#&filter[operator][0]==s&filter[value][0]=#trim(local.emailUser)#&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500'
+				variable="myResult"
+				timeout = "200">
+	  </cfexecute>--->
 
       <cfset jsonData = deserializeJSON(myResult.fileContent) />
 

@@ -3,17 +3,31 @@
 <script type="text/javascript" src="js/jquery-latest.js"></script>
 <cfparam name="URL.email" default="rdiveley@wellcoaches.com">
 <cfparam name="URL.lastname" default="Diveley">
-<cfset concierge = "rwilson@wellcoaches.com">
+
+
+<cfset julie = "a,b,c,d,e,f,g">
+<cfset joanna = "h,i,j,k,l,m,n,o">
+<cfset angela = "p,q,r,s,t,u,v,w,x,y,z">
+
+
+<cfif listFindNoCase(julie,Left(URL.Lastname, 1))>
+    <cfset concierge = "jcummings@wellcoaches.com">
+<cfelseif listFindNoCase(joanna,Left(URL.Lastname, 1))>
+    <cfset concierge = "jthomas@wellcoaches.com">
+<cfelseif listFindNoCase(angela,Left(URL.Lastname, 1))>
+    <cfset concierge = "acarterlanon@wellcoaches.com">
+</cfif>
 
 <cfif structKeyExists(FORM,"fileUpload")>
 	 <cfset extension = listLast(FORM.filename,".")>
 	 <cfset TempfileName = '#URL.email#_#FORM.userFiles#_#dateFormat(now(),'mm-dd-yyyy')#.#extension#'>
 
      <cfset acceptedMimeType="docx,xlsx,xls,doc,tif,tiff,gif,jpeg,jpg,jif,jfif,jp2,jpx,j2k,j2c,fpx,pcd,png,pdf,ppt,odt">
+
      <cffile
         action="upload"
         nameconflict="overwrite"
-        destination="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"
+        destination="#expandPath('temp')#\#TempfileName#"
         filefield="fileUpload">
 
         
@@ -21,7 +35,7 @@
             Please only upload files of type: docx, xlsx, xls, doc, pdf <br>
             <cffile
                 action="DELETE"
-                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"/>
+                file="#expandPath('temp')#\#TempfileName#"/>
             <a href="javascript:history.go(-1)"> &lt;&lt;Back</a>
             <cfabort>
         <cfelseif CFFILE.FileSize GT (5 * 1024 * 1024)>
@@ -29,7 +43,7 @@
             <a href="histor.go(-1)"> &lt;&lt;Back</a>
              <cffile
                 action="DELETE"
-                file="C:\websites\wellcoachesschool.com\utilities\infusionSoft\temp\#TempfileName#"/>
+                file="#expandPath('temp')#\#TempfileName#"/>
                  <a href="javascript:history.go(-1)"> &lt;&lt;Back</a><cfabort>
                 <cfabort>
 
