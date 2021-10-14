@@ -33,7 +33,7 @@
 
 	<cfset local.tagList =  theData.Params[1]['Groups'] />
    
-    <cfmodule template="inc/habits/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <!---<cfmodule template="inc/habits/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/nov2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
@@ -43,7 +43,7 @@
     <cfmodule template="inc/habits/mar2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/apr2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-    <cfmodule template="inc/habits/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" /> --->
     <cfmodule template="inc/habits/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/july2019-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/aug2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
@@ -79,11 +79,11 @@
     <cfmodule template="inc/habits/apr2021-4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
 
-    <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+   <!--- <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/feb2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/apr2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
-    <cfmodule template="inc/residential/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/residential/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" /> --->
     <cfmodule template="inc/residential/July2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/aug2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/oct2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -95,12 +95,13 @@
     <cfmodule template="inc/residential/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/mar2021-4_day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2"/>
 
-    <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <!---
+        <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/nov2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/jan2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/mar2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
-    <cfmodule template="inc/core/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
+    <cfmodule template="inc/core/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" /> --->
     <cfmodule template="inc/core/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/sept2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/core/nov2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />

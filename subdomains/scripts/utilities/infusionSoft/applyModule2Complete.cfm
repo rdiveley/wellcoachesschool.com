@@ -28,24 +28,44 @@
             method="XMLRPC2CFML"
             data="#result.Filecontent#"
             returnvariable="theData">
+
    <cfset tagList =  theData.Params[1]['Groups'] />
 
-   <cfmodule template="inc/module2/july2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfif listFindNoCase(tagList, 12129)>
+      <cfset myArray = ArrayNew(1)>
+      <cfset myArray[1]="ContactService.addToGroup">
+      <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+      <cfset myArray[3]="(int)#attributes.memberID#">
+      <cfset myArray[4]="(int)9615">
+
+        <cfinvoke component="utilities/XML-RPC"
+            method="CFML2XMLRPC"
+            data="#myArray#"
+            returnvariable="myPackage">
+
+        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+        </cfhttp>
+   </cfif>
+
+
+  <!--- <cfmodule template="inc/module2/july2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/aug2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/sept2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/nov2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/dec2018.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/feb2019.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/univjan2019.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   <cfmodule template="inc/module2/jan2019.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   <cfmodule template="inc/module2/invalidcert.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   <cfmodule template="inc/module2/mod2standalone.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-   <cfmodule template="inc/module2/resapr2019isreal.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/jan2019.cfm" memberid="#attributes.memberid#" tagList="#tagList#" /> 
    <cfmodule template="inc/module2/feb2019Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/mar2019Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/apr2019Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/may2019Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/june2019res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/resapr2019isreal.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+--->
+   <cfmodule template="inc/module2/invalidcert.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/mod2standalone.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/july2019core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/aug2019Res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/sept2019Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />

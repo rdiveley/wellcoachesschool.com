@@ -68,7 +68,7 @@
 <!--- Core Coach Training: Module 1  (April 2020 cohort) --->
 <cfset local.LU200727_tags = "13343,1382,1384">
 <!--- Core Coach Training: Module 2 (California University of PA) --->
-<cfset local.LU133730_tags = "16438,15445,13673,1382,1384">
+<cfset local.LU133730_tags = "17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
 <cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12583,13671,13673,1382,1384">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
@@ -147,6 +147,7 @@
 <cfset local.LU517484_tags = "17500,1382,1384" />
 <!--- Core Coach Training: Module 1 (Dec 2021 9-week) --->
 <cfset local.LU517483_tags = "17548,1382,1384" />
+
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
