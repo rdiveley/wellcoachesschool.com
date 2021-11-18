@@ -45,7 +45,7 @@
   
 <cfif structKeyExists(form,'emailAddress') AND ListLen(form.emailaddress) gt 1>
 	<cfset local.cleanEmail = Replace(form.emailAddress,' ','','all') />
-	<cfquery name="deactivatePortal" datasource="#DSN#" username="#application.DSNuName#" password="#application.dsnpword#" >
+	<cfquery name="deactivatePortal" datasource="wellcoachesschool"  >
     	insert into [wellcoachesschool].[dbo].[coachInPracticeEmailFix]
         (
         email_address
