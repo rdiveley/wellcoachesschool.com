@@ -7,7 +7,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,121229,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -15,8 +15,7 @@
 <cfset local.LU86550_tags = "9831,1382,1384,9821">
 <!--- IS tags for 92767 NBC-HWC Exam Preparation 2018--->
 <cfset local.LU92767_tags = "9777,1382,1384">
-<!--- IS tags for 10706 Core Coach Training - Knowledge Assessment for September 2018 Cohort --->
-<cfset local.LU121229_tags = "10706,1382,1384">
+
 <!--- IS tags for #10163 (Core Nov2018 Mod 1*) --->
 <cfset local.LU122134_tags = "10163,1382,1384">
 <!--- IS tags for #10480 Res Dec2018 [Bemidji] Mod 1* and #10610 Res Feb2019 [Ft Worth] Mod 1* --->
@@ -70,7 +69,7 @@
 <!--- Core Coach Training: Module 2 (California University of PA) --->
 <cfset local.LU133730_tags = "17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
-<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12583,13671,13673,1382,1384">
+<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
 <cfset local.LU204039_tags = "13489,1382,1384">
 <!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->
@@ -98,12 +97,12 @@
 <!--- Core Coach Training: Module 1  (Jan 2021 cohort)--->
 <cfset local.LU357954_tags = "15506,1382,1384" />
 <!--- behavior change agent --->
-<cfset local.LU345594_tags = "15644,15660,1382,1384" />
+<cfset local.LU345594_tags = "15644,15660,1382,1384,15646" />
 <!--- Core Coach Training: Module 1  (Feb 2021 9-wk cohort)s --->
-<cfset local.LU383008_tags = "15762,15646,1382,1384" />
+<cfset local.LU383008_tags = "15762,1382,1384" />
 <!--- 15942	Core Mar2021 Mod 1* --->
 <cfset local.LU394270_tags = "15942,1382,1384" />
-<!--- 16436 Core Coach Training: Module 1 (California Univ of PA) --->
+<!--- Core Coach Training: Module 1 (Apr 2021 9-wk). --->
 <cfset local.LU397128_tags = "16138,1382,1384" />
 <!--- Core Coach Training: Module 1  (Apr 2021, 4-Friday  cohort) --->
 <cfset local.LU399396_tags = "16044,1382,1384" />
@@ -113,7 +112,7 @@
 <cfset local.LU415904_tags = "16600,1382,1384" />
 <!--- Core Coach Training: Module 1 (March 2021 4-day)--->
 <cfset local.LU417007_tags = "16886,1382,1384" />
-<!--- Core Coach Training: Module 1 (March 2021 4-day)--->
+<!--- Core Coach Training: Module 1 (Apr 2021[2] 4-day) --->
 <cfset local.LU418067_tags = "16962,1382,1384" />
 <!--- Core Coach Training: Module 1 (June 2021 4-week)--->
 <cfset local.LU418135_tags = "16748,1382,1384" />
@@ -145,7 +144,7 @@
 <cfset local.LU497231_tags = "17484,1382,1384" />
 <!--- Core Coach Training: Module 1 (Dec 2021 9-week) --->
 <cfset local.LU517484_tags = "17500,1382,1384" />
-<!--- Core Coach Training: Module 1 (Dec 2021 9-week) --->
+<!--- Core Coach Training: Module 1 (Dec 2021 4-day) --->
 <cfset local.LU517483_tags = "17548,1382,1384" />
 <!--- Core Coach Training: Module 1 (Jan 2022 9-week) --->
 <cfset local.LU531867_tags = "17922,1382,1384" />
@@ -155,7 +154,10 @@
 <cfset local.LU539861_tags = "18004,1382,1384" />
 <!--- Core Coach Training: Module 1 (Feb 2022 4-week) --->
 <cfset local.LU539864_tags = "18020,1382,1384" />
-
+<!--- Core Coach Training: Module 1 (Mar 2022 9-week) --->
+<cfset local.LU545173_tags = "18074,1382,1384" />
+<!--- Holiday Extra Credit Offer --->
+<cfset local.LU546704_tags = "18194,1382,1384" />
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
