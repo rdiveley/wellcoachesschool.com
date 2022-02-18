@@ -91,7 +91,9 @@
 		<cfelseif form.examDate EQ '11-30-2020'>
 			<cfset local.tagToApply="12991">
 		<cfelseif form.examDate EQ '02-28-2021'>
-			<cfset local.tagToApply="12993">				
+			<cfset local.tagToApply="12993">
+		<cfelseif form.examDate EQ '11-30-2021'>
+			<cfset local.tagToApply="18198">					
 		</cfif>
 
 		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
@@ -238,6 +240,7 @@
 						<option value="02-29-2020">February 2020</option>
 						<option value="11-30-2020">Fall 2020</option>
 						<option value="02-28-2021">February 2021</option>
+						<option value="11-30-2021">Fall 2021</option>
 						<!-- <option value="June 2018">June 2019</option> -->
 					</select>
 				</p>

@@ -128,7 +128,7 @@
     )
   </cfquery>
   <cfcatch type="any">
-  <cfmail to="techsupport@wellcoaches.com" subject="Survey Gizmo 7 Error" from="#URL.email#">
+  <cfmail to="rdiveley@wellcoaches.com" subject="Survey Gizmo 7 Error" from="wellcoaches@wellcoaches.com">
   	#cfcatch.detail#<br />
     <cfdump var="#URL#">
   </cfmail>

@@ -7,7 +7,7 @@
 
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "570664,570659,569236,569228,555224,555223,545173,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -69,7 +69,7 @@
 <!--- Core Coach Training: Module 2 (California University of PA) --->
 <cfset local.LU133730_tags = "17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
-<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384">
+<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
 <cfset local.LU204039_tags = "13489,1382,1384">
 <!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->
@@ -154,10 +154,25 @@
 <cfset local.LU539861_tags = "18004,1382,1384" />
 <!--- Core Coach Training: Module 1 (Feb 2022 4-week) --->
 <cfset local.LU539864_tags = "18020,1382,1384" />
-<!--- Core Coach Training: Module 1 (Mar 2022 9-week) --->
-<cfset local.LU545173_tags = "18074,1382,1384" />
 <!--- Holiday Extra Credit Offer --->
 <cfset local.LU546704_tags = "18194,1382,1384" />
+<!--- Core Coach Training: Module 1 (Mar 2022 4-day) --->
+<cfset local.LU550736_tags = "18128,1382,1384" />
+<!--- Core Coach Training: Module 1 (Mar 2022 9-week) --->
+<cfset local.LU545173_tags = "18074,18154,1382,1384" />
+<!--- Core Coach Training: Module 1 (April 2022 4-week)--->
+<cfset local.LU555223_tags = "18242,1382,1384" />
+<!--- Core Coach Training: Module 1 (April 2022 9-week)--->
+<cfset local.LU555224_tags = "18216,1382,1384" />
+<!--- Core Coach Training: Module 1 (May 2022 9-week)--->
+<cfset local.LU569228_tags = "18338,1382,1384" />
+<!--- Core Coach Training: Module 1 (May 2022 4-day) --->
+<cfset local.LU569236_tags = "18364,1382,1384" />
+<!--- Core Coach Training: Module 1 (June 2022 9-week) --->
+<cfset local.LU570659_tags = "18420,1382,1384" />
+<!--- Core Coach Training: Module 1 (June 2022 4-week) --->
+<cfset local.LU570664_tags = "18446,18472,1382,1384" />
+
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
@@ -205,6 +220,10 @@
 	<cfset local.userInfo = theData2.Params[1][1]>
 	<cfset local.tagList =  theData2.Params[1][1]['Groups'] />
 
+	<cfif !structKeyExists(local.userInfo,'LastName')>
+		<cfset local.userInfo = theData2.Params[1][2]>
+		<cfset local.tagList =  theData2.Params[1][2]['Groups'] />
+	</cfif>
 
 	<cfset local.assignGroups = "">
 

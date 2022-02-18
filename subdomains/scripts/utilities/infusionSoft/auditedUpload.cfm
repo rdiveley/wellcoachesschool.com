@@ -4,19 +4,19 @@
 <cfparam name="URL.email" default="rdiveley@wellcoaches.com">
 <cfparam name="URL.lastname" default="Diveley">
 
-
+<!--- 
 <cfset julie = "a,b,c,d,e,f,g">
 <cfset joanna = "h,i,j,k,l,m,n,o">
 <cfset angela = "p,q,r,s,t,u,v,w,x,y,z">
 
 
 <cfif listFindNoCase(julie,Left(URL.Lastname, 1))>
-    <cfset concierge = "jcummings@wellcoaches.com">
+    <cfset concierge = "jcummings@wellcoaches.com;smyers@wellcoaches.com">
 <cfelseif listFindNoCase(joanna,Left(URL.Lastname, 1))>
-    <cfset concierge = "jthomas@wellcoaches.com">
+    <cfset concierge = "jthomas@wellcoaches.com;smyers@wellcoaches.com">
 <cfelseif listFindNoCase(angela,Left(URL.Lastname, 1))>
-    <cfset concierge = "acarterlanon@wellcoaches.com">
-</cfif>
+    <cfset concierge = "acarterlanon@wellcoaches.com;smyers@wellcoaches.com">
+</cfif> --->
 
 <cfif structKeyExists(FORM,"fileUpload")>
 	 <cfset extension = listLast(FORM.filename,".")>
@@ -93,7 +93,7 @@
     	<cfif isDefined("myResult")>
 			Thank you, your documentation has been uploaded.  <br />
 
-      		<cfmail to="#concierge#" from="wellcoaches@wellcoaches.com" subject="#FORM.userFiles#" type="html">
+      		<cfmail to="smyers@wellcoaches.com" from="wellcoaches@wellcoaches.com" subject="#FORM.userFiles#" type="html">
             	User: #FORM.fname#  #FORM.lname#<br /><br />
                 Has uploaded documentation for recertification.
             </cfmail>

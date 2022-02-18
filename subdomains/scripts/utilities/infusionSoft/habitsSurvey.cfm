@@ -165,7 +165,7 @@
 		            returnvariable="theData3">
 
 
-            <cfif theData3.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
+            <cfif structKeyExists(theData3.Params[1][1],'_HWCTFeedbackSurveysComplete3') AND theData3.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
 
                 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
                 <cfset myArray2 = ArrayNew(1)>
