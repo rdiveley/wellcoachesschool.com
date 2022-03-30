@@ -46,9 +46,11 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 <!---<cftry>--->
   <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
   <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
-<!--- Removed Practical skill assesment for now  1382009 --->
- <cfset allsurveys = "6697766,6697769,6697765,6657242,6634902,6439452,6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
-   <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
+<!--- Removed Practical skill assesment for now  1382009 
+
+--->
+ <cfset allsurveys = "6738809,6756318,6734022,6697766,6697769,6697765,6657242,6634902,6439452,6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
+<cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
   <cfloop list="#allsurveys#" index="column">
@@ -75,7 +77,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
          	<cfset emailParam = "[question(37)]" />
 		<cfelseif Find(4227686,column) OR find(4320651,column)>
 			 <cfset emailParam = "[question(61)]" />
-		<cfelseif listFind("4144821,6174072,6350222,6657242,6697765,6697769", column)>
+		<cfelseif listFind("4144821,6174072,6350222,6657242,6697765,6697769,6738809,6756318,6734022", column)>
 				<cfset emailParam = "[question(35)]" />	 
 		<cfelseif listFind("1959806,4238384,6174060,6307281", column) >
 				<cfset emailParam = "[question(37)]" />	 
@@ -106,7 +108,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 	  <cfset local.params = "filter[field][0]=#urlEncodedFormat(emailParam)#&filter[operator][0]=in&filter[value][0]=#trim(urlEncodedFormat(local.emailUser))#&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500" />
 
 	  <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-				arguments = '-G #SGurl#?api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca -d #local.params#'
+				arguments = '-G -k #SGurl#?api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca -d #local.params#'
 				variable="myResult"
 				timeout = "200">
 	  </cfexecute>
@@ -292,12 +294,13 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(124)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>	
-			<cfelseif column eq 6657242 or column eq 6697765 or column eq 6697769>
+			<cfelseif listFind("6657242,6697765,6697769,6734022,6756318,6738809",column)>
+				
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(29)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
-				<cfif column eq 6697765>
+				<cfif listFind("6697765,6738809",column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(122)]'] )/>
-				<cfelseif column eq 6697769>
+				<cfelseif listFind("6697769,6756318", column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 				<cfelse>
 					<cfset temp = QuerySetCell(SurveyList,"hours", 1 )/>
@@ -506,7 +509,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 							  <cfelseif surveyTitle eq 1026874 AND datePart('yyyy',datesubmitted) LTE '2015'>
 	 								 #iif(len(hours),hours,0)#
 	                                 <cfset total = total + iif(len(hours),hours,0)>
-	                          <cfelseif listFind("6697766,1447572,1959806,1144369,4144821,4305174,5769769,6174072,6174060,6307281,6350222,6697765,6697769,6657242", surveyTitle)>
+	                          <cfelseif listFind("6697766,1447572,1959806,1144369,4144821,4305174,5769769,6174072,6174060,6307281,6350222,6697765,6697769,6657242,6738809", surveyTitle)>
 	                                  #iif(len(hours),hours,0)#
 	                                 <cfset total = total + iif(len(hours),hours,0)>
 	                            <cfelseif surveyTitle eq 1382009>

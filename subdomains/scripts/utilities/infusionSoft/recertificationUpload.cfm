@@ -77,7 +77,7 @@
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
-
+<!---
 		<cfif form.examDate EQ '09-30-2017'>
 			<cfset local.tagToApply="8969">
 		<cfelseif form.examDate EQ '06-30-2018'>
@@ -94,14 +94,15 @@
 			<cfset local.tagToApply="12993">
 		<cfelseif form.examDate EQ '11-30-2021'>
 			<cfset local.tagToApply="18198">					
-		</cfif>
+		</cfif> 
+	--->
 
 		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray[2]=key>
         <cfset myArray[3]="(int)#FORM.memberID#">
-        <cfset myArray[4]="(int)#local.tagToApply#"> <!-- NBC-HWC Documentation Submitted -->
+        <cfset myArray[4]="(int)18648"> <!--- NBC-HWC Documentation Submitted --->
 
 
         <cfinvoke component="utilities/XML-RPC"
@@ -117,10 +118,10 @@
 		<!--- update fields --->
 		<cfset updateField = structNew()>
         <cfset updateField['_SupportingNBCdocumentationreceived']='YES'>
-		<!---<cfset updateField['_NBCHWCExamResult']=form.score>--->
+		<!---<cfset updateField['_NBCHWCExamResult']=form.score>
 		<cfset updateField['_RecertificationExpiryDate']=DateAdd('yyyy',3,DateFormat(form.examDate,'mm-dd-yyyy'))>
 		<cfset updateField['_CertificationRenewedDate']=DateAdd('d',1,DateFormat(form.examDate,'mm-dd-yyyy'))>
-		<cfset updateField['_PleaseselecttheNBCexamperiodyouparticipatedin0']=" #DateFormat(form.examDate,'mm-dd-yyyy')# ">
+		<cfset updateField['_PleaseselecttheNBCexamperiodyouparticipatedin0']=" #DateFormat(form.examDate,'mm-dd-yyyy')# ">--->
 
 
 		<cfset myArray = ArrayNew(1)>
@@ -228,8 +229,8 @@
 			    <input type="hidden" name="lname" value="#theData.Params[1][1]['LastName']#" />
 				<input type="hidden" name="userFiles" value="NBC-HWC-DOCUMENTATION" />
 
-				<p>
-					<!---  NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br /> --->
+				<!---<p>
+					  NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br /> 
 					Please select the NBC exam period you participated in: <!-- <input  readonly="readonly" placeholder="mm/dd/yyyy" id="examDate" type="date" name="examDate" > -->
 
 					 <select name="examDate" id="examDate">
@@ -243,7 +244,7 @@
 						<option value="11-30-2021">Fall 2021</option>
 						<!-- <option value="June 2018">June 2019</option> -->
 					</select>
-				</p>
+				</p>--->
 
 			    File: <input type="file" name="fileUpload" id="fileUpload" accept="application/pdf" size="20"/> <br />
 			    <input type="hidden" id="fileName" size="20" name="fileName" />
