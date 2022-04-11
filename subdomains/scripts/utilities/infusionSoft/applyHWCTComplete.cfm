@@ -75,6 +75,7 @@
     <cfmodule template="inc/core/sept2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/core/standalone.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
 
 
