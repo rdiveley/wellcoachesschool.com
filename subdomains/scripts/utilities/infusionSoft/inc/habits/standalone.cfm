@@ -1,4 +1,5 @@
-<cfif listFindNoCase(attributes.tagList,16876) AND listFindNoCase(attributes.tagList,18680) >
+
+    <cfif listFindNoCase(attributes.tagList,16876) AND listFindNoCase(attributes.tagList,18680) >
         <!-- [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete  -->
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup">
@@ -14,7 +15,6 @@
             <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
-           
-    </cfif>
 
- 
+            
+    </cfif>

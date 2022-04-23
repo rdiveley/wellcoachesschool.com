@@ -77,6 +77,7 @@
     <cfmodule template="inc/habits/apr2021-9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/apr2021-4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/apr2021-4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    <cfmodule template="inc/habits/standalone.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  />
 
    <!--- <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" runstep="2" />
@@ -136,7 +137,7 @@
     <cfmodule template="inc/core/sept2021_4day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
-    <cfmodule template="inc/core/standalone.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
+    
 
 
 
