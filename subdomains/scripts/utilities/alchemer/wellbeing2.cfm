@@ -107,11 +107,9 @@
    </cfquery>
 
    <cfset local.totalanswers = val(getHigh.recordcount) + val(getMedium.recordcount)+ val(getLow.recordcount) />
-
-
-   <cfset local.highAverage = round(val(getHigh.recordcount)/local.totalanswers*100) />
-   <cfset local.mediumAverage = round(val(getMedium.recordcount)/local.totalanswers*100) />
-   <cfset local.lowAverage = round(val(getLow.recordcount)/local.totalanswers*100) />
+   <cfset local.highAverage = round(getHigh.recordcount/local.totalanswers*100) />
+   <cfset local.mediumAverage = round(getMedium.recordcount/local.totalanswers*100) />
+   <cfset local.lowAverage = round(getLow.recordcount/local.totalanswers*100) />
 
     <!--- Section_id:
             1 = mind
@@ -180,7 +178,7 @@
                     </thead>
                     <tbody style="width: 600px;" width="600">
                         <tr style="background-color: ##4B3EEC;">
-                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your well-being inventory self-scores.</td>
+                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your personal Health and Well-being Assessment results.</td>
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
                             <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
@@ -346,7 +344,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col1[currentrow]['question'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col2[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -464,7 +462,7 @@
         </html>
     </cfsavecontent>
 
-   <cfmail to="#trim(local.email)#" bcc="rdiveley@wellcoaches.com" subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
+   <cfmail to="#trim(local.email)#" bcc="rdiveley@wellcoaches.com" subject="Well-being Self-Assessment Results" from="wellcoaches@wellcoaches.com" type="html" >
             #results#
     </cfmail>
 
