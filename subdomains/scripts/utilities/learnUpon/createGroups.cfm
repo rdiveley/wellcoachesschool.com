@@ -67,9 +67,9 @@
 <!--- Core Coach Training: Module 1  (April 2020 cohort) --->
 <cfset local.LU200727_tags = "13343,1382,1384">
 <!--- Core Coach Training: Module 2 (California University of PA) --->
-<cfset local.LU133730_tags = "17760,16438,15445,13673,1382,1384">
+<cfset local.LU133730_tags = "18990,17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
-<cfset local.LU133731_tags = "11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
+<cfset local.LU133731_tags = "18990,11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
 <cfset local.LU204039_tags = "13489,1382,1384">
 <!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->

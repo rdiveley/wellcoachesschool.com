@@ -80,18 +80,12 @@
         </cfhttp>
 
 
-		<cfif form.examDate EQ '09-30-2017'>
-			<cfset local.tagToApply="8969">
-		<cfelse>
-			<cfset local.tagToApply="8973">
-		</cfif>
-
 		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray[2]=key>
         <cfset myArray[3]="(int)#FORM.memberID#">
-        <cfset myArray[4]="(int)#local.tagToApply#"> <!-- NBC-HWC Documentation Submitted -->
+        <cfset myArray[4]="18648"> <!-- NBC-HWC Documentation Submitted -->
 
 
         <cfinvoke component="utilities/XML-RPC"
