@@ -84,6 +84,8 @@
         </cfscript>
         
     </cfloop>
+<!--- CFDUMP: Debugging by rdiveley --->
+<cfdump var="#myquery#" abort="true" format="html" output="">
 
    <cfquery name="getHigh" dbtype="query">
        select * 
@@ -102,12 +104,11 @@
     <cfquery name="getLow" dbtype="query">
        select * 
        from myquery
-       where answer >=1 and answer <=3 and id not in (72,85,87,88,89,90)
+       where answer >=0 and answer <=3 and id not in (72,85,87,88,89,90)
        order by answer desc
    </cfquery>
 
    <cfset local.totalanswers = val(getHigh.recordcount) + val(getMedium.recordcount)+ val(getLow.recordcount) />
-
 
    <cfset local.highAverage = round(val(getHigh.recordcount)/local.totalanswers*100) />
    <cfset local.mediumAverage = round(val(getMedium.recordcount)/local.totalanswers*100) />
@@ -119,32 +120,47 @@
             4 = work
             5 = life --->
 
-   <cfquery name="getAverage" dbtype="query">
-       select * 
+  <cfquery name="getAverageMind" dbtype="query">
+       select answer
        from myquery
-       where id in (85,87,88,89,90)
-       order by section_id asc
+       where section_id = 1 and id not in (72,85,87,88,89,90)
    </cfquery>
 
-   <cfset averageStruct = {} />
+   <cfset section_mind_sum = arraySum(listToArray(valueList(getAverageMind.answer))) />
+   <cfset section_mind_average = round(val(section_mind_sum) / val(getAverageMind.recordcount)) /> 
+   <cfset averageStruct.Mind = val(section_mind_average) />
 
-   <cfloop query="getAverage">
-       <cfif section_id eq 1>
-            <cfset averageStruct.Mind = getAverage.answer />
-       </cfif>
-       <cfif section_id eq 3>
-            <cfset averageStruct.Body = getAverage.answer />
-       </cfif>
-       <cfif section_id eq 4>
-            <cfset averageStruct.Work = getAverage.answer />
-       </cfif>
-       <cfif section_id eq 5>
-            <cfset averageStruct.Life = getAverage.answer />
-       </cfif>
-       <cfif section_id eq 5 and id eq 90>
-            <cfset averageStruct.wellbeing = getAverage.answer />
-       </cfif>
-   </cfloop>
+    <cfquery name="getAverageBody" dbtype="query">
+       select answer
+       from myquery
+       where section_id = 3 and id not in (72,85,87,88,89,90)
+   </cfquery>
+
+   <cfset section_body_sum = arraySum(listToArray(valueList(getAverageBody.answer))) />
+   <cfset section_body_average = round(val(section_body_sum) / val(getAverageBody.recordcount)) /> 
+   <cfset averageStruct.Body = val(section_body_average) />
+
+   <cfquery name="getAverageWork" dbtype="query">
+       select answer
+       from myquery
+       where section_id = 4 and id not in (72,85,87,88,89,90)
+   </cfquery>
+
+   <cfset section_work_sum = arraySum(listToArray(valueList(getAverageWork.answer))) />
+   <cfset section_work_average = round(val(section_work_sum) / val(getAverageWork.recordcount)) /> 
+   <cfset averageStruct.Work = val(section_work_average) />
+
+   <cfquery name="getAverageLife" dbtype="query">
+       select answer
+       from myquery
+       where section_id = 5 and id not in (72,85,87,88,89,90)
+   </cfquery>
+
+   <cfset section_life_sum = arraySum(listToArray(valueList(getAverageLife.answer))) />
+   <cfset section_life_average = round(val(section_life_sum) / val(getAverageLife.recordcount)) /> 
+   <cfset averageStruct.Life = val(section_life_average) />
+
+   <cfset averageStruct.wellbeing = round(averageStruct.body + averageStruct.mind + averageStruct.work + averageStruct.life) / 4> 
 
     <cfset filePath = GetTempDirectory() & "#local.email#.pdf">
 
@@ -184,10 +200,10 @@
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
                             <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
-                                <table border="0" width="300" cellpadding="0" cellspacing="0" style="margin-left: 0; width: 300px; background-color: ##4B3EEC;">
-                                    <thead style="width: 300px;" width="300">
+                                <table border="0" width="400" cellpadding="0" cellspacing="0" style="margin-left: 0; width: 400px; background-color: ##4B3EEC;">
+                                    <thead style="width: 400px;" width="400">
                                         <tr>
-                                            <th style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Overall Average</th>
+                                            <th style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Overall Average <span style="font-size: 16px; font-weight: normal;">(out of 10)</span></th>
                                         </tr>
                                     </thead>
                                     <tbody style="width: 300px;" width="300">
@@ -204,7 +220,7 @@
                                 <table border="0" width="544" cellpadding="0" cellspacing="0" style="width: 544px; border: none; background-color: ##4B3EEC; margin-left: 0;">
                                     <thead style="width: 544px;" width="544">
                                         <tr>
-                                            <th colspan="2" style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Section Averages</th>
+                                            <th colspan="2" style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Section Averages <span style="font-size: 16px; font-weight: normal;">(out of 10)</span></th>
                                         </tr>
                                     </thead>
                                     <tbody style="width: 544px;" width="544" style="border: none;">
@@ -464,8 +480,8 @@
         </html>
     </cfsavecontent>
 
-   <cfmail to="#trim(local.email)#" bcc="rdiveley@wellcoaches.com" subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
+   <cfmail to="#trim(local.email)#"  subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
             #results#
-    </cfmail>
+    </cfmail> 
 
 </cfoutput>

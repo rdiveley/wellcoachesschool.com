@@ -1,13 +1,12 @@
 <cfinclude template="credentials.cfm">
 
-
 <cfif structKeyExists(form,'email')>
 	<cfset URL.email = FORM.email>
 </cfif>
-
+<cfset local.message="An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly." />
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -27,7 +26,7 @@
 <!--- #10732 Core Mar2019 Mod 1* --->
 <cfset local.LU132796_tags = "10732,1382,1384">
 <!--- #133227 Core Coach Training: Module 2 --->
-<cfset local.LU133227_tags = "17886,9617,1382,1384">
+<cfset local.LU133227_tags = "17886,9617,1382,1384,18672,9617">
 <!--- #134579 Professional Coach Training 2019 --->
 <cfset local.LU134579_tags = "1382,1384,10145">
 <!--- 135804 = Burnout Prevention Program for Physicians --->
@@ -181,7 +180,16 @@
 <!--- Core Coach Training: Module 1 (Oct 2022) --->
 <cfset local.LU607295_tags = "18840,18814,1382,1384" />
 <!--- Core Coach Training: Module 1 (Nov 2022) --->
-<cfset local.LU611521_tags = "18910,1382,1384" />
+<cfset local.LU611521_tags = "19102,18910,1382,1384" />
+<!--- Core Coach Training: Module 1 (Dec 2022)  --->
+<cfset local.LU625819_tags = "19006,1382,1384" />
+<!--- Core Coach Training: Module 1 (Jan 2023)  --->
+<cfset local.LU638088_tags = "19180,19154,1382,1384" />
+<!--- Core Coach Training: Module 1 (Feb 2023)  --->
+<cfset local.LU645020_tags = "19288,19262,1382,1384" />
+<!--- Core Coach Training: Module 1 (Mar 2023) --->
+<cfset local.LU647797_tags = "19376,19350,1382,1384" />
+
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
 <cfloop list="#local.group_id#" index="local.id">
 	<cfset 'local.LU#local.id#' = {} />
@@ -204,47 +212,47 @@
     <cfset myArray[3]=URL.email>
     <cfset myArray[4]=selectedFieldsArray>
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="CFML2XMLRPC"
-        data="#myArray#"
-        returnvariable="myPackage">
-	
-	<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-		arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
-		variable="myResult1"
-		timeout = "200">
-	</cfexecute>
+	<cftry>
+		<cfinvoke component="utilities/XML-RPC"
+			method="CFML2XMLRPC"
+			data="#myArray#"
+			returnvariable="myPackage">
+		
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+			variable="myResult1"
+			timeout = "200">
+		</cfexecute>
 
+		<cfinvoke component="utilities/XML-RPC"
+			method="XMLRPC2CFML"
+			data="#myResult1#"
+			returnvariable="theData2">
 
-	 <cfinvoke component="utilities/XML-RPC"
-        method="XMLRPC2CFML"
-        data="#myResult1#"
-        returnvariable="theData2">
+		<cfif !arrayLen(theData2['Params'][1])>
+			User <cfoutput>#URL.email#</cfoutput> does not exist in our records.<br /><cfabort />
+		</cfif>
 
-	<cfif !arrayLen(theData2['Params'][1])>
-		User <cfoutput>#URL.email#</cfoutput> does not exist in our records.<br /><cfabort />
-	</cfif>
+		<cfset local.userInfo = theData2.Params[1][1]>
+		<cfset local.tagList =  theData2.Params[1][1]['Groups'] />
 
-	<cfset local.userInfo = theData2.Params[1][1]>
-	<cfset local.tagList =  theData2.Params[1][1]['Groups'] />
+		<cfif !structKeyExists(local.userInfo,'LastName')>
+			<cfset local.userInfo = theData2.Params[1][2]>
+			<cfset local.tagList =  theData2.Params[1][2]['Groups'] />
+		</cfif>
 
-	<cfif !structKeyExists(local.userInfo,'LastName')>
-		<cfset local.userInfo = theData2.Params[1][2]>
-		<cfset local.tagList =  theData2.Params[1][2]['Groups'] />
-	</cfif>
+		<cfset local.assignGroups = "">
 
-	<cfset local.assignGroups = "">
-
-	<!--- loop through all the tags, if you find a tag as a key to a structure/group, add that group to local.assignGroups --->
-	<cfloop list="#local.tagList#" index="local.tag">
-		<cfloop collection="#local.LU#" item="local.col">
-			<cfif structKeyExists(local.LU[local.col],local.tag)>
-				<cfset local.assignGroups = listAppend(local.assignGroups,local.col) />
-			</cfif>
+		<!--- loop through all the tags, if you find a tag as a key to a structure/group, add that group to local.assignGroups --->
+		<cfloop list="#local.tagList#" index="local.tag">
+			<cfloop collection="#local.LU#" item="local.col">
+				<cfif structKeyExists(local.LU[local.col],local.tag)>
+					<cfset local.assignGroups = listAppend(local.assignGroups,local.col) />
+				</cfif>
+			</cfloop>
 		</cfloop>
-	</cfloop>
 
-	<cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
+		<cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
 
 		<cfset local.id = "">
 
@@ -311,7 +319,6 @@
 							timeout = "200">
 						</cfexecute>
 					</cfloop>
-
 				</cfif>
 
 				<h3>User invite was sent successfully!</h3>
@@ -328,7 +335,6 @@
 		</cfexecute>
 
 		<cfset local.groups = deserializeJSON(myGroups)>
-
 
 		<cfset local.groupids = "" />
 
@@ -371,29 +377,45 @@
 		</cfloop>
 
 
-	<!--- remove user from groups he doesn't belong to --->
-	<cfloop list="#local.deleteUserFromGroup#" index="local.deletegroupid">
+		<!--- remove user from groups he doesn't belong to --->
+		<cfloop list="#local.deleteUserFromGroup#" index="local.deletegroupid">
 
-		<cfset local.deleteGroup =
-			{"GroupMembership":
-				{ 'group_id' : local.deletegroupid
-				,'user_id' : local.id
+			<cfset local.deleteGroup =
+				{"GroupMembership":
+					{ 'group_id' : local.deletegroupid
+					,'user_id' : local.id
+					}
 				}
-			}
-		/>
+			/>
 
-		<cfset local.deleteGroup = serializeJSON(local.deleteGroup) />
+			<cfset local.deleteGroup = serializeJSON(local.deleteGroup) />
 
-		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-				arguments = '-X DELETE -H "Content-Type: application/json" --user #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships/0  -d #ReplaceNoCase(local.deleteGroup,'"','\"','all')# '>
-		</cfexecute> 
-		
-	</cfloop>
+			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+					arguments = '-X DELETE -H "Content-Type: application/json" --user #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships/0  -d #ReplaceNoCase(local.deleteGroup,'"','\"','all')# '>
+			</cfexecute> 
+			
+		</cfloop>
 
 		<cfset local.message = "User was added successfully to LearnUpon!">
 		<cfif structKeyExists(url,'redirectFromCH')>
 				 <cflocation url="https://wellcoaches.learnupon.com/sqsso?Email=#URL.email#&TS=#URL.TS#&SSOToken=#URL.SSOToken#" />
 		</cfif>
+		
+		<cfcatch type="any">
+			
+			<cfmail to="rdiveley@wellcoaches.com" subject="LearnUpon Create Groups" from="wellcoaches@wellcoaches.com" type="html">
+				<table>
+					<tr>
+						<td><cfdump var="#cfcatch#" format="html"></td>
+					</tr>
+					
+					<tr>
+						<td><cfdump var="#url#" format="html"></td>
+					</tr>
+				</table>
+			</cfmail>
+		</cfcatch>
+	</cftry>
 
 <cfoutput>
 	<h3>#local.message#</h3>

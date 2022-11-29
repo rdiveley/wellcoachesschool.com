@@ -31,14 +31,18 @@
     <cfparam name="URL.retake" default="No" />
 
     <cfset memberID = theData['params'][1][1]['Id'] />
+     
+    <cfparam  name="URL.score" default="0">
+    <cfparam  name="URL.uniqueURL" default="0">
 
     <cfif url.retake EQ 'Yes'>
+          
     		<cfset updateField['_WrittenExamRetakeResults']=URL.score />
-			<cfset updateField['_VoucherNumber2']=URL.uniqueURL />
+		<cfset updateField['_VoucherNumber2']=URL.uniqueURL />
 
     <cfelse>
     		<cfset updateField['_WrittenExamResults']=URL.score>
-			<cfset updateField['_VoucherNumber2']=URL.uniqueURL />
+		<cfset updateField['_VoucherNumber2']=URL.uniqueURL />
     </cfif>
 
 

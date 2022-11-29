@@ -84,6 +84,13 @@
         </cfscript>
         
     </cfloop>
+<!--- CFDUMP: Debugging by rdiveley --->
+<cfquery name="test" dbtype="query">
+       select * 
+       from myquery
+       where id not in (72,85,87,88,89,90)
+       order by answer desc
+   </cfquery>
 
    <cfquery name="getHigh" dbtype="query">
        select * 
@@ -102,14 +109,16 @@
     <cfquery name="getLow" dbtype="query">
        select * 
        from myquery
-       where answer >=1 and answer <=3 and id not in (72,85,87,88,89,90)
+       where answer >=0 and answer <=3 and id not in (72,85,87,88,89,90)
        order by answer desc
    </cfquery>
 
    <cfset local.totalanswers = val(getHigh.recordcount) + val(getMedium.recordcount)+ val(getLow.recordcount) />
-   <cfset local.highAverage = round(getHigh.recordcount/local.totalanswers*100) />
-   <cfset local.mediumAverage = round(getMedium.recordcount/local.totalanswers*100) />
-   <cfset local.lowAverage = round(getLow.recordcount/local.totalanswers*100) />
+
+
+   <cfset local.highAverage = round(val(getHigh.recordcount)/local.totalanswers*100) />
+   <cfset local.mediumAverage = round(val(getMedium.recordcount)/local.totalanswers*100) />
+   <cfset local.lowAverage = round(val(getLow.recordcount)/local.totalanswers*100) />
 
     <!--- Section_id:
             1 = mind
@@ -147,7 +156,6 @@
     <cfset filePath = GetTempDirectory() & "#local.email#.pdf">
 
     <cfsavecontent variable="results">
-      
         <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
             <head>
                 <meta charset="UTF-8">
@@ -165,98 +173,86 @@
                         margin: auto;
                     }
                 </style>
+
             </head>
             <body>
 
-                <table border="0" width="600px" cellpadding="0" cellspacing="0" style="text-align: left; color: white; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif;">
-                    <thead style="background-color: ##4B3EEC;">
+                <table border="0" width="600" cellpadding="0" cellspacing="0" style="text-align: left; color: white; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif; width: 600px; background-color: ##4B3EEC;">
+                    <thead style="background-color: ##4B3EEC; width: 600px;" width="600">
                         <tr>
-                            <th style="padding: 28px;">
-                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-logo-white.png" width="135" height="16" alt="Wellcoaches Logo">
+                            <th style="padding: 28px; text-align: left;">
+                                <a href="https://wellcoachesnetwork.com/" title="Click to visit https://wellcoachesnetwork.com/"><img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-logo-white.png" width="135" height="16" alt="Wellcoaches Logo"></a>
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="width: 600px;" width="600">
                         <tr style="background-color: ##4B3EEC;">
-                            <td style="padding: 56px 56px 28px 28px; font-size: 24px;">Here are your personal Health and Well-being Assessment results.</td>
+                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your well-being inventory self-scores.</td>
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
                             <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
-                                <table border="0" width="300" cellpadding="0" cellspacing="0" style="margin-left: 0;">
-                                    <thead>
+                                <table border="0" width="400" cellpadding="0" cellspacing="0" style="margin-left: 0; width: 400px; background-color: ##4B3EEC;">
+                                    <thead style="width: 400px;" width="400">
                                         <tr>
-                                            <th colspan="2" style="color:white;font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left;">Overall Average</th>
+                                            <th style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Overall Average <span style="font-size: 16px; font-weight: normal;">(out of 10)</span></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody style="width: 300px;" width="300">
                                         <tr>
-                                            <td style="color:white;font-size: 96px; font-weight: 500; line-height: 100% !important; padding: 0 14px 14px 0; text-align: center;" valign="bottom">#averageStruct['wellbeing']#</td>
-                                            <td style="color:white;font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; padding: 0 28px 28px 0; font-weight: 300; width: 100%;" valign="bottom">Well-Being</td>
+                                            
+                                            <td height="96" style="font-size: 96px; font-weight: 500; line-height: 100% !important; mso-line-height-rule:exactly; padding: 0 14px 14px 0; color: white; height: 96px;" valign="bottom"><span style="display: inline-block; min-width: 60px; text-align: center;">#averageStruct['wellbeing']#</span> <span style="font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; mso-line-height-rule: exactly; font-weight: 300; color: white;">Well-Being</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
-                            <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
-                                <table border="0" width="544" cellpadding="0" cellspacing="0">
-                                    <colgroup>
-                                        <col>
-                                        <col style="width: 50%;">
-                                        <col>
-                                        <col style="width: 50%;">
-                                    </colgroup>
-                                    <thead>
+                            <td style="padding: 0 28px 0 28px; page-break-inside: avoid; break-inside: avoid;">
+                                <table border="0" width="544" cellpadding="0" cellspacing="0" style="width: 544px; border: none; background-color: ##4B3EEC; margin-left: 0;">
+                                    <thead style="width: 544px;" width="544">
                                         <tr>
-                                            <th colspan="3" style="color:white;font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left;">Section Averages</th>
+                                            <th colspan="2" style="font-size: 40px; font-weight: normal; padding: 14px 0; text-align: left; color: white;">Section Averages <span style="font-size: 16px; font-weight: normal;">(out of 10)</span></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody style="width: 544px;" width="544" style="border: none;">
                                         <tr>
-                                            <td style="color:white;font-size: 96px; font-weight: 500; line-height: 100% !important; padding: 0 14px 14px 0; text-align: center;" valign="bottom">#averageStruct['mind']#</td>
-                                            <td style="color:white;font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; padding: 0 28px 28px 0; font-weight: 300;" valign="bottom">Mind</td>
-                                            <td style="color:white;font-size: 96px; font-weight: 500; line-height: 100% !important; padding: 0 14px 14px 0; text-align: center;" valign="bottom">#averageStruct['body']#</td>
-                                            <td style="color:white;font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; padding: 0 28px 28px 0; font-weight: 300;" valign="bottom">Body</td>
+                                            <td height="96" style="font-size: 96px; font-weight: 500; line-height: 100% !important; mso-line-height-rule:exactly; padding: 0 14px 14px 0; color: white; height: 96px;" valign="bottom"><span style="display: inline-block; min-width: 60px; text-align: center;">#averageStruct['mind']#</span> <span style="font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; mso-line-height-rule: exactly; font-weight: 300; color: white;">Mind</span></td>
+                                            <td height="96" style="font-size: 96px; font-weight: 500; line-height: 100% !important; mso-line-height-rule:exactly; padding: 0 14px 14px 0; color: white; height: 96px;" valign="bottom"><span style="display: inline-block; min-width: 60px; text-align: center;">#averageStruct['body']#</span> <span style="font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; mso-line-height-rule: exactly; font-weight: 300; color: white;">Body</span></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;font-size: 96px; font-weight: 500; line-height: 100% !important; padding: 0 14px 14px 0; text-align: center;" valign="bottom">#averageStruct['work']#</td>
-                                            <td style="color:white;font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; padding: 0 28px 28px 0; font-weight: 300;" valign="bottom">Work</td>
-                                            <td style="color:white;font-size: 96px; font-weight: 500; line-height: 100% !important; padding: 0 14px 14px 0; text-align: center;" valign="bottom">#averageStruct['life']#</td>
-                                            <td style="color:white;font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; padding: 0 28px 28px 0; font-weight: 300;" valign="bottom">Life</td>
+                                            <td height="96" style="font-size: 96px; font-weight: 500; line-height: 100% !important; mso-line-height-rule:exactly; padding: 0 14px 0 0; color: white; height: 96px;" valign="bottom"><span style="display: inline-block; min-width: 60px; text-align: center;">#averageStruct['work']#</span> <span style="font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; mso-line-height-rule: exactly; font-weight: 300; color: white;">Work</span></td>
+                                            <td height="96" style="font-size: 96px; font-weight: 500; line-height: 100% !important; mso-line-height-rule:exactly; padding: 0 14px 0 0; color: white; height: 96px;" valign="bottom"><span style="display: inline-block; min-width: 60px; text-align: center;">#averageStruct['life']#</span> <span style="font-size: 24px; font-family: 'Open Sans', Arial, sans-serif; line-height: 100% !important; mso-line-height-rule: exactly; font-weight: 300; color: white;">Life</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td height="28"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
                         <tr>
-                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/doing-well-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid;">
-                                <!--[if gte mso 9]>
-                                <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:640px;">
-                                <v:fill type="frame" src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/doing-well-bg.png" color="##4B3EEC" />
-                                <v:textbox inset="0,0,0,0">
-                                <![endif]-->
-                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <td height="21" style="background-color: white;"></td>
+                        </tr>
+                        <tr>
+                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/doing-well-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid; width: 600px; height: 640px;">
+                                <table border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                         <tr>
                                             <td style="padding: 28px;">
-                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" widtd="16" height="14" alt="Wellcoaches Logo Icon">
+                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" width="16" height="14" alt="Wellcoaches Logo Icon">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 28px 215px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important;">Areas where you are <b style="white-space: nowrap;">doing well.</b></td>
+                                            <td style="padding: 28px 215px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important; color: white;">Areas where you are <b style="white-space: nowrap;">doing well.</b></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif;" valign="top">#local.highAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important;">%</span></td>
+                                            <td style="padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif; color: white;" valign="top">#local.highAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important; mso-line-height-rule:exactly;">%</span></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 28px 56px 28px; line-height: 100% !important; font-size: 18px; text-transform: uppercase; font-weight: 400;">of your answers were <b>7 or higher</b></td>
+                                            <td style="padding: 0 28px 56px 28px; line-height: 100% !important; mso-line-height-rule:exactly; font-size: 18px; text-transform: uppercase; font-weight: 400; color: white;">of your answers were <b>7 or higher</b></td>
                                         </tr>
                                     </thead>
                                 </table>
-                                <!--[if gte mso 9]>
-                                </v:textbox>
-                                </v:rect>
-                                <![endif]-->
                             </td>
                         </tr>
                         <cfset col1 = [] />
@@ -273,18 +269,18 @@
                             </cfif> 
                         </cfloop>
                         <tr>
-                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left;">
-                                <table border="0" cellpadding="0" cellspacing="0" style="color: ##221E49; width: 100%;">
+                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left; background-color: white;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="color: ##221E49; width: 100%; background-color: white;">
                                     <tbody>
                                         <cfloop from="1" to="#gethigh.recordcount#" index="currentrow" >
                                             <tr>
                                                 <cfif ArrayIsDefined(col1,currentrow) AND LEN(trim(col1[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col1[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col1[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -292,11 +288,11 @@
                                                 </cfif>
                                                 <cfif ArrayIsDefined(col2,currentrow) AND LEN(trim(col2[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col2[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col2[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -304,39 +300,32 @@
                                                 </cfif>
                                             </tr>
                                         </cfloop>
+                                        
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
+                        
                         <tr>
-                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/improvement-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid;">
-                                <!--[if gte mso 9]>
-                                <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:640px;">
-                                <v:fill type="frame" src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/improvement-bg.png" color="##4B3EEC" />
-                                <v:textbox inset="0,0,0,0">
-                                <![endif]-->
-                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/improvement-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid; width: 600px; height: 640px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="width: 600px;">
                                     <tbody>
                                         <tr>
                                             <td style="padding: 28px;">
-                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" widtd="16" height="14" alt="Wellcoaches Logo Icon">
+                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" width="16" height="14" alt="Wellcoaches Logo Icon">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 28px 215px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important;">Potential opportunities <b style="white-space: nowrap;">for improvement.</b></td>
+                                            <td style="padding: 28px 145px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important; color: white;">Potential opportunities <b style="white-space: nowrap;">for improvement.</b></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif;" valign="top">#local.mediumAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important;">%</span></td>
+                                            <td style="padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif; color: white;" valign="top">#local.mediumAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important; mso-line-height-rule:exactly;">%</span></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 28px 56px 28px; line-height: 100% !important; font-size: 18px; text-transform: uppercase; font-weight: 400;">of your answers were <b>4 to 6</b></td>
+                                            <td style="padding: 0 28px 56px 28px; line-height: 100% !important; mso-line-height-rule:exactly; font-size: 18px; text-transform: uppercase; font-weight: 400; color: white;">of your answers were <b>4 to 6</b></td>
                                         </tr>
                                     </thead>
                                 </table>
-                                <!--[if gte mso 9]>
-                                </v:textbox>
-                                </v:rect>
-                                <![endif]-->
                             </td>
                         </tr>
                         <cfset col1 = [] />
@@ -352,20 +341,19 @@
                                 <cfset arrayAppend(col2, item)> 
                             </cfif> 
                         </cfloop>
-                        
                         <tr>
-                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left;">
-                                <table border="0" cellpadding="0" cellspacing="0" style="color: ##221E49; width: 100%;">
+                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left; background-color: white;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="color: ##221E49; width: 600px; background-color: white;">
                                     <tbody>
                                         <cfloop from="1" to="#getMedium.recordcount#" index="currentrow" >
                                             <tr>
                                                 <cfif ArrayIsDefined(col1,currentrow) AND LEN(trim(col1[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col1[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col1[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -373,11 +361,11 @@
                                                 </cfif>
                                                 <cfif ArrayIsDefined(col2,currentrow) AND LEN(trim(col2[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col2[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col2[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -389,36 +377,26 @@
                                 </table>
                             </td>
                         </tr>
-                        
                         <tr>
-                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/burnout-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid;">
-                                <!--[if gte mso 9]>
-                                <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:640px;">
-                                <v:fill type="frame" src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/burnout-bg.png" color="##4B3EEC" />
-                                <v:textbox inset="0,0,0,0">
-                                <![endif]-->
-                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                            <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/burnout-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid; width: 600px; height: 640px;">
+                                <table border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                         <tr>
                                             <td style="padding: 28px;">
-                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" widtd="16" height="14" alt="Wellcoaches Logo Icon">
+                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" width="16" height="14" alt="Wellcoaches Logo Icon">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 28px 215px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important;">Areas that may contribute to <b style="white-space: nowrap;">burnout.</b></td>
+                                            <td style="padding: 28px 145px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important; color: white;">Areas that may contribute to <b style="white-space: nowrap;">burnout.</b></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif;" valign="top">#local.lowAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important;">%</span></td>
+                                            <td style="padding: 0 0 0 20px; font-size: 240px; line-height: 90% !important; font-weight: bold; font-family: 'DM Sans', Arial, sans-serif; color: white;" valign="top">#local.lowAverage#<span style="font-size: 120px; vertical-align: top; line-height: 100% !important; mso-line-height-rule:exactly;">%</span></td>
                                         </tr>
                                         <tr>
-                                            <td style="color:white;padding: 0 28px 56px 28px; line-height: 100% !important; font-size: 18px; text-transform: uppercase; font-weight: 400;">of your answers were <b>3 or lower</b></td>
+                                            <td style="padding: 0 28px 56px 28px; line-height: 100% !important; mso-line-height-rule:exactly; font-size: 18px; text-transform: uppercase; font-weight: 400; color: white;">of your answers were <b>3 or lower</b></td>
                                         </tr>
                                     </thead>
                                 </table>
-                                <!--[if gte mso 9]>
-                                </v:textbox>
-                                </v:rect>
-                                <![endif]-->
                             </td>
                         </tr>
                         <cfset col1 = [] />
@@ -435,31 +413,30 @@
                             </cfif> 
                         </cfloop>
                         <tr>
-                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left;">
-                                <table border="0" cellpadding="0" cellspacing="0" style="color: ##221E49; width: 100%;">
+                            <td style="padding: 50px 0 14px 28px; page-break-inside: avoid; break-inside: avoid; text-align: left; background-color: white;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="color: ##221E49; width: 100%; background-color: white;">
                                     <tbody>
                                         <cfloop from="1" to="#getLow.recordcount#" index="currentrow" >
                                             <tr>
                                                 <cfif ArrayIsDefined(col1,currentrow) AND LEN(trim(col1[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col1[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col1[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col1[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </td>
                                                 </cfif>
-                                                
-                                                <cfif ArrayIsDefined(col2,currentrow) AND LEN(trim(col2[currentrow]['question']))>
+                                                 <cfif ArrayIsDefined(col2,currentrow) AND LEN(trim(col2[currentrow]['question']))>
                                                     <td style="width: 50%; height: 104px;" valign="top">
-                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 300px;">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 100% !important; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
-                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 2px 28px 28px 14px; font-weight: 300; width: 100%;" valign="top">#trim(col2[currentrow]['question'])#</td>
+                                                                    <td style="color: ##4B3EEC; font-weight: bold; font-size: 40px; line-height: 90% !important; mso-line-height-rule:exactly; width: 42px; min-width: 42px; text-align: center;" valign="top">#trim(col2[currentrow]['answer'])#</td>
+                                                                    <td style="font-size: 14px; font-family: 'Open Sans', Arial, sans-serif; padding: 0 28px 28px 14px; font-weight: 300; width: 100%;" valign="middle">#trim(col2[currentrow]['question'])#</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -467,22 +444,22 @@
                                                 </cfif>
                                             </tr>
                                         </cfloop>
-                                        
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
+                        
                     </tbody>
-                    <tfoot>
+                    <tfoot style="width: 600px;" width="600">
                         <tr>
                             <td style="page-break-inside: avoid; break-inside: avoid;">
-                                <table border="0" width="600px" cellpadding="0" cellspacing="0" style="background-color: ##4B3EEC; text-align: left;">
+                                <table border="0" width="600" cellpadding="0" cellspacing="0" style="background-color: ##4B3EEC; text-align: left; width: 600px;">
                                     <tfoot>
                                         <tr>
                                             <th style="padding: 28px;">
-                                                <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-logo-white.png" width="135" height="16" alt="Wellcoaches Logo">
+                                                <a href="https://wellcoachesnetwork.com/" title="Click to visit https://wellcoachesnetwork.com/"><img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-logo-white.png" width="135" height="16" alt="Wellcoaches Logo"></a>
                                             </th>
-                                            <td style="text-align: right; padding: 28px; color: white; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif;"><a href="https://www.wellcoachesschool.com/" title="Click to visit wellcoachesschool.com" style="color: white !important; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif; font-size: 13px; text-decoration: none !important; border-bottom: 1px solid white;">wellcoachesschool.com</a></td>
+                                            <td style="text-align: right; padding: 28px; color: white; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif;"><a href="https://wellcoachesnetwork.com/" title="Click to visit https://wellcoachesnetwork.com/" style="color: white !important; font-family: 'DM Sans', 'Open Sans', Arial, sans-serif; font-size: 13px; text-decoration: none !important; border-bottom: 1px solid white;">wellcoachesnetwork.com</a></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -490,14 +467,12 @@
                         </tr>
                     </tfoot>
                 </table>
-
             </body>
         </html>
     </cfsavecontent>
 
-   <cfmail to="#trim(local.email)#" bcc="rdiveley@wellcoaches.com" subject="Well-being Self-Assessment Results" from="wellcoaches@wellcoaches.com" type="html" >
+   <cfmail to="#trim(local.email)#"  subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
             #results#
-       
-    </cfmail>
+    </cfmail> 
 
 </cfoutput>
