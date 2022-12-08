@@ -42,7 +42,7 @@
   		<cfset answerKeyData = deserializeJSON(answers.fileContent) />
  		<cfset answerStruct = answerKeyData.data[1]>
 
- 	   <cfset SGurl = "https://restapi.surveygizmo.com/head/survey/2547687/surveyresponse">
+ 	   <cfset SGurl = "https://restapi.surveygizmo.com/head/survey/6935164/surveyresponse">
           <cfhttp url="#SGurl#" result="myResult" method="get">
      		<cfhttpparam type="url"  value="b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca" name="api_token"/>
 			<cfhttpparam type="url"  value="[question(21)]" name="filter[field][0]"/>
