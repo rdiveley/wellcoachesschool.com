@@ -110,6 +110,7 @@
    <cfmodule template="inc/module2/IsrealPartner.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/genericpartners.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/untOct2021.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
+   <cfmodule template="inc/module2/untJun2022.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
 
 
 </cfoutput>
