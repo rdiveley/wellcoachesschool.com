@@ -69,6 +69,28 @@
 				gtag('js', new Date()); 
 				gtag('config', 'AW-967526309'); 
 		</script>
+		<style>
+			label {
+				display: block;
+				padding-left: 15px;
+				text-indent: -15px;
+				margin-bottom: 10px;
+			}
+
+			input {
+				padding: 0;
+				margin: 0;
+				vertical-align: bottom;
+				position: relative;
+				top: -6px;
+			}
+			.mura-editable-label{
+				display:none
+			}
+			.form-group{
+				margin-bottom: 30px;
+			}
+		</style>
 	</head>
 	<body>
 	

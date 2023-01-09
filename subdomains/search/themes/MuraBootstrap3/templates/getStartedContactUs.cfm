@@ -3,8 +3,8 @@
 	<div class="container-fluid secondary-header row mb-2">
 	<!--- <img alt="" src="/themes/MuraBootstrap3/images/get-started.jpg" /> --->
 	</div>
-	<div class="container mbt-1">
-	  <div class="col-sm-9">
+	<div class="container ">
+	  
 		   #$.dspBody(
 			body=$.content('body')
 			, crumbList=false
@@ -13,7 +13,7 @@
 		<cfif len(#$.dspObjects(2)#)>
 			#$.dspObjects(2)#
 		</cfif>
-	  </div>
+	 
 		   <!-- end col-sm-9 -->
 		  
       </div>

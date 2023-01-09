@@ -177,8 +177,9 @@
 				</cfdefaultcase>
 			</cfswitch>
 		</cfif>
-		<cfheader name="cache-control" value="no-cache, no-store, must-revalidate">
-		<cfheader name="expires" value="06 Nov 1994 08:37:34 GMT">
+		<cfheader name="cache-control"  value="no-cache, no-store, must-revalidate">
+		<cfheader name="pragma" value="no-cache">
+		<cfheader name="expires" value="#getHttpTimeString(now())#"> 
 	</cfsilent>
 
 	<title>#esapiEncode('html',application.configBean.getTitle())#<cfif len(moduleTitle)> - #esapiEncode('html',moduleTitle)#</cfif></title>
