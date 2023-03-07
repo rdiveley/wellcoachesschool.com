@@ -8,6 +8,7 @@
         <cfargument name="ce_requirements"  default="">
         <cfargument name="downloadLink"  default="">
         <cfargument name="course_description"  default="">
+        <cfargument name="nbhwc_expiration"  default="">
         <cfargument name="facilitator"  default="">
         <cfargument name="handoutLink"  default="">
         <cfargument name="classDate"  default="">
@@ -29,6 +30,11 @@
                 ce_requirements = <cfqueryparam value="#arguments.ce_requirements#" cfsqltype="cf_sql_varchar" />,
                 download_link = <cfqueryparam value="#arguments.downloadLink#" cfsqltype="cf_sql_varchar" />,
                 course_description = <cfqueryparam value="#arguments.course_description#" cfsqltype="cf_sql_varchar" />,
+                <cfif isDate(arguments.nbhwc_expiration)>
+                    nbhwc_expiration = <cfqueryparam value="#arguments.nbhwc_expiration#" cfsqltype="cf_sql_varchar" />,
+                <cfelse>
+                    nbhwc_expiration = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.nbhwc_expiration#" null="yes" />,
+                </cfif>
                 facilitator = <cfqueryparam value="#arguments.facilitator#" cfsqltype="cf_sql_varchar" />,
                 handout_link = <cfqueryparam value="#arguments.handoutLink#" cfsqltype="cf_sql_varchar" />,
                 class_date = <cfqueryparam value="#arguments.classDate#" cfsqltype="cf_sql_date" />,

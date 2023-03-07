@@ -26,6 +26,7 @@
             ,handout_link
             <!--- ,listen_link --->
             ,class_date
+            ,nbhwc_expiration
             ,cip
             ,wcm
 			,nchec
@@ -47,6 +48,7 @@
                 <cfqueryparam value="#form.add_handout_link#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_handout_link))#" />,
                <!---  <cfqueryparam value="#form.add_listen_link#" cfsqltype="cf_sql_varchar" null="#NOT len(trim(form.add_listen_link))#" />, --->
                 <cfqueryparam value="#form.add_class_date#" cfsqltype="cf_sql_date" null="#NOT len(trim(form.add_class_date))#" />,
+                <cfqueryparam value="#form.add_nbhwc_expiration#" cfsqltype="cf_sql_date" null="#NOT len(trim(form.add_nbhwc_expiration))#" />,
                 <cfif structkeyExists(form,'add_cip')>
                 	1,
                 <cfelse>
@@ -106,6 +108,7 @@
             ,id
            <!---  ,listen_link --->
             ,class_date
+            ,nbhwc_expiration
             ,cip
             ,wcm
 			,nchec
@@ -127,6 +130,7 @@
             ,facilitator
             ,handout_link
             ,class_date
+            ,nbhwc_expiration
             ,id
            <!---  ,listen_link --->
             ,cip
@@ -194,7 +198,7 @@
     1. Wellcoaches will accept all class on this page for credit towards recertification.  Each class is worth 1 CEU<br />
     2. Current year class recordings are approved by a few outside organizations.  Please look under the "Approved courses by CE providers column" to see which organizations approves each class<br />
     3. All classes are worth 1 CEU<br />
-    4. Please complete all requirements for the class to receive CE’s (requirements listed in the “requirements for CE’s” column.  
+    4. Please complete all requirements for the class to receive CE’s (requirements listed in the “requirements for CE’s” column).  
     </p>
 
 <div class="datagrid"  >
@@ -222,7 +226,7 @@ Text:<input type="text" name="query"></input>
  <table style="padding:20px">
 	<thead>
         <tr>
-            <th>Class Date</th>
+            <th>Class Dates</th>
             <th width="50">Member<br/>Class Title</th>
             <th width="200">Facilitator/<br/> Author</th>
             <th width="250">Approved course by these continuing education providers</th>
@@ -243,19 +247,18 @@ Text:<input type="text" name="query"></input>
                 <td ><span id="show_class_title_#id#">#class_title#</span></td>
                 <td ><span id="show_facilitator_#id#">#facilitator#</span></td>
                 <td >
-					<span id="show_nchec_#id#"><cfif NCHEC EQ 1>NCHEC</cfif> </span>
+					<span id="show_nchec_#id#"><cfif NCHEC EQ 1>NCHEC<br /></cfif> </span>
                     <!--- <span id="show_ace_#id#"><cfif ACE EQ 1>ACE</cfif></span> --->
-					<span id="show_acsm_#id#"><cfif ACSM EQ 1>ACSM</cfif></span>
-					<span id="show_boc_#id#"><cfif BOC EQ 1>BOC</cfif></span>
-                    <span id="show_cdr_#id#"><cfif CDR EQ 1>CDR</cfif></span>
-                    <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>NBHWC</cfif></span>
+					<span id="show_acsm_#id#"><cfif ACSM EQ 1>ACSM<br /></cfif></span>
+					<span id="show_boc_#id#"><cfif BOC EQ 1>BOC<br /></cfif></span>
+                    <span id="show_cdr_#id#"><cfif CDR EQ 1>CDR<br /></cfif></span>
+                    <span id="show_ichwc_#id#"><cfif ICHWC EQ 1>NBHWC <cfif len(listfiles.nbhwc_expiration)>(Expire date:#dateformat(nbhwc_expiration,'mm/dd/yyy')#)</cfif><br /></cfif></span>
                 </td>
                 <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span><br /></td>
                 <td ><span id="show_handout_link_#id#">#handout_link#</span></td>
                 <td ><span id="show_download_link#id#">#download_link#</span></td>
                 <td ><span id="show_course_description#id#"><a href="javascript:void(0)" title="#htmlEditFormat(course_description)#"  style="color:##000000;text-decoration:none">#left(course_description,50)#</a><cfif len(course_description) GT 50>...</cfif></span></td>
                 <td ><span id="show_category_#id#">#category#</span></td>
-                
                 
 				<cfif listFind(admins,URL.email)>
                     <td nowrap="nowrap">
@@ -277,6 +280,7 @@ Text:<input type="text" name="query"></input>
 						<input size="5" type="checkbox" value="1" id="boc_#id#" name="boc_#id#" <cfif BOC EQ 1>checked</cfif> />BOC<br />
                         <input size="5" type="checkbox" value="1" id="cdr_#id#" name="cdr_#id#" <cfif CDR EQ 1>checked</cfif> />CDR<br />
                         <input size="5" type="checkbox" value="1" id="ichwc_#id#" name="ichwc_#id#" <cfif ICHWC EQ 1>checked</cfif> />NBHWC<br />
+                        <input type="text" class="datepicker" value="#dateformat(nbhwc_expiration,'mm/dd/yyyy')#" id="nbhwc_expiration_#id#" name="nbhwc_expiration_#id#"  /><br />NBHWC Expire Date
                     </td>
                     <td><textarea cols="15" rows="5" name="ce_requirements_#id#" id="ce_requirements_#id#"  />#ce_requirements#</textarea></td>
                     <td><textarea cols="15" rows="5" name="handout_link_#id#" id="handoutLink_#id#"  />#handout_link#</textarea></td>
@@ -287,7 +291,6 @@ Text:<input type="text" name="query"></input>
                         <input size="10" type="text" name="category_#id#" id="category_#id#" value="#category#" /><br />
                         <span id="edit_category_#id#"></span>
                     </td>
-                   
                 
                     <td nowrap="nowrap">
                         <input class="button" type="button" id="save_#id#" name="save" value="Save" />
@@ -333,7 +336,12 @@ Text:<input type="text" name="query"></input>
                       <td valign="top"><textarea cols="15" rows="5" name="add_ce_requirements" id="add_ce_requirements"/></textarea></td> 
                       <td valign="top"><textarea cols="15" rows="5" name="add_download_link" id="add_download_link" /></textarea></td>
                       <td valign="top"><textarea cols="15" rows="5" name="add_course_description" id="add_course_description" /></textarea></td>
-                      <td valign="top"><input type="text" class="datepicker" name="add_class_date" id="add_classDate" /></td>
+                      <td valign="top">
+                        Class Date:<br />
+                        <input type="text" class="datepicker" name="add_class_date" id="add_classDate" /><br />
+                        NBHWC Expiration: <br/>
+                        <input type="text" class="datepicker" name="add_nbhwc_expiration" id="add_nbhwc_expiration" />
+                    </td>
                       <td nowrap="nowrap">
                         <input size="5" type="checkbox" name="add_nchec" value="1"  id="add_nchec" /> NCHEC<br />
                         <!--- <input size="5" type="checkbox" name="add_ace" value="1"  id="add_ace" /> ACE<br /> --->

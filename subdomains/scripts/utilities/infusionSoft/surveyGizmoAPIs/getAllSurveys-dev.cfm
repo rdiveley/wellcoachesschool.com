@@ -1,13 +1,4 @@
-<cfset user = 'erika@wellcoaches.com' />
-<cfset password= 'Well5050' />
-<cfif NOT isDefined("Application.sslfix")>
-	<cfset objSecurity = createObject("java", "java.security.Security") />
-	<cfset objSecurity.removeProvider("JsafeJCE") />
-	<cfset Application.sslfix = true />
-</cfif>
-
-<cfparam name="url.email" default="Lamcgivern53@gmail.com,Lauramcgivern53@yahoo.com" />
-
+<cfset url.email = 'dorian@thelimitlesslifestyleacademy.com' />
 <!---
 
 Health and Wellness Coach Training - 18-week program - Lesson Feedback Survey														surveyHWCT18Week			1013764 question(9),question(8)
@@ -49,13 +40,13 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 <!--- Removed Practical skill assesment for now  1382009 
 
 --->
- <cfset allsurveys = "7135970,7188154,7188173,7188169,7188120,7178225,7080225,6738809,6756318,6734022,6697766,6697769,6697765,6657242,6634902,6439452,6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
-<cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
+ <cfset allsurveys = "1013764">
+<cfset group1 = "1013764" />
 
 <cfloop list="#local.email#" index="local.emailUser" delimiters=",">
   <cfloop list="#allsurveys#" index="column">
 
- 	   <cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/#column#/surveyresponse">
+ 	   <cfset SGurl = "https://api.alchemer.com/v5/survey/#column#/surveyresponse/">
        
 	   <cfif listFind(group1,column) >
         	<cfset emailParam = "[question(9), option(0)]" />
@@ -75,9 +66,9 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 			<cfset emailParam = "[question(26)]" />		 
         <cfelseif Find(4227686,column) OR find(4320651,column)>
 			 <cfset emailParam = "[question(61)]" />
-		<cfelseif listFind("7188154,5508580,7188173,7188169,7188120,7080225,4144821,6174072,6350222,6657242,6697765,6697769,6738809,6756318,6734022", column)>
+		<cfelseif listFind("7188154,7188173,7188169,7188120,7080225,4144821,6174072,6350222,6657242,6697765,6697769,6738809,6756318,6734022", column)>
 			<cfset emailParam = "[question(35)]" />	 
-		<cfelseif listFind("1959806,4305174,4776929,6634902,5664658,5769769,6697766,7178225,1959806,4238384,6174060,6307281", column) >
+		<cfelseif listFind("1959806,4305174,4776929,6634902,5508580,5664658,5769769,6697766,7178225,1959806,4238384,6174060,6307281", column) >
 			<cfset emailParam = "[question(37)]" />	 
 		<cfelseif Find(4229417,column)  >
 			<cfset emailParam = "[question(90)]" />		
@@ -86,26 +77,16 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 		<cfelseif Find(5820302,column)  >
 			<cfset emailParam = "[question(93)]" />
 		</cfif>
-		<!--- https://apihelp.surveygizmo.com/help/surveyresponse-sub-object#filtering --->
-
-       <!--- <cfhttp url="#SGurl#" result="myResult" method="get">
-     		 <cfhttpparam type="url"  value="b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca" name="api_token"/>
-			 <cfhttpparam type="url"  value="#emailParam#" name="filter[field][0]"/>
-             <cfhttpparam type="url"  value="in" name="filter[operator][0]"/>
-             <cfhttpparam type="url"  value="#trim(local.emailUser)#" name="filter[value][0]"/>
-             <cfhttpparam type="url"  value="status" name="filter[field][1]"/>
-             <cfhttpparam type="url"  value="=" name="filter[operator][1]"/>
-			 <cfhttpparam type="url"  value="Complete" name="filter[value][1]"/>
-			 <cfhttpparam type="url"  value="500" name="resultsperpage"/>
-      </cfhttp>--->
-
-	  <cfset local.params = "filter[field][0]=#urlEncodedFormat(emailParam)#&filter[operator][0]=in&filter[value][0]=#trim(urlEncodedFormat(local.emailUser))#&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500" />
+		
+	  <cfset local.params = "filter[field][0]=[question(90)]&filter[operator][0]==&filter[value][0]=dorian@thelimitlesslifestyleacademy.com&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500" />
 
 	  <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-				arguments = '-G -k #SGurl#?api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca -d #local.params#'
+				arguments = '-G -k #SGurl#?api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca&api_token_secret=A9eNWgAyIyT%2Fo -d #local.params#'
 				variable="myResult"
 				timeout = "200">
 	  </cfexecute>
+<!--- CFDUMP: Debugging by rdiveley --->
+<cfdump var="#myResult#" abort="true" format="html" output="" top="3">
 
       <cfset jsonData = deserializeJSON(myResult) />
 
@@ -255,7 +236,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Hours adjusted-#field['[question(4)]']#" )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['#emailParam#'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(3)]'] )/>
-		   <cfelseif column eq 4051290>
+		    <cfelseif column eq 4051290>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Wellcoaches Habits #field['[question(89)]']#"  )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(93)]'] )/>
 				<cfset temp = QuerySetCell(SurveyList,"hours", '10' )/>

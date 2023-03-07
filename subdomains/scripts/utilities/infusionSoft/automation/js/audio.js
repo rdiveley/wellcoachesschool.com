@@ -25,7 +25,11 @@ $(document).ready(function() {
 		var classTitle = $('#classTitle_'+element_id).val();
 		var ce_requirements = $('#ce_requirements_'+element_id).val();
 		var downLoadLink = $('#downloadLink_'+element_id).val();
-		var course_description = $('#course_description_'+element_id).val();
+		var course_description = $('#course_description_' + element_id).val();
+		var nbhwc_expiration = $('#nbhwc_expiration_' + element_id).val();
+		 if ($('#nbhwc_expiration_' + element_id).val().length == 0) { 
+			var nbhwc_expiration = ''; 
+		 }
 		var facilitator = $('#facilitator_'+element_id).val();
 		var handoutLink = $('#handoutLink_'+element_id).val();
 //		var listenLink = $('#listenLink_'+element_id).val();
@@ -86,33 +90,33 @@ $(document).ready(function() {
 		//    instance.updateMemberClasses(element_id,category,cceh,classTitle,ce_requirements,downLoadLink,facilitator,handoutLink,listenLink,classDate,cip,wcm);
 		
 		  $.ajax({
-                type: "POST",
-                url: "/utilities/infusionsoft/automation/audioFileSubmit.cfc?method=updateMemberClasses",
-                data: {
-					element_id : element_id,
-					category : category,
-					cceh : cceh,
-					classTitle : classTitle,
-					ce_requirements : ce_requirements,
-					downLoadLink : downLoadLink,
-					course_description: course_description,
-					facilitator : facilitator,
-					handoutLink : handoutLink,
-					classDate : classDate,
-					cip : cip,
-					wcm :wcm,
-					nchec:nchec,
-					ace:ace,
-					acsm:acsm,
-					boc:boc,
-					cdr:cdr,
-					ichwc:ichwc
-			},
-			success: function(data) {
-				location.reload(); 
-			}
-               
-            });
+        type: 'POST',
+        url: '/utilities/infusionsoft/automation/audioFileSubmit.cfc?method=updateMemberClasses',
+        data: {
+          element_id: element_id,
+          category: category,
+          cceh: cceh,
+          classTitle: classTitle,
+          ce_requirements: ce_requirements,
+          downLoadLink: downLoadLink,
+          course_description: course_description,
+          nbhwc_expiration: nbhwc_expiration,
+          facilitator: facilitator,
+          handoutLink: handoutLink,
+          classDate: classDate,
+          cip: cip,
+          wcm: wcm,
+          nchec: nchec,
+          ace: ace,
+          acsm: acsm,
+          boc: boc,
+          cdr: cdr,
+          ichwc: ichwc,
+        },
+        success: function (data) {
+          location.reload();
+        },
+      });
 		
 		 	$('#show_category_'+element_id).html(category);
             $('#show_class_title_'+element_id).html(classTitle);
@@ -121,10 +125,8 @@ $(document).ready(function() {
             $('#show_listen_link_'+element_id).html(listenLink);
 			$('#show_class_date_'+element_id).html(classDate);
 			$('#show_download_link'+element_id).html(downLoadLink);
-			$('#show_course_description'+element_id).html(course_description);
-            $('#show_cceh_'+element_id).html(cceh);
-		
-//			
+			$('#show_course_description' + element_id).html(course_description);
+			$('#show_cceh_'+element_id).html(cceh);		
 		}else{
 			$('#edit_category_'+element_id).html('Please enter a category name')
 			return false;

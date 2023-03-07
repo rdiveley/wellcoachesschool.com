@@ -84,8 +84,7 @@
         </cfscript>
         
     </cfloop>
-<!--- CFDUMP: Debugging by rdiveley --->
-<cfdump var="#myquery#" abort="true" format="html" output="">
+
 
    <cfquery name="getHigh" dbtype="query">
        select * 
