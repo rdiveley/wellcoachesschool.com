@@ -28,6 +28,8 @@
 		<!--- <link rel="stylesheet" href="#$.siteConfig('themeAssetPath')#/css/theme/theme.min.css"> --->
 		<link rel="stylesheet" href="#$.siteConfig('themeAssetPath')#/assets/bootstrap/css/_bootstrap.css"  media="screen">
 		<link rel="stylesheet" href="#$.siteConfig('themeAssetPath')#/assets/bootstrap/css/animate.css"  media="screen">
+		<link rel="stylesheet" href="#$.siteConfig('themeAssetPath')#/assets/bootstrap/css/propoganda.css"  media="screen">
+		
 		<!---<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700' rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet"> --->
 
@@ -90,6 +92,7 @@
 			.form-group{
 				margin-bottom: 30px;
 			}
+			
 		</style>
 	</head>
 	<body>

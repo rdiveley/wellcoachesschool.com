@@ -2,11 +2,17 @@
 <cfoutput>
 <!---    need to make changes to audio.js to update database and audioFilesSubmit  --->
 <!---<cfajaxproxy cfc="automation.audioFileSubmit" jsclassname="myForm" /> --->
-<script src="https://code.jquery.com/jquery-1.8.3.js"></script>
-<script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
 <script type="text/javascript" src="/utilities/infusionsoft/automation/js/audio.js"></script>
 <link rel="stylesheet" type="text/css" href="css/audio.css"/>
-<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+
 
 <cfparam name="URL.email" default="">
 <cfset admins = "Erika@wellcoaches.com,rdiveley@wellcoaches.com,ldiaz@wellcoaches.com,jcummings@wellcoaches.com">
@@ -257,7 +263,9 @@ Text:<input type="text" name="query"></input>
                 <td><span id="show_ce_requirements#id#">#replaceNoCase(ce_requirements,"</a>","</a><br /><br />","ALLs")#</span><br /></td>
                 <td ><span id="show_handout_link_#id#">#handout_link#</span></td>
                 <td ><span id="show_download_link#id#">#download_link#</span></td>
-                <td ><span id="show_course_description#id#"><a href="javascript:void(0)" title="#htmlEditFormat(course_description)#"  style="color:##000000;text-decoration:none">#left(course_description,50)#</a><cfif len(course_description) GT 50>...</cfif></span></td>
+                <td >
+                    <span id="show_course_description#id#"><a class="descript" data-description="#htmlEditFormat(course_description)#" href="javascript:void(0)" title="#htmlEditFormat(course_description)#"  style="color:##000000;text-decoration:none">#left(course_description,50)#</a><cfif len(course_description) GT 50>...</cfif></span></td>
+                
                 <td ><span id="show_category_#id#">#category#</span></td>
                 
 				<cfif listFind(admins,URL.email)>
@@ -359,5 +367,24 @@ Text:<input type="text" name="query"></input>
 </form>
 
 </cfoutput>
+ <!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Course Description</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 

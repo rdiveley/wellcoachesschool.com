@@ -1,0 +1,487 @@
+
+	/** Imports */
+
+@font-face {
+  font-family: "GTUltra";
+  src: url("https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/Fonts/GT-Ultra-Standard-Bold.woff")
+    format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GTUltra";
+  src: url("https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/Fonts/GT-Ultra-Standard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GTUltra";
+  src: url("https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/Fonts/GT-Ultra-Standard-Light.woff")
+    format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GTUltra";
+  src: url("https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/Fonts/GT-Ultra-Standard-Thin.woff")
+    format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GTUltra";
+  src: url("https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/Fonts/GT-Ultra-Standard-Thin-Italic.woff")
+    format("woff");
+  font-weight: 200;
+  font-style: italic;
+}
+
+/** Root Globals */
+
+:root {
+  --blue: #5039f5;
+  --teal: #61cde6;
+  --pink: #da2e89;
+  --white: #ffffff;
+  --dblue: #241e4c;
+  --dark: #202020;
+}
+
+body {
+  font-family: "GTUltra", "Roboto", sans-serif !important;
+  font-size: 16px;
+  box-sizing: border-box !important;
+  background: unset !important;
+}
+
+/** Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "GTUltra", "Roboto", sans-serif !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5em !important;
+  text-transform: none !important;
+}
+
+h1 {
+  font-size: clamp(28px, 5vw, 62px) !important;
+  color: var(--dblue) !important;
+}
+
+h2 {
+  font-size: clamp(26px, 4vw, 40px) !important;
+  color: var(--dblue) !important;
+}
+
+h3 {
+  font-size: clamp(22px, 3vw, 30px) !important;
+  color: var(--blue) !important;
+}
+
+/* h4 {
+    font-size: clamp(18px, 2vw, 26px) !important;
+    color: var(--blue) !important;
+} */
+
+h5 {
+  font-size: clamp(16px, 2vw, 22px) !important;
+  color: var(--blue) !important;
+}
+
+h6 {
+  font-size: clamp(14px, 2vw, 18px) !important;
+  color: var(--blue) !important;
+}
+
+p,
+li,
+#editProfileMsg {
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  font-weight: 200 !important;
+  white-space: normal !important;
+  color: var(--dblue) !important;
+}
+
+a {
+  font-size: inherit;
+  color: inherit;
+  text-decoration: underline !important;
+  font-weight: inherit;
+}
+
+/** Buttons */
+
+form[name="uploadPhoto"] input[type="submit"] {
+  margin-bottom: 1rem;
+}
+
+#search {
+  margin-top: 1rem;
+}
+
+button.btn,
+a.classname,
+#search,
+#save_coaching,
+#save_mybackground,
+#save_getstarted,
+form[name="uploadPhoto"] input[type="submit"] {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  color: var(--white);
+  border: none;
+  font-weight: 400;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-family: "GTUltra", "Roboto", sans-serif !important;
+  text-decoration: none !important;
+}
+
+button.btn-primary,
+button.btn,
+a.classname,
+#search,
+#save_coaching,
+#save_mybackground,
+#save_getstarted,
+form[name="uploadPhoto"] input[type="submit"] {
+  background-color: var(--blue);
+  transition: all 0.2s ease-in-out;
+}
+
+a.classname:hover,
+button.btn:hover,
+button.btn-primary:hover,
+#search:hover,
+#save_coaching:hover,
+#save_mybackground:hover,
+#save_getstarted:hover,
+form[name="uploadPhoto"] input[type="submit"]:hover {
+  background-color: var(--dblue);
+}
+
+a.classname {
+  height: unset !important;
+  line-height: unset !important;
+  width: unset !important;
+}
+
+/** Header */
+
+header {
+  background: linear-gradient(
+    90deg,
+    rgba(231, 248, 251, 1) 0%,
+    rgba(181, 171, 249, 1) 50%,
+    rgba(134, 119, 250, 1) 100%
+  ) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 24px 30px !important;
+}
+
+.clearfix::after {
+  all: unset !important;
+}
+
+header #login {
+  display: none !important;
+}
+
+header img {
+  width: 100%;
+  max-width: 400px;
+}
+
+#navPrimary {
+  height: unset !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+#navPrimary li {
+  margin-left: 32px !important;
+  float: unset !important;
+  line-height: 1.4 !important;
+  font-weight: 200 !important;
+  white-space: normal !important;
+  display: inline-block !important;
+}
+
+#navPrimary li:hover {
+  background: unset !important;
+}
+
+#navPrimary a {
+  background: transparent !important;
+  padding: 0 !important;
+  color: var(--white) !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease-in-out !important;
+}
+
+#navPrimary a:hover {
+  color: var(--dblue) !important;
+}
+
+#navPrimary .active {
+  color: var(--dblue) !important;
+}
+
+/** Body */
+
+@media only screen and (max-width: 1200px) {
+  #content {
+    padding-right: 24px !important;
+    padding-left: 24px !important;
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  #wrap {
+    flex-direction: column;
+  }
+
+  #wrap #menuwrapper ul li {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: 861px) {
+  #wrap #menuwrapper ul li {
+    width: 214px !important;
+  }
+}
+
+article {
+  float: unset !important;
+  width: unset !important;
+  max-width: 1140px !important;
+  margin: 0 auto !important;
+}
+
+.pageTitle {
+  margin-bottom: 1em !important;
+}
+
+#content {
+  margin-top: 3rem !important;
+}
+
+#container {
+  width: unset !important;
+  margin: 0 auto !important;
+  padding: unset !important;
+}
+
+#svLoginContainer {
+  width: unset !important;
+  margin: 35px auto 0 !important;
+}
+
+#wrap #main {
+  float: unset !important;
+  width: 100% !important;
+  left: unset !important;
+}
+
+#wrap #main #my_statement {
+  width: unset !important;
+}
+
+#wrap #main #uploadPhoto {
+  border: 1px dashed var(--dblue) !important;
+  border-radius: 4px !important;
+  text-align: center !important;
+  min-width: 80% !important;
+  padding: 24px !important;
+}
+
+#wrap #main #cke_mygetstarted,
+#wrap #main #cke_mybackground_intro,
+#wrap #main #cke_mycoaching {
+  padding-bottom: 1rem !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#wrap #main #update_getstatement td {
+  display: block !important;
+}
+
+@media only screen and (min-width: 861px) {
+  #wrap #main #update_getstatement td {
+    display: table-cell !important;
+  }
+}
+
+#wrap #main .cke_inner {
+  border: 1px solid var(--dblue) !important;
+}
+
+#wrap #main .content-item {
+  height: unset !important;
+}
+
+#wrap #main form {
+  max-width: unset !important;
+}
+
+#wrap #main form table {
+  width: 100% !important;
+}
+
+#wrap #menuwrapper {
+  float: unset !important;
+  width: unset !important;
+}
+
+#wrap #menuwrapper h4 {
+  font-family: "GTUltra", "Roboto", sans-serif;
+  font-size: 16px;
+  color: var(--dark);
+  font-weight: 400;
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  float: unset !important;
+  width: unset !important;
+  text-align: unset !important;
+  margin-top: 1rem !important;
+}
+
+#wrap #menuwrapper ul {
+  border-radius: 4px !important;
+  overflow: hidden !important;
+}
+
+#wrap #menuwrapper ul li {
+  padding: 10px 0 !important;
+  border-bottom: unset !important;
+}
+
+#wrap #menuwrapper ul li:hover {
+  background-color: var(--dark) !important;
+}
+
+#wrap #menuwrapper ul li a {
+  text-decoration: none !important;
+}
+
+#wrap {
+  left: unset !important;
+  width: unset !important;
+  display: flex !important;
+  gap: 30px;
+}
+
+/** Form Fields */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  padding: 10px 15px !important;
+  border: 1px solid var(--dark) !important;
+  font-family: "GTUltra", "Roboto", sans-serif !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 0.2rem rgba(80, 57, 245, 0.2);
+}
+
+form label {
+  font-family: "GTUltra", "Roboto", sans-serif;
+  font-size: 16px;
+  color: var(--dark);
+  font-weight: 400;
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+  float: unset !important;
+  width: unset !important;
+  text-align: unset !important;
+}
+
+form legend {
+  font-size: clamp(22px, 3vw, 30px) !important;
+  color: var(--blue) !important;
+  font-family: "GTUltra", "Roboto", sans-serif !important;
+  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  margin-bottom: 14px !important;
+}
+
+form label::after {
+  color: var(--pink) !important;
+}
+
+form label.form-check-label {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+form .required {
+  margin-top: unset !important;
+  margin-right: unset !important;
+  margin-left: unset !important;
+  color: var(--pink);
+}
+
+form .control-group {
+  margin-bottom: 1rem !important;
+}
+
+form {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  max-width: 840px !important;
+}
+
+form .checkbox {
+  padding-bottom: 1rem !important;
+}
+
+form .help-inline {
+  display: none !important;
+}
+
+form#login {
+  border-bottom: 1px solid var(--dblue) !important;
+  padding-bottom: 40px !important;
+}
+
+form#sendLogin {
+  padding-top: 60px !important;
+}
+
+form#sendLogin p {
+  margin-bottom: 1rem;
+}
+
+/** Footer */
+
+footer {
+  border: none !important;
+}
+
