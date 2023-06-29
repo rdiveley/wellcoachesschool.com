@@ -3,10 +3,11 @@
 <cfif structKeyExists(form,'email')>
 	<cfset URL.email = FORM.email>
 </cfif>
+
 <cfset local.message="An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly." />
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -66,7 +67,7 @@
 <!--- Core Coach Training: Module 1  (April 2020 cohort) --->
 <cfset local.LU200727_tags = "13343,1382,1384">
 <!--- Core Coach Training: Module 2 (California University of PA) --->
-<cfset local.LU133730_tags = "18990,17760,16438,15445,13673,1382,1384">
+<cfset local.LU133730_tags = "19056,18990,17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
 <cfset local.LU133731_tags = "19526,18990,11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
@@ -192,13 +193,23 @@
 <!--- Core Coach Training: Module 1 (Apr 2023) --->
 <cfset local.LU650725_tags = "19450,19476,1382,1384" />
 <!--- Professional Coach Training 2023 --->
-<cfset local.LU651296_tags = "19076,19476,1382,1384" />
+<cfset local.LU651296_tags = "19076,1382,1384" />
 <!--- Core Coach Training: Module 1 (May 2023) --->
 <cfset local.LU654892_tags = "19614,19530,19556,1382,1384" />
 <!--- Core Coach Training: Module 1 (June 2023) --->
 <cfset local.LU674596_tags = "19960,19672,1382,1384" />
 <!--- Core Coach Training: Module 1 (July 2023) --->
 <cfset local.LU704813_tags = "19832,1382,1384" />
+<!--- Core Coach Training: Module 1 (Aug 2023)  --->
+<cfset local.LU715258_tags = "20340,19884,19858,1382,1384" />
+<!--- Coaching for Mental Well-being  --->
+<cfset local.LU720428_tags = "20118,1382,1384" />
+<!--- Core Coach Training: Module 1 (Sep 2023)  --->
+<cfset local.LU720840_tags = "20084,19934,19910,1382,1384" />
+<!--- Core Coach Training: Module 1 (Oct 2023)  --->
+<cfset local.LU728278_tags = "20320,20272,20182,1382,1384" />
+<!--- Core Coach Training: Module 1 (Nov 2023)  --->
+<cfset local.LU729855_tags = "20288,20198,1382,1384" />
 
 
 <!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
@@ -283,6 +294,7 @@
 
 
 		<cfif !len(local.id)>
+			
 			<cfset local.user =
 					{"User": {    'last_name' : local.userInfo['lastName']
 								, 'first_name' : local.userInfo['firstName']
@@ -348,6 +360,7 @@
 		<cfset local.groups = deserializeJSON(myGroups)>
 
 		<cfset local.groupids = "" />
+		
 
 		<cfloop array="#local.groups['group']#" index="local.group">
 			<cfset local.groupids = listAppend(local.groupids,local.group['id']) />
