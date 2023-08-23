@@ -24,12 +24,12 @@
 
 </cfscript>
 
-<!---
+
 <cfset local.requestpayload.user.email = 'rdiveley@gmail.com' />
 <cfset local.requestpayload.courseName = 'Core Coach Training: Module 2' />
 <cfset local.requestpayload.percentage = '98' />
 <cfset local.requestpayload.header.webhookId = '6498208' />
-<cfparam name="local.requestpayload.header.webhookType" default="exam_completion" />
+<cfset local.requestpayload.header.webhookType="exam_completion" />
 <cfset local.requestpayload.examName = 'a. Organize Your Mind Assessment' />
 <cfset local.requestpayload.passPercentage = '80' />
 <cfset local.requestpayload.courseid = '416952' />
@@ -48,13 +48,8 @@
 <cfparam name="local.requestpayload.attemptstaken" default="" />
 <cfparam name="local.requestpayload.status" default="" />
 <cfparam name="local.requestpayload.header.lastAttemptAt" default="" />
-<cfif local.insert 
-    AND findNoCase('exam_completion', local.requestpayload.header.webhookType) 
-    AND findNoCase('Module 1', local.requestpayload.courseName)>
 --->
-<cfif local.insert 
-    AND findNoCase('exam_completion', local.requestpayload.header.webhookType) 
-    AND findNoCase('Module 1', local.requestpayload.courseName)>
+<cfif local.insert AND findNoCase('exam_completion', local.requestpayload.header.webhookType) AND findNoCase('Module 1', local.requestpayload.courseName)>
     <cftry>
         <cfquery name="local.insertLU" datasource="#local.datasource#">
             insert into [wellcoachesSchool].[dbo].[learnuponwebhook]
@@ -84,18 +79,25 @@
                 ,<cfqueryparam value="#local.requestpayload.status#" cfsqltype="cf_sql_varchar">
                 ,<cfqueryparam value="#local.requestpayload.header.lastAttemptAt#" cfsqltype="CF_SQL_TIMESTAMP">
             )
+
         </cfquery>
 
         <cfquery name="local.get_ModOneKADataCount" datasource="#local.datasource#">
+
             SELECT  COUNT(distinct examName) as countRecord
-                    ,CAST(AVG(exampercentage) as decimal(10,2)) as average
+                    ,AVG(exampercentage) as average
             FROM learnuponwebhook lwh
-            where examName like 'Lesson Knowledge Assessment%'
-            AND lastAttemptAt = (SELECT MAX(lastAttemptAt) from learnuponwebhook where examName = lwh.examName AND emailaddress = lwh.emailaddress )    
+            where (
+                examName like '%1-5' 
+                OR examName like '%6-9'
+                OR examName like '%10-14'
+                OR examName like '%15-18'
+                )
+            AND lastAttemptAt = (SELECT MAX(lastAttemptAt) from learnuponwebhook where examName = lwh.examName AND emailaddress = '#local.requestpayload.user.email#' )    
             AND emailaddress = <cfqueryparam value="#local.requestpayload.user.email#" cfsqltype="cf_sql_varchar">
             GROUP BY emailaddress
-        </cfquery> 
 
+        </cfquery> 
         <cfcatch type="any">
             <cfmail to="rdiveley@wellcoaches.com" subject="LearnUpon webhooks" from="wellcoaches@wellcoaches.com" type="html">
                         <table>
