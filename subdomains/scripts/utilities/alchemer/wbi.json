@@ -1,0 +1,20 @@
+{
+  "graphset": [
+    {
+      "legend": {
+        "color": "lightgray",
+        "opacity":"0.2"
+      },
+      "type": "curve",
+      "title": {
+        "font-size": 20,
+        "color": "#FFFFFF",
+        "bold": true,
+        "font-family": "Verdana",
+        "background-color": "#ed008a,#5432FF",
+        "border-color": "#cccccc",
+        "border-width": 1
+      }
+    }
+  ]
+}

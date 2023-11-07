@@ -1,6 +1,6 @@
 // JavaScript Document
 $(document).ready(function () {
-
+	
 	$('.descript').on('click', function () {
 		
 		$('.modal-body').innerText($(this).data('description'));
@@ -65,45 +65,45 @@ $(document).ready(function () {
 //		var listenLink = $('#listenLink_'+element_id).val();
 		var classDate = $('#classDate_'+element_id).val();
 		
-		if($('#cip_'+element_id).attr('checked')){
+		if($('#cip_'+element_id).is(':checked')){
 			var cip = 1;
 		}else{
 			var cip = 0;
 		}
-		if($('#wcm_'+element_id).attr('checked')){
+		if($('#wcm_'+element_id).is(':checked')){
 			var wcm =1;
 		}else{
 			var wcm=0;
 		}
-		if($('#nchec_'+element_id).attr('checked')){
+		if($('#nchec_'+element_id).is(':checked')){
 			var nchec =1;
 		}else{
 			var nchec=0;
 		}
-		if($('#ace_'+element_id).attr('checked')){
+		if($('#ace_'+element_id).is(':checked')){
 			var ace =1;
 		}else{
 			var ace=0;
 		}
-		if($('#acsm_'+element_id).attr('checked')){
-			var acsm =1;
-		}else{
-			var acsm=0;
+		if ($('#acsm_' + element_id).is(':checked')) {
+			var acsm = 1;
+		} else {
+			var acsm = 0;
 		}
-		if($('#boc_'+element_id).attr('checked')){
-			var boc =1;
-		}else{
-			var boc=0;
+		if ($('#boc_' + element_id).is(':checked')) {
+			var boc = 1;
+		} else {
+			var boc = 0;
 		}
-		if($('#cdr_'+element_id).attr('checked')){
-			var cdr =1;
-		}else{
-			var cdr=0;
+		if ($('#cdr_' + element_id).is(':checked')) {
+			var cdr = 1;
+		} else {
+			var cdr = 0;
 		}
 
-		if($('#ichwc_'+element_id).attr('checked')){
+		 if ($('#ichwc_' + element_id).is(':checked')) {
 			var ichwc =1;
-		}else{
+		 } else {
 			var ichwc=0;
 		}
 		
