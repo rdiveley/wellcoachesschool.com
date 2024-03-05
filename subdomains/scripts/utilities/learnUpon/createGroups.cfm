@@ -7,7 +7,7 @@
 <cfset local.message="An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly." />
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "776255,775645,770351,764200,764037,760391,747386,756035,756033,752456,748581,748578,744246,747386,731913,729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "793694,793693,793691,793682,785081,776255,775645,770351,764200,764037,760391,747386,756035,756033,752456,748581,748578,744246,747386,731913,729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -69,7 +69,7 @@
 <!--- Core Coach Training: Module 2 (California University of PA) --->
 <cfset local.LU133730_tags = "19658,19056,18990,17760,16438,15445,13673,1382,1384">
 <!--- Core Coach Training: Module 1  (California Univ of PA) --->
-<cfset local.LU133731_tags = "19526,18990,11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
+<cfset local.LU133731_tags = "21412,19526,18990,11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762">
 <!---Core Coach Training: Module 1  (May 2020 cohort) --->
 <cfset local.LU204039_tags = "13489,1382,1384">
 <!--- Core Coach Training: Module 1 (June 2020: 4-day residential) --->
@@ -223,7 +223,7 @@
 <!--- Core Coach Training: Module 1 (Jan 2024) --->
 <cfset local.LU752456_tags = "21360,20788,20716,1382,1384" />
 <!--- Core Coach Training: Module 1 (Feb 2024) --->
-<cfset local.LU756033_tags = "20812,20740,1382,1384" />
+<cfset local.LU756033_tags = "21528,20812,20740,1382,1384" />
 <!--- Core Coach Training: Module 1 (Mar 2024) --->
 <cfset local.LU756035_tags = "20836,20764,1382,1384" />
 <!--- Coaching for Social Resources and Health Equity --->
@@ -240,14 +240,25 @@
 <cfset local.LU775645_tags = "21122,21050,1382,1384" />
 <!--- Core Coach Training: Module 1 (June 2024) --->
 <cfset local.LU776255_tags = "21146,21074,1382,1384" />
-<!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
-<cfloop list="#local.group_id#" index="local.id">
-	<cfset 'local.LU#local.id#' = {} />
-	<cfloop list="#evaluate('local.LU'&local.id&'_tags')#" index="local.tag">
-		<cfset local.LU[local.id][local.tag] = '' >
-	</cfloop>
-</cfloop>
+<!--- Cut Through the Noise  --->
+<cfset local.LU785081_tags = "21458,21460,1382,1384" />
+<!--- Coaching for Mental Well-being - Feb 2024 --->
+<cfset local.LU793682_tags = "21426,1382,1384" />
+<!--- Coaching for Mental Well-being - May 2024 --->
+<cfset local.LU793691_tags = "21436,1382,1384" />
+<!--- Coaching for Mental Well-being - Sep 2024 --->
+<cfset local.LU793693_tags = "21446,1382,1384" />
+<!--- Coaching for Mental Well-being - Nov 2024 --->
+<cfset local.LU793694_tags = "21456,1382,1384" />
 
+<cftry>
+	<!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
+	<cfloop list="#local.group_id#" index="local.id">
+		<cfset 'local.LU#local.id#' = {} />
+		<cfloop list="#evaluate('local.LU'&local.id&'_tags')#" index="local.tag">
+			<cfset local.LU[local.id][local.tag] = '' >
+		</cfloop>
+	</cfloop>
 
     <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
     <cfset selectedFieldsArray = ArrayNew(1)>
@@ -262,7 +273,7 @@
     <cfset myArray[3]=URL.email>
     <cfset myArray[4]=selectedFieldsArray>
 
-	<cftry>
+	
 		<cfinvoke component="utilities/XML-RPC"
 			method="CFML2XMLRPC"
 			data="#myArray#"
