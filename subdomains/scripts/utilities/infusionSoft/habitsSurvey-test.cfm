@@ -7,7 +7,10 @@
 
 <!-- https://www.surveygizmo.com/s3/4229417/Wellcoaches-Habits-course-Module-1?email=rdiveley@wellcoaches.com -->
 
-    <cfparam  name="URL.lesson" default="">
+  <!--- CFDUMP: Debugging by rdiveley --->
+
+
+<cfparam  name="URL.lesson" default="">
 
 	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
     <cfset selectedFieldsArray = ArrayNew(1)>
@@ -29,14 +32,16 @@
         data="#myArray#"
         returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+            arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+            variable="myResult1"
+            timeout = "200">
+        </cfexecute>
 
 
     <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
+        data="#myResult1#"
         returnvariable="theData">
 
         <cfset memberID = theData.Params[1][1]['Id'] />
@@ -60,9 +65,11 @@
                 data="#myArray2#"
                 returnvariable="myPackage2">
             
-             <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-            </cfhttp>
+            <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                variable="myResult2"
+                timeout = "200">
+            </cfexecute>
 
         </cfif>
 
@@ -86,15 +93,16 @@
 	        <cfset myArray[2]=key>
 	        <cfset myArray[3]='(int)#memberID#'>
 	        <cfset myArray[4]=updateField>
-            
 	        <cfinvoke component="utilities/XML-RPC"
 	              method="CFML2XMLRPC"
 	              data="#myArray#"
 	              returnvariable="myPackage4">
 
-                <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                </cfhttp>
+            <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+                variable="result"
+                timeout = "200">
+            </cfexecute>
 
         </cfif>
 
@@ -114,10 +122,12 @@
                         method="CFML2XMLRPC"
                         data="#myArray2#"
                         returnvariable="myPackage2">
-
-                    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                            <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+                    
+                    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                        variable="myResult2"
+                        timeout = "200">
+                    </cfexecute>
 
                 </cfif>
     
@@ -133,9 +143,11 @@
                     data="#myArray#"
                     returnvariable="myPackage4">
 
-                    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                            <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                    </cfhttp>
+                <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                    arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+                    variable="result"
+                    timeout = "200">
+                </cfexecute>
                <!--- No Longer using this code.
                 
                 <cfmodule template="applyHabitsComplete.cfm" memberID="#memberID#" />
@@ -172,9 +184,11 @@
                         data="#myArray2#"
                         returnvariable="myPackage2">
 
-                     <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                            <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+                    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                        variable="myResult2"
+                        timeout = "200">
+                    </cfexecute>
                 </cfif>
 
                 <!--- Scenario #3
@@ -195,9 +209,11 @@
                         data="#myArray2#"
                         returnvariable="myPackage2">
                     
-                    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                            <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+                    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                        variable="myResult2"
+                        timeout = "200">
+                    </cfexecute>
 
                     <cfset updateField = structNew()>
                     <cfset updateField['_HabitsSurveysComplete']="STANDALONE">
@@ -211,9 +227,11 @@
                         data="#myArray#"
                         returnvariable="myPackage4">
 
-                     <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                    </cfhttp>
+                    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+                        variable="result"
+                        timeout = "200">
+                    </cfexecute>
 
                  </cfif>
 

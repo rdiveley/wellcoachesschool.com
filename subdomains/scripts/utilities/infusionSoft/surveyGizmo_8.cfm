@@ -171,9 +171,6 @@
   <cfinclude template="tallyTag.cfm">
 
 
-
-
-
   <cftry>
       <cfcatch type="any">
       <cfmail to="techsupport@wellcoaches.com" subject="Survey Gizmo 8 Error" from="#local.email#">
@@ -215,6 +212,7 @@
         <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
+        
 
 		<cfset lessonNumber = ListFirst(URL.lesson,':')>
         <cfset lessonNumber = ListLast(lessonNumber,' ')>

@@ -64,7 +64,7 @@
         <cfset updateList = theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']>
 
         <cfset updateList = listAppend(updateList,URL.Lesson,"^")>
-
+        <cfset updateList = listRemoveDuplicates(updateList,'^') />
 
         <cfif !FindNoCase('Y',updateList)>
 			<cfset newList = {} />
@@ -72,11 +72,13 @@
             <cfloop list="#updateList#" index="i" delimiters="^">
             	<cfset newList[i] = i />
             </cfloop>
+<!--- CFDUMP: Debugging by rdiveley --->
+<cfdump var="#updateList#" abort="true" format="html" output="" top="3">
 
             <cfset updateList = structKeyList(newlist) />
             <cfset updateList = replace(updateList,",","^","all") />
             <cfset updateList = 'Y' />
-            <cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" />
+            <!--- <cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" /> --->
             <cfset updateField = structNew()>
             <cfset updateField['_HWCTFeedbackSurveysComplete3']=Replace(updateList.trim(),",","^","all")>
 
@@ -97,8 +99,8 @@
                 <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
             </cfhttp>
         <cfelse>
-        	<!---Y is in the list--->
-			<cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" />
+        	<!---Y is in the list
+			<cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" />--->
         </cfif>
 		<cfcatch type="any">
 			<cfmail to="rdiveley@wellcoaches.com" from="wellcoaches@wellcoaches.com" subject="Error in SG submissions">

@@ -4,6 +4,9 @@
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
     <cfset selectedFieldsArray[3] = "LastName">
+    <cfset selectedFieldsArray[4] = "_HWCTFeedbackSurveysComplete3">
+    <cfset selectedFieldsArray[5] = "Groups">
+    
     <cfset myArray = ArrayNew(1)>
     <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
     <cfset myArray[2]=key>
@@ -16,69 +19,43 @@
         data="#myArray#"
         returnvariable="myPackage">
 
-
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+			variable="myResult1"
+			timeout = "200">
+		</cfexecute>
 
     <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
-        returnvariable="theData2">
+        data="#myResult1#"
+        returnvariable="theData">
 
-		<cfset memberID =  theData2.Params[1][1]['Id']>
-
-        <cfset selectedFieldStruct =structNew()>
-        <cfset selectedFieldStruct["Id"]=memberID>
-
-        <cfset selectedFieldsArray = ArrayNew(1)>
-        <cfset selectedFieldsArray[1] = "_HWCTFeedbackSurveysComplete3">
-        <cfset selectedFieldsArray[2] = "Id">
-
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='Contact'>
-        <cfset myArray[4]='(int)10'>
-        <cfset myArray[5]='(int)0'>
-        <cfset myArray[6]=selectedFieldStruct>
-        <cfset myArray[7]=selectedFieldsArray>
-
-        <cfinvoke component="utilities/XML-RPC"
-            method="CFML2XMLRPC"
-            data="#myArray#"
-            returnvariable="myPackage">
-
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
-
-
-        <cfinvoke component="utilities/XML-RPC"
-            method="XMLRPC2CFML"
-            data="#myResult3.Filecontent#"
-            returnvariable="theData">
+		<cfset memberID =  theData.Params[1][1]['Id']>
 
         <cfparam name="theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']" default=" ">
+        <cfparam name="URL.Lesson" default="">
 
         <cfset updateList = theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']>
 
         <cfset updateList = listAppend(updateList,URL.Lesson,"^")>
-
 
         <cfif !FindNoCase('Y',updateList)> 
 
 		    <cfset newList = {} />
 
             <cfloop list="#updateList#" index="i" delimiters="^">
-            	<cfset newList[i] = i />
+                <cfset i = int(i) />
+            	<cfset newList[i] = int(i) />
             </cfloop>
 
             <cfset updateList = structKeyList(newlist) />
+            <cfset updateList = listRemoveDuplicates(updateList) />
+            <cfset updateList = listSort(updateList, "numeric") />
+            <cfset memberTags =  theData.Params[1][1]['Groups']>
 
 
             <cfif listLen(updateList) GTE 18>
-            	 <cfset updateList = 'Y' />
+            	<cfset updateList = 'Y' />
 
                 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
                 <cfset myArray2 = ArrayNew(1)>
@@ -91,117 +68,47 @@
                     method="CFML2XMLRPC"
                     data="#myArray2#"
                     returnvariable="myPackage2">
-                
-                
-                <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                </cfhttp>
-                
-                <!--- check if habits complete? --->
-                <cfset selectedFieldStruct =structNew()>
-                <cfset selectedFieldStruct["Id"]=memberID>
 
-                <cfset selectedFieldsArray = ArrayNew(1)>
-                <cfset selectedFieldsArray[1] = "_HabitsSurveysComplete">
+                 <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                    arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                    variable="myResult2"
+                    timeout = "200">
+                </cfexecute>
                 
 
-                <cfset myArray = ArrayNew(1)>
-                <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
-                <cfset myArray[2]=key>
-                <cfset myArray[3]='Contact'>
-                <cfset myArray[4]='(int)10'>
-                <cfset myArray[5]='(int)0'>
-                <cfset myArray[6]=selectedFieldStruct>
-                <cfset myArray[7]=selectedFieldsArray>
+                <cfif structKeyExists(theData.Params[1][1], '_HabitsSurveysComplete') AND theData.Params[1][1]['_HabitsSurveysComplete'] EQ 'Y'>
 
-                <cfinvoke component="utilities/XML-RPC"
-                    method="CFML2XMLRPC"
-                    data="#myArray#"
-                    returnvariable="myPackage">
-
-                <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
-                    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-                </cfhttp>
-
-
-                <cfinvoke component="utilities/XML-RPC"
-		            method="XMLRPC2CFML"
-		            data="#myResult3.Filecontent#"
-		            returnvariable="theData3">
-
-
-            <cfif structKeyExists(theData.Params[1][1], '_HabitsSurveysComplete') AND theData3.Params[1][1]['_HabitsSurveysComplete'] EQ 'Y'>
-
-                <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-                <cfset myArray2 = ArrayNew(1)>
-                <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                <cfset myArray2[2]=key>
-                <cfset myArray2[3]="(int)#memberID#">
-                <cfset myArray2[4]="(int)16692">
-            
-                <cfinvoke component="utilities/XML-RPC"
-                    method="CFML2XMLRPC"
-                    data="#myArray2#"
-                    returnvariable="myPackage2">
+                    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                    <cfset myArray2 = ArrayNew(1)>
+                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
+                    <cfset myArray2[2]=key>
+                    <cfset myArray2[3]="(int)#memberID#">
+                    <cfset myArray2[4]="(int)16692">
                 
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray2#"
+                        returnvariable="myPackage2">
                 
-                <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                </cfhttp>
 
-            </cfif>
+                    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                        variable="myResult2"
+                        timeout = "200">
+                    </cfexecute>
 
+                </cfif>
 
-
-
-
-
-
-
-
-
-                 <cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" />
+                 
             </cfif>
 
             <cfif updateList NEQ "Y">
             	<cfset updateField = structNew()>
             	<cfset updateField['_HWCTFeedbackSurveysComplete3']=Replace(updateList.trim(),",","^","all")>
+      
             <cfelse>
             	<cfset updateField = structNew()>
             	<cfset updateField['_HWCTFeedbackSurveysComplete3']="Y">
-
-				<!-- check to see if user has tag 9781 -->
-				<cfset selectedFieldStruct =structNew()>
-		        <cfset selectedFieldStruct["Id"]=memberID>
-
-		        <cfset selectedFieldsArray = ArrayNew(1)>
-		        <cfset selectedFieldsArray[1] = "Groups">
-		        <cfset selectedFieldsArray[2] = "Id">
-
-		        <cfset myArray = ArrayNew(1)>
-		        <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
-		        <cfset myArray[2]=key>
-		        <cfset myArray[3]='Contact'>
-		        <cfset myArray[4]='(int)10'>
-		        <cfset myArray[5]='(int)0'>
-		        <cfset myArray[6]=selectedFieldStruct>
-		        <cfset myArray[7]=selectedFieldsArray>
-
-		        <cfinvoke component="utilities/XML-RPC"
-		            method="CFML2XMLRPC"
-		            data="#myArray#"
-		            returnvariable="myPackage">
-
-		        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
-		            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-		        </cfhttp>
-
-		          <cfinvoke component="utilities/XML-RPC"
-		            method="XMLRPC2CFML"
-		            data="#myResult3.Filecontent#"
-		            returnvariable="theData3">
-
-		        <cfset memberTags =  theData3.Params[1][1]['Groups']>
 
 			   <!-- 9781 [Core 18-Week Teleclass [Jul2018 Fwd] -->
 			   <cfif listFindNoCase(memberTags,9781) and listFindNoCase(memberTags,9531) AND listFindNoCase(memberTags,9553) >
@@ -244,18 +151,19 @@
                 data="#myArray#"
                 returnvariable="myPackage4">
 
-           <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-                <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-            </cfhttp>
-        <cfelse>
-        	<!---Y is in the list--->
-			<cfmodule template="applyHWCTComplete.cfm" memberID="#memberID#" />
+
+            <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+                variable="result"
+                timeout = "200">
+            </cfexecute>
+
         </cfif>
 
-        <cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#" />
+        <!<cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#" />
 
 
-         <p>Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
+        <p>Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
            If not, please contact your Coach Concierge for assistance. Thank you!
         </p>
 
