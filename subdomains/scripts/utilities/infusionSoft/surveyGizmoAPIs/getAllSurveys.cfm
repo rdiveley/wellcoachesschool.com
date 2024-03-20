@@ -315,7 +315,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
 				<cfif listFind("6697765,6738809",column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(122)]'] )/>
-				<cfelseif listFind("7394404,7188173,7188169,6697769,6756318", column)>
+				<cfelseif listFind("7188173,7188169,6697769,6756318", column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 				<cfelseif listFind("7394404", column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", 8 )/>

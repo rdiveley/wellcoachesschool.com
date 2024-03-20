@@ -5,6 +5,7 @@
 </cfscript>
 
 <cfset local.email = url.email />
+
 <cfquery name="local.getWBA" datasource="#local.dsn#">
     SELECT wba.json, wba.submitted
         FROM wba
@@ -125,7 +126,8 @@
 <cfif !isDefined('getMind_1')>
     There are no records. <cfabort />
 </cfif>
-<!--- focusing on perhaps the top 5 areas of the greatest change in each of the four categories --->
+
+    <!--- focusing on perhaps the top 5 areas of the greatest change in each of the four categories --->
 
     <cfset qoq_mind = queryNew("id,question,total", "varchar,varchar,integer") />
     <cfloop query="getMind_1">
@@ -179,73 +181,7 @@
             </cfif>
         </cfloop>
     </cfchart>
-    <cfchart format="html" 
-        xaxistitle="Date"
-        yaxistitle="Score"
-        style="wbi.json"
-        title="Top 5 Mind areas of the greatest change" 
-        chartHeight="500" 
-        chartWidth="1500" 
-        showLegend="yes" 
-        scalefrom="0"
-        scaleto="11"
-        seriesplacement="default"
-        legend="#legend#">
-        <cfloop query="getMind_1">
-            <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'),"|")>
-                <cfchartseries type="line" serieslabel="#evaluate('getMind_1.question')#" markerstyle="circle" >
-                    <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
-                        <cfchartdata  item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
-                    </cfloop>
-                </cfchartseries>
-            </cfif>
-        </cfloop>
-    </cfchart>
-    <cfchart format="html" 
-        xaxistitle="Date"
-        yaxistitle="Score"
-        style="wbi.json"
-        title="Top 5 Mind areas of the greatest change" 
-        chartHeight="500" 
-        chartWidth="1500" 
-        showLegend="yes" 
-        scalefrom="0"
-        scaleto="11"
-        seriesplacement="default"
-        legend="#legend#">
-        <cfloop query="getMind_1">
-            <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'),"|")>
-                <cfchartseries type="cylinder" serieslabel="#evaluate('getMind_1.question')#" markerstyle="circle" >
-                    <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
-                        <cfchartdata  item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
-                    </cfloop>
-                </cfchartseries>
-            </cfif>
-        </cfloop>
-    </cfchart>
-    <cfchart format="html" 
-        xaxistitle="Date"
-        yaxistitle="Score"
-        style="wbi.json"
-        title="Top 5 Mind areas of the greatest change" 
-        chartHeight="500" 
-        chartWidth="1500" 
-        showLegend="yes" 
-        scalefrom="0"
-        scaleto="11"
-        seriesplacement="default"
-        legend="#legend#">
-        <cfloop query="getMind_1">
-            <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'),"|")>
-                <cfchartseries type="bar" serieslabel="#evaluate('getMind_1.question')#" markerstyle="circle" >
-                    <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
-                        <cfchartdata  item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
-                    </cfloop>
-                </cfchartseries>
-            </cfif>
-        </cfloop>
-    </cfchart>
-    <cfabort />
+   
     <br />
     <!--- Start Body Section --->
     <cfset qoq_body = queryNew("id,question,total", "varchar,varchar,integer") />
