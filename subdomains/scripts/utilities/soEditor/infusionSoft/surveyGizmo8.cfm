@@ -50,7 +50,7 @@
     method="XMLRPC2CFML"
     data="#myResult.Filecontent#"
     returnvariable="theData">
-    z    
+    
   
   <cfdocument format="pdf" name="pdfGenerate">
   		<table width="800"  style="font-family:Arial, Helvetica, sans-serif;size:auto">
