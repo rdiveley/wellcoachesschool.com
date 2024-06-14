@@ -107,7 +107,8 @@
                <br />
                To view results, click <a href="https://scripts.wellcoachesschool.com/utilities/infusionsoft/practicalResults.cfm?showPracticalResults=1&student_email=#URL.student_email#"> Results </a>
           </cfmail>
-          Thank you for scoring the Practical Exam.  #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']# has been emailed their results!
+          Thank you for scoring the Practical Exam. <cfoutput> #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']# has been emailed their results!</cfoutput>
+
 <cfelse>
 
 	<cfmail to="smyers@wellcoaches.com" cc="#URL.examiner_email#;#URL.concierge#" subject="Practical Exam Results - No Pass" from="wellcoaches@wellcoaches.com" type="html">

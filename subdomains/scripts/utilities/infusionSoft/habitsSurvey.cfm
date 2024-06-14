@@ -46,46 +46,35 @@
             The email you entered <cfoutput><em>#URL.email#</em></cfoutput> does not exist in our records.  Please contact your concierge for further assistance.<cfabort />
         </cfif>
 
-        <cfif listFindNoCase(memberTags, 16874) AND listFindNoCase(memberTags, 16876)>
-
-            <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-            <cfset myArray2 = ArrayNew(1)>
-            <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-            <cfset myArray2[2]=key>
-            <cfset myArray2[3]="(int)#memberID#">
-            <cfset myArray2[4]="(int)16692">
-        
-            <cfinvoke component="utilities/XML-RPC"
-                method="CFML2XMLRPC"
-                data="#myArray2#"
-                returnvariable="myPackage2">
-            
-             <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-            </cfhttp>
-
-        </cfif>
-
         <cfparam name="theData.Params[1][1]['_HabitsSurveysComplete']" default=" ">
 
         <cfset updateList = theData.Params[1][1]['_HabitsSurveysComplete']>
 
-        <cfif updateList NEQ 'Y' AND listLen(updateList) LTE 8 AND updateList NEQ 'STANDALONE'> 
+        <cfif updateList NEQ 'Y' AND listLen(updateList, "^") LT 8 AND updateList NEQ 'STANDALONE'> 
 
             <cfset updateList = listAppend(updateList,URL.Lesson,"^")>
             <cfset newList = {} />
             <cfloop list="#updateList#" index="i" delimiters="^">
+                <cfif isNumeric(i)>
+                    <cfset i = int(i) />
+                </cfif>
                 <cfset newList[i] = i />
             </cfloop>
+
+           <cfif listContains(updateList, ".")>
+                <cfset updateList = listDeleteAt(updateList, listContains(updateList,".")) />
+           </cfif>
+
             <cfset updateList = structKeyList(newlist) />
 
 			<cfset updateField = structNew()>
-	        <cfset updateField['_HabitsSurveysComplete']=Replace(updateList.trim(),",","^","all")>
+            <cfset updateField['_HabitsSurveysComplete']=Replace(updateList.trim(),",","^","all")>
+          
 	        <cfset myArray = ArrayNew(1)>
 	        <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
 	        <cfset myArray[2]=key>
 	        <cfset myArray[3]='(int)#memberID#'>
-	        <cfset myArray[4]=updateField>
+            <cfset myArray[4]=updateField>
             
 	        <cfinvoke component="utilities/XML-RPC"
 	              method="CFML2XMLRPC"
@@ -98,29 +87,44 @@
 
         </cfif>
 
-        <cfset updateList = listRemoveDuplicates(updateList,'^') />
+        <cfif structKeyExists(theData.Params[1][1],'_HWCTFeedbackSurveysComplete3') AND theData.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
+
+            <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+            <cfset myArray2 = ArrayNew(1)>
+            <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
+            <cfset myArray2[2]=key>
+            <cfset myArray2[3]="(int)#memberID#">
+            <cfset myArray2[4]="(int)16874">
         
-        <cfif updateList EQ 'Y' OR listLen(updateList) GTE 8>
-                <cfif structKeyExists(theData.Params[1][1],'_HWCTFeedbackSurveysComplete3') AND theData.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
+            <cfinvoke component="utilities/XML-RPC"
+                method="CFML2XMLRPC"
+                data="#myArray2#"
+                returnvariable="myPackage2">
 
-                    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-                    <cfset myArray2 = ArrayNew(1)>
-                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                    <cfset myArray2[2]=key>
-                    <cfset myArray2[3]="(int)#memberID#">
-                    <cfset myArray2[4]="(int)16692">
-                
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray2#"
-                        returnvariable="myPackage2">
+            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
+                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
+            </cfhttp>
 
-                    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
-                            <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+        </cfif>
 
-                </cfif>
-    
+        <cfset updateList = listRemoveDuplicates(updateList,'^') />
+        <cfset updateList = listChangeDelims(updateList,"^") / >
+
+         <!---
+            Scenario #1
+            If HabitsSurveysComplete is “Y” AND tag 16874 and tag 16876 exists then add tag 16692
+
+            Scenario #2
+            If HabitsSurveysComplete is “Y” AND tag 18680 exists then add tag 16862
+         ---> 
+        
+
+         <cfif listLen(updateList,"^") GTE 8>
+                <!---Scenario #2
+                    If HabitsSurveysComplete is "Y" AND tag 18680 exists then add tag 16862
+                --->
+            
+
                 <cfset updateField = structNew()>
                 <cfset updateField['_HabitsSurveysComplete']="Y">
                 <cfset myArray = ArrayNew(1)>
@@ -136,27 +140,22 @@
                     <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
                             <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
                     </cfhttp>
-               <!--- No Longer using this code.
+
+                    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                    <cfset myArray2 = ArrayNew(1)>
+                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
+                    <cfset myArray2[2]=key>
+                    <cfset myArray2[3]="(int)#memberID#">
+                    <cfset myArray2[4]="(int)16876">
                 
-                <cfmodule template="applyHabitsComplete.cfm" memberID="#memberID#" />
-                <cfmodule template="resTrainingFromHabits.cfm" memberID="#memberID#" email="#url.email#" /> --->
-             
-         </cfif>
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray2#"
+                        returnvariable="myPackage2">
 
-         <!---
-            Scenario #1
-            If HabitsSurveysComplete is “Y” AND tag 16874 and tag 16876 exists then add tag 16692
-
-            Scenario #2
-            If HabitsSurveysComplete is “Y” AND tag 18680 exists then add tag 16862
-         ---> 
-
-         <cfif structKeyExists(theData.Params[1][1],'_HabitsSurveysComplete') 
-                AND (theData.Params[1][1]['_HabitsSurveysComplete'] EQ 'Y' 
-                     OR ListLen(theData.Params[1][1]['_HabitsSurveysComplete']) GTE 8)> 
-                <!---Scenario #2
-                    If HabitsSurveysComplete is “Y” AND tag 18680 exists then add tag 16862
-                --->
+                     <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
+                            <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
+                    </cfhttp> 
 
                 <cfif listFindNoCase(memberTags, 18680) >
 
@@ -218,7 +217,58 @@
                  </cfif>
 
         </cfif>
-         
+
+
+        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        <cfset selectedFieldsArray = ArrayNew(1)>
+        <cfset selectedFieldsArray[1] = "Id">
+        <cfset selectedFieldsArray[2] = "FirstName">
+        <cfset selectedFieldsArray[3] = "LastName">
+        <cfset selectedFieldsArray[4] = "_HabitsSurveysComplete">
+        <cfset selectedFieldsArray[5] = "_HWCTFeedbackSurveysComplete3">
+        <cfset selectedFieldsArray[6] = "Groups">
+        
+        <cfset myArray = ArrayNew(1)>
+        <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
+        <cfset myArray[2]=key>
+        <cfset myArray[3]=URL.email>
+        <cfset myArray[4]=selectedFieldsArray>
+
+        <cfinvoke component="utilities/XML-RPC"
+            method="CFML2XMLRPC"
+            data="#myArray#"
+            returnvariable="myPackage">
+
+            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
+                    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+            </cfhttp>
+
+        <cfinvoke component="utilities/XML-RPC"
+            method="XMLRPC2CFML"
+            data="#myResult1.Filecontent#"
+            returnvariable="theData">
+
+        <cfset memberTags =  theData.Params[1][1]['Groups']>
+
+        <cfif listFindNoCase(memberTags, 16874) AND listFindNoCase(memberTags, 16876)>
+
+                <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                <cfset myArray2 = ArrayNew(1)>
+                <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
+                <cfset myArray2[2]=key>
+                <cfset myArray2[3]="(int)#memberID#">
+                <cfset myArray2[4]="(int)16692">
+            
+                <cfinvoke component="utilities/XML-RPC"
+                    method="CFML2XMLRPC"
+                    data="#myArray2#"
+                    returnvariable="myPackage2">
+                
+                <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult2">
+                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
+                </cfhttp>
+
+            </cfif>
 
          <p>
             Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.

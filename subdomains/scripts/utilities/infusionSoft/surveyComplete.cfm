@@ -1,39 +1,71 @@
-<!-- Core Coach Training - 18-week program - Lesson Feedback Survey	 -->
-    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-    <cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Id">
-    <cfset selectedFieldsArray[2] = "FirstName">
-    <cfset selectedFieldsArray[3] = "LastName">
-    <cfset selectedFieldsArray[4] = "_HWCTFeedbackSurveysComplete3">
-    <cfset selectedFieldsArray[5] = "_HabitsSurveysComplete">
-    <cfset selectedFieldsArray[6] = "Groups">
-    
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-    <cfset myArray[2]=key>
-    <cfset myArray[3]=URL.email>
-    <cfset myArray[4]=selectedFieldsArray>
 
+<cfoutput>
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="CFML2XMLRPC"
-        data="#myArray#"
-        returnvariable="myPackage">
+<cfif isDefined('url.debug') and url.debug EQ 1>
+	<cfdump var="#URL#">
+</cfif>
 
-        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
-			variable="myResult1"
-			timeout = "200">
-		</cfexecute>
+<cfparam name="URL.lesson" default="">
+<cfparam name="URL.cohort" default="">
+<cfparam name="URL.faculty_member" default="">
+<cfparam name="URL.coachingSkills" default="">
+<cfparam name="URL.faculty" default="">
+<cfparam name="URL.VALUABLE" default="">
+<cfparam name="URL.lessonObj" default="">
+<cfparam name="URL.summarize" default="">
+<cfparam name="URL.aware" default="">
+<cfparam name="URL.live" default="">
+<cfset DSN = "wellcoachesSchool">
+
+<cfif structKeyExists(url,'email')>
+    <cfset local.email = url.email />
+</cfif>
+
+<cfif structKeyExists(url,'lesson')>
+    <cfset local.lesson = url.lesson />
+</cfif>
+
+<cfif structKeyExists(url, 'emailForm')>
+    <cfset local.email = url.emailForm />
+</cfif>
+
+<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+<cfset selectedFieldsArray = ArrayNew(1)>
+<cfset selectedFieldsArray[1] = "Id">
+<cfset selectedFieldsArray[2] = "FirstName">
+<cfset selectedFieldsArray[3] = "LastName">
+<cfset selectedFieldsArray[4] = "_HWCTFeedbackSurveysComplete3">
+<cfset selectedFieldsArray[5] = "_HabitsSurveysComplete">
+<cfset selectedFieldsArray[6] = "Groups">
+<cfset myArray = ArrayNew(1)>
+<cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
+<cfset myArray[2]=key>
+<cfset myArray[3]=local.email>
+<cfset myArray[4]=selectedFieldsArray>
+
+<cfinvoke component="utilities/XML-RPC"
+    method="CFML2XMLRPC"
+    data="#myArray#"
+    returnvariable="myPackage">
+
+    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+        variable="myResult"
+        timeout = "200">
+    </cfexecute>
 
     <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
-        data="#myResult1#"
+        data="#myResult#"
         returnvariable="theData">
+
+		<cfif !ArrayLen(theData.Params[1])>
+          	There is no user with that email address in our records. <cfabort>
+        </cfif>
 
 		<cfset memberID =  theData.Params[1][1]['Id']>
 
-        <cfparam name="theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']" default=" ">
+        <cfparam name="theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']" default="">
         <cfparam name="URL.Lesson" default="">
 
         <cfset updateList = theData.Params[1][1]['_HWCTFeedbackSurveysComplete3']>
@@ -45,17 +77,12 @@
         </cfif>
         <cfset updateList = arrayToList(updateList, "^") />
         <cfset updateList = listRemoveDuplicates(updateList,"^") />
-     
 
         <cfif !FindNoCase('Y',updateList)> 
-
             <cfset updateList = listChangeDelims(updateList,"^") />
             <cfset memberTags =  theData.Params[1][1]['Groups']>
-
             <cfif listLen(updateList,"^") GTE 18>
-
-            	<cfset updateList = 'Y' />
-
+                <cfset updateList = 'Y' />
                 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
                 <cfset myArray2 = ArrayNew(1)>
                 <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
@@ -68,7 +95,7 @@
                     data="#myArray2#"
                     returnvariable="myPackage2">
 
-                 <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+                <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
                     arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
                     variable="myResult2"
                     timeout = "200">
@@ -97,16 +124,11 @@
                     </cfexecute>
 
                 </cfif>
-
-                 
             </cfif>
 
             <cfif updateList NEQ "Y">
             	<cfset updateField = structNew()>
-            
-
             	<cfset updateField['_HWCTFeedbackSurveysComplete3']=Replace(updateList.trim(),",","^","all")>
-                
             <cfelse>
             	<cfset updateField = structNew()>
             	<cfset updateField['_HWCTFeedbackSurveysComplete3']="Y">
@@ -152,7 +174,6 @@
                 data="#myArray#"
                 returnvariable="myPackage4">
 
-
             <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
                 arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
                 variable="result"
@@ -161,11 +182,8 @@
 
         </cfif>
 
-        <!<cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#" />
+        <cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#" />
 
-
-        <p>Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
-           If not, please contact your Coach Concierge for assistance. Thank you!
-        </p>
-
+    
+</cfoutput>
 

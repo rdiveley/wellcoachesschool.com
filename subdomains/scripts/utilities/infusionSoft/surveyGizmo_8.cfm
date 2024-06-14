@@ -23,7 +23,7 @@
 </cfif>
 
 <cfif structKeyExists(url,'lesson')>
-    <cfset lesson = url.lesson />
+    <cfset local.lesson = url.lesson />
 </cfif>
 
 <cfif structKeyExists(url, 'emailForm')>
@@ -31,11 +31,11 @@
 </cfif>
 
 
-<!---<cfset lesson = URLEncodedFormat(URL.lesson)>--->
+<!---<cfset lesson = URLEncodedFormat(URL.lesson)>
 <cfset uniqueFileName = "#local.email#_#URLEncodedFormat(lesson)#_#dateFormat(now(),'mm-dd-yyyy')#.pdf">
 <cfset copyFaculty = "#URL.faculty_member#_#URLEncodedFormat(lesson)#_#local.email#_#dateFormat(now(),'mm-dd-yyyy')#.pdf">
 
-
+--->
 
 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
 <cfset selectedFieldsArray = ArrayNew(1)>
@@ -54,20 +54,22 @@
     data="#myArray#"
     returnvariable="myPackage">
 
-
-<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-	<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-</cfhttp>
+    <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+        variable="myResult"
+        timeout = "200">
+    </cfexecute>
 
 <cfinvoke component="utilities/XML-RPC"
     method="XMLRPC2CFML"
-    data="#myResult.Filecontent#"
+    data="#myResult#"
     returnvariable="theData">
+
 
 		<cfif !ArrayLen(theData.Params[1])>
           	There is no user with that email address in our records. <cfabort>
         </cfif>
-
+<!---
   <cfdocument format="pdf" name="pdfGenerate">
   		<table width="800"  style="font-family:Arial, Helvetica, sans-serif;size:auto">
 
@@ -165,12 +167,12 @@
   <cfset valuableSkills = Replace(URL.VALUABLE,"#chr(10)#","<br>","all")>
   <cfset awareOF = Replace(URL.aware,"#chr(10)#","<br>","all")>
   <cfset summary = Replace(URL.summarize,"#chr(10)#","<br>","all")>
-
+--->
   <cfparam name="addSurveyTally" default="0">
 
   <cfinclude template="tallyTag.cfm">
 
-
+<!---
   <cftry>
       <cfcatch type="any">
       <cfmail to="techsupport@wellcoaches.com" subject="Survey Gizmo 8 Error" from="#local.email#">
@@ -212,11 +214,13 @@
         <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
-        
-
+    
 		<cfset lessonNumber = ListFirst(URL.lesson,':')>
         <cfset lessonNumber = ListLast(lessonNumber,' ')>
-        <cflocation url="completedHours.cfm?email=#local.email#&lesson=#lessonNumber#"   >
+        
+--->
+
+        <cflocation url="completedHours.cfm?email=#local.email#&lesson=#local.lesson#"   >
 
         <cfabort>
 
