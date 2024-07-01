@@ -1,7 +1,7 @@
 
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Groups">
-
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 
 <cfset myArray = ArrayNew(1)>
 <cfset myArray[1]="ContactService.load"><!---Service.method always first param--->
@@ -14,7 +14,8 @@
     data="#myArray#"
     returnvariable="myPackage4">
 
-<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
+<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
     <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
 </cfhttp>
 
@@ -38,9 +39,10 @@
         data="#myArray#"
         returnvariable="myPackage">
 
-    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-    </cfhttp>
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+        </cfhttp>
 </cfif> 
 
 <!-- AS LONG AS 9705 is in place [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete] and 9707 apply 9771 -->
@@ -56,7 +58,8 @@
            data="#myArray#"
            returnvariable="myPackage">
 
-       <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-           <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-       </cfhttp>
+       <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+        </cfhttp>
 </cfif>

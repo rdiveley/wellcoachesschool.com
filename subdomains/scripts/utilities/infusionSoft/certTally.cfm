@@ -100,6 +100,7 @@ h2{
 
 <cfoutput>
 <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfif structKeyExists(form,'tagName') and len(FORM.tagName)>
 		<cfset selectedFieldStruct =structNew()>
 
@@ -124,7 +125,9 @@ h2{
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -172,7 +175,8 @@ h2{
                                 data="#myArray#"
                                 returnvariable="myPackage">
 
-                            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+                            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+                                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
                             </cfhttp>
 

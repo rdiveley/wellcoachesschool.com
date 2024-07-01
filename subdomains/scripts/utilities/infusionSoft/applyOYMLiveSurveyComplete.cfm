@@ -3,6 +3,7 @@
 </cfif>--->
 
 <cfparam name="attributes.memberID" type="numeric" default="93408" />
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 
 <cfoutput>
 <!---<cfif thisTag.executionMode is "start" >--->
@@ -22,9 +23,12 @@
         data="#myArray#"
         returnvariable="myPackage4">
 
-    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
         <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
     </cfhttp>
+
+    
 
     <cfinvoke component="utilities/XML-RPC"
             method="XMLRPC2CFML"
@@ -76,7 +80,8 @@
                 data="#myArray#"
                 returnvariable="myPackage">
 
-            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
 

@@ -1,5 +1,6 @@
 <!-- Core Coach Training - 18-week program - Lesson Feedback Survey	 -->
     <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
@@ -21,7 +22,7 @@
         returnvariable="myPackage">
 
         <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+			arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
 			variable="myResult1"
 			timeout = "200">
 		</cfexecute>
@@ -69,7 +70,7 @@
                     returnvariable="myPackage2">
 
                  <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-                    arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                    arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
                     variable="myResult2"
                     timeout = "200">
                 </cfexecute>
@@ -91,7 +92,7 @@
                 
 
                     <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-                        arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
+                        arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage2.Trim()#'
                         variable="myResult2"
                         timeout = "200">
                     </cfexecute>
@@ -132,11 +133,11 @@
 						method="CFML2XMLRPC"
 						data="#myArray#"
 						returnvariable="myPackage">
-				
 
-					<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-						<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-					</cfhttp>
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
 			   </cfif>
 
 
@@ -154,7 +155,7 @@
 
 
             <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-                arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+                arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
                 variable="result"
                 timeout = "200">
             </cfexecute>

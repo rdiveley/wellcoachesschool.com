@@ -114,6 +114,7 @@
     <cfif local.get_ModOneKADataCount.countRecord GTE 4>
         
         <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 
         <cfset selectedFieldsArray = ArrayNew(1)>
         <cfset selectedFieldsArray[1] = "Id">
@@ -132,7 +133,7 @@
             returnvariable="myPackage">
 
         <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
             variable="myResult"
             timeout = "200">
         </cfexecute>
@@ -155,7 +156,7 @@
         <cfinvoke component="utilities/XML-RPC"  method="CFML2XMLRPC"  data="#myArray#" returnvariable="myPackage4">
 
         <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://my982.infusionsoft.com/api/xmlrpc -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
+            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
             variable="result"
             timeout = "200">
         </cfexecute>
