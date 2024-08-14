@@ -59,7 +59,8 @@
         <cffile action="readbinary" file="#expandPath('./temp/#TempfileName#')#" variable="readFile">
 		<cfset TempfileName = listdeleteat(TempfileName,1,"_")>
 
-	    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+	    
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="FileService.uploadFile"><!---Service.method always first param--->
         <cfset myArray[2]=key>
@@ -72,8 +73,8 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-
-       <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -100,7 +101,10 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+        
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -119,7 +123,8 @@
             <!-- ID 9837: NBC-HWC Certified and eligible for LM Mod 4 Course Certificate -->
             <cfset local.tagToApply="9837">
 
-            <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+            
+            <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
             <cfset myArray = ArrayNew(1)>
             <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
             <cfset myArray[2]=key>
@@ -133,7 +138,10 @@
                 returnvariable="myPackage">
 
 
-            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+            
+
+            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
 
@@ -153,7 +161,10 @@
                     data="#myArray#"
                     returnvariable="myPackage4">
 
-            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
+            
+
+                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                     <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
                 </cfhttp>
 
@@ -194,7 +205,8 @@
 		}
  </script>
 <!--- find user by email --->
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Id">
 <cfset selectedFieldsArray[2] = "FirstName">
@@ -212,9 +224,12 @@
     returnvariable="myPackage">
 
 
-<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-	<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-</cfhttp>
+
+
+<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+    </cfhttp>
 
 <cfinvoke component="utilities/XML-RPC"
     method="XMLRPC2CFML"

@@ -1,4 +1,4 @@
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
 <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Id">
@@ -73,23 +73,7 @@
      --->
 
 <cfif URL.score GTE 80>
-	<!---  27757 pass
-    	<cfset contactList = ArrayNew(1)> 
-     <cfset contactList[1] = "(int)#theData.Params[1][1]['Id']#">
-
-     <cfset contactArray = ArrayNew(1)>
-
-     <cfset contactArray[1]="APIEmailService.sendEmail"><!---Service.method always first param--->
-     <cfset contactArray[2]='fb7d1fc8a4aab143f6246c090a135a41'>
-     <cfset contactArray[3]='#contactList#'>
-     <cfset contactArray[4]='(int)27757'>
-
-     <cfinvoke component="utilities/XML-RPC"
-         method="CFML2XMLRPC"
-         data="#contactArray#"
-         returnvariable="getEmailTemplate">
-
-        --->
+	
 
           <cfmail to="smyers@wellcoaches.com;" subject="Practical Exam Results - Pass" from="wellcoaches@wellcoaches.com" type="html">
                <p>Hi Sam,</p>

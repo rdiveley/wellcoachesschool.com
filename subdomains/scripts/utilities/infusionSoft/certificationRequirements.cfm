@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
@@ -18,8 +19,8 @@
         data="#myArray#"
         returnvariable="myPackage">
 
-
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
+		<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult1">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -80,7 +81,8 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+		<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -89,7 +91,6 @@
             method="XMLRPC2CFML"
             data="#myResult3.Filecontent#"
             returnvariable="theData">
-
 
 
        <cfif !structKeyExists(theData.Params[1][1], '_HWCTFeedbackSurveysComplete3')>

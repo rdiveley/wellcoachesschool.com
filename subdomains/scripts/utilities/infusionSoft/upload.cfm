@@ -13,7 +13,7 @@
 		
         <cffile action="readbinary" file="#expandPath('./temp/#TempFileName#')#" variable="readFile">
     
-	    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+	    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="FileService.uploadFile"><!---Service.method always first param--->
         <cfset myArray[2]=key>
@@ -25,13 +25,13 @@
             method="CFML2XMLRPC"
             data="#myArray#"
             returnvariable="myPackage">
-           
-      
-        <!--- <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-            <cfhttpparam type="xml" value="#myPackage.Trim()#">
-        </cfhttp> --->
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+        </cfhttp>
          
-         <cfx_http5 url="https://my982.infusionsoft.com/api/xmlrpc" method="POST" body=#myPackage.Trim()# out="myResult"  >
+        
     
     <cfif isDefined("myResult")>
       
@@ -59,7 +59,7 @@
 
 <cfif FORM.datafile is not "">
 
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset myArray = ArrayNew(1)>
 <cfset myArray[1]="FileService.uploadFile"><!---Service.method always first param--->
 <cfset myArray[2]=key>
@@ -74,13 +74,14 @@
 	data="#myArray#"
     returnvariable="myPackage">
     
-    <cfdump var="#myPackage#">
     
-    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-		<cfhttpparam type="xml" value="#myPackage.Trim()#">
-	</cfhttp>
+
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+    </cfhttp>
     
-    <cfdump var="#myResult#">
+   
     
 </cfif>    
     

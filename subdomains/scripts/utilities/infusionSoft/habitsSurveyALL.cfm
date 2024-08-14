@@ -12,7 +12,7 @@
     <cfset local.email = url.emailForm />
 </cfif>
 
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
 <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Id">
@@ -99,7 +99,8 @@
 </cfif>
 <cfif structKeyExists(theData.Params[1][1],'_HWCTFeedbackSurveysComplete3') AND theData.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
 
-    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+    
+    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset myArray2 = ArrayNew(1)>
     <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
     <cfset myArray2[2]=key>
@@ -140,7 +141,8 @@
             <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
         </cfhttp>
 
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
         <cfset myArray2 = ArrayNew(1)>
         <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray2[2]=key>
@@ -159,7 +161,8 @@
 
     <cfif listFindNoCase(memberTags, 18680) >
 
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
         <cfset myArray2 = ArrayNew(1)>
         <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray2[2]=key>
@@ -184,7 +187,8 @@
 
     <cfif listFindNoCase(memberTags,18680) OR listFindNoCase(memberTags,18684)>
 
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
         <cfset myArray2 = ArrayNew(1)>
         <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray2[2]=key>
@@ -224,7 +228,8 @@
 </cfif>
 
 
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
         <cfset selectedFieldsArray = ArrayNew(1)>
         <cfset selectedFieldsArray[1] = "Id">
         <cfset selectedFieldsArray[2] = "FirstName">
@@ -259,7 +264,8 @@
 
         <cfif listFindNoCase(memberTags, 16874) AND listFindNoCase(memberTags, 16876)>
 
-                <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                
+                <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
                 <cfset myArray2 = ArrayNew(1)>
                 <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
                 <cfset myArray2[2]=key>

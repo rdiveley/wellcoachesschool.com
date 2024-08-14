@@ -3,6 +3,7 @@
 </cfif>--->
 <!-- Core Coach Training - 18-week program - Lesson Feedback Survey, comes here when completed 18 surveys -->
 <cfparam name="attributes.memberID" type="numeric" default="93408" />
+
 <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 
 <cfoutput>
@@ -14,7 +15,7 @@
 
     <cfset myArray = ArrayNew(1)>
     <cfset myArray[1]="ContactService.load"><!---Service.method always first param--->
-    <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset myArray[2]=key>
     <cfset myArray[3]='(int)#attributes.memberID#'>
     <cfset myArray[4]=selectedFieldsArray>
 
@@ -121,7 +122,7 @@
 
        	  <cfset myArray = ArrayNew(1)>
 		  <cfset myArray[1]="ContactService.addToGroup">
-            <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+            <cfset myArray[2]=key>
             <cfset myArray[3]="(int)#attributes.memberID#">
             <cfset myArray[4]="(int)#firstTag#">
 

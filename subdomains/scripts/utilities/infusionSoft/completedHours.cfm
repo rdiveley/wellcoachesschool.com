@@ -1,5 +1,4 @@
 <!-- Core Coach Training - 18-week program - Lesson Feedback Survey	 -->
-    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
     <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
@@ -57,7 +56,7 @@
 
             	<cfset updateList = 'Y' />
 
-                <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
                 <cfset myArray2 = ArrayNew(1)>
                 <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
                 <cfset myArray2[2]=key>
@@ -78,7 +77,7 @@
 
                 <cfif structKeyExists(theData.Params[1][1], '_HabitsSurveysComplete') AND theData.Params[1][1]['_HabitsSurveysComplete'] EQ 'Y'>
 
-                    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
                     <cfset myArray2 = ArrayNew(1)>
                     <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
                     <cfset myArray2[2]=key>
@@ -122,7 +121,7 @@
 			   <!-- IF 9781 is in place [Core 18-Week Teleclass [Jul2018 Fwd] � generic statement Ray will use to make a �query� BEFORE applying any of the following program specific tags]
 					THEN 9557 can be applied [Core Jul2018 Mod 1 Lesson Surveys Complete] -->
 			   <cfif local.hasInviteToMod3>
-			   		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+			   		<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 					<cfset myArray = ArrayNew(1)>
 					<cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
 					<cfset myArray[2]=key>

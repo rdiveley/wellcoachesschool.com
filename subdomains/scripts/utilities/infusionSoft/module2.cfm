@@ -1,6 +1,6 @@
 	<cfparam  name="URL.Lesson" default="">
     
-    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+    
     <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
@@ -56,7 +56,7 @@
             <cfif listFindNoCase(memberTags,16878)>
                 <cfset myArray = ArrayNew(1)>
                 <cfset myArray[1]="ContactService.addToGroup">
-                <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+                <cfset myArray[2]=key>
                 <cfset myArray[3]="(int)#memberID#">
                 <cfset myArray[4]="(int)16696">
 
@@ -73,7 +73,7 @@
             <cfelseif listFindNoCase(memberTags,9987)>
                 <cfset myArray = ArrayNew(1)>
                 <cfset myArray[1]="ContactService.addToGroup">
-                <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+                <cfset myArray[2]=key>
                 <cfset myArray[3]="(int)#memberID#">
                 <cfset myArray[4]="(int)9615">
 
@@ -91,7 +91,7 @@
             <cfelseif listFindNoCase(memberTags,21348)>
                 <cfset myArray = ArrayNew(1)>
                 <cfset myArray[1]="ContactService.addToGroup">
-                <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+                <cfset myArray[2]=key>
                 <cfset myArray[3]="(int)#memberID#">
                 <cfset myArray[4]="(int)17646">
 

@@ -1,4 +1,4 @@
-	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+	<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
@@ -16,9 +16,11 @@
         returnvariable="myPackage">
 
     <!-- send to infusionsoft -->
-	<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-    	<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-    </cfhttp>
+	
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult1">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+        </cfhttp>
 
 	<!-- decode IS response back to struct -->
     <cfinvoke component="utilities/XML-RPC"
@@ -35,7 +37,7 @@
 
     <cfset myArray = ArrayNew(1)>
     <cfset myArray[1]="ContactService.load"><!----Service.method always first param---->
-    <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset myArray[2]=key>
     <cfset myArray[3]='(int)#memberID#'>
     <cfset myArray[4]=selectedFieldsArray>
 
@@ -46,9 +48,12 @@
         returnvariable="myPackage4">
 
 	<!-- send to IS -->
-    <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-    </cfhttp>
+    
+
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+        </cfhttp>
 
 	<!-- convert return from IS to structure -->
     <cfinvoke component="utilities/XML-RPC"
@@ -78,14 +83,17 @@
               returnvariable="myPackage4">
 
 		<!-- send converted xml to IS -->
-         <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-              <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-          </cfhttp>
+         
+
+          <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+            <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+        </cfhttp>
 
 		<!-- apply Tag ID 9833 [LM Mod 4 Survey/Training Complete  -->
 		<cfset myArray = ArrayNew(1)>
 		<cfset myArray[1]="ContactService.addToGroup">
-        <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+        <cfset myArray[2]=key>
         <cfset myArray[3]='(int)#memberID#'>
         <cfset myArray[4]="(int)9833">
 
@@ -95,7 +103,10 @@
                 data="#myArray#"
                 returnvariable="myPackage">
 			<!-- send to IS -->
-            <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+            
+
+            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
 

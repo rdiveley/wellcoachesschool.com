@@ -42,7 +42,7 @@
         <cffile action="readbinary" file="#expandPath('./temp/#TempfileName#')#" variable="readFile">
 		<cfset TempfileName = listdeleteat(TempfileName,1,"_")>
 
-	    <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+	    
         <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="FileService.uploadFile"><!---Service.method always first param--->
@@ -63,7 +63,7 @@
         </cfhttp>
 
 
-		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+		
         <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
@@ -123,7 +123,7 @@
 		}
  </script>
 
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
 <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Id">

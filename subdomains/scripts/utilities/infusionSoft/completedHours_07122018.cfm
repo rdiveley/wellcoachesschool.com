@@ -1,4 +1,4 @@
-	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+	<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
@@ -16,7 +16,10 @@
         returnvariable="myPackage">
 
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
+        
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult1">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -48,7 +51,9 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -97,7 +102,7 @@
 
 				<!-- apply tag 9557 if user has tag 9559
 					 apply another tag: 9769-->
-				<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+				<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 				<cfset myArray = ArrayNew(1)>
 				<cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
 				<cfset myArray[2]=key>
@@ -108,11 +113,12 @@
 					method="CFML2XMLRPC"
 					data="#myArray#"
 					returnvariable="myPackage">
-				<cfdump var="#myPackage#">
+				
 
-				<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-					<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-				</cfhttp>
+                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                </cfhttp>
 
 				<!-- check to see if user has tag 9559 -->
 				<cfset selectedFieldStruct =structNew()>
@@ -136,9 +142,12 @@
 		            data="#myArray#"
 		            returnvariable="myPackage">
 
-		        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
-		            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-		        </cfhttp>
+		        
+
+                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                </cfhttp>
 
 		          <cfinvoke component="utilities/XML-RPC"
 		            method="XMLRPC2CFML"
@@ -151,7 +160,7 @@
 
 				<!-- user has both 9559 and 9557, so apply 9769 -->
 		       <cfif local.foundTag>
-			       <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+			       <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 					<cfset myArray = ArrayNew(1)>
 					<cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
 					<cfset myArray[2]=key>
@@ -164,9 +173,11 @@
 						returnvariable="myPackage">
 					<cfdump var="#myPackage#">
 
-					<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-						<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-					</cfhttp>
+					
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
 			   </cfif>
 
 
@@ -184,7 +195,9 @@
                 data="#myArray#"
                 returnvariable="myPackage4">
 
-           <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
+           
+            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
             </cfhttp>
         <cfelse>

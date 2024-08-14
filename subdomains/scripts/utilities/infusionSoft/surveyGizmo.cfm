@@ -17,8 +17,8 @@
 <cfset uniqueFileName = "#URL.email#_#URLEncodedFormat(lesson)#_#dateFormat(now(),'mm-dd-yyyy')#.pdf">
 <cfset copyFaculty = "#URL.faculty_member#_#URLEncodedFormat(lesson)#_#URL.email#_#dateFormat(now(),'mm-dd-yyyy')#.pdf"> 
  
-   
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Id">
 <cfset selectedFieldsArray[2] = "FirstName">
@@ -36,8 +36,11 @@
     returnvariable="myPackage">
 
 
-<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-	<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+
+
+<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
 </cfhttp>
 
 <cfinvoke component="utilities/XML-RPC"
@@ -170,7 +173,7 @@
    
    
    
-   
+   <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfif URL.email Contains "_">
    		<cfset oldEmail = listGetAt(uniqueFileName,1,'@')>
     	<cfset newEmail = REReplaceNoCase(oldEmail,"_","^","all")>
@@ -178,7 +181,7 @@
    	</cfif> 
    
    
-   		<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+   		
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="FileService.uploadFile"><!---Service.method always first param--->
         <cfset myArray[2]=key>
@@ -191,9 +194,9 @@
             data="#myArray#"
             returnvariable="myPackage">
    
-   		<!---<cfx_http5 url="https://my982.infusionsoft.com/api/xmlrpc" method="POST" body=#myPackage.Trim()# out="myResult"  >--->
-        
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
         

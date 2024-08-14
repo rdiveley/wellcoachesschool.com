@@ -1,5 +1,5 @@
 <cffunction nameg="getPrereq" access="remote" returntype="any">
-	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41" />
+	<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
     <cfset selectedFieldsArray = ArrayNew(1)>
     <cfset selectedFieldsArray[1] = "Id">
     <cfset selectedFieldsArray[2] = "FirstName">
@@ -16,7 +16,8 @@
         returnvariable="myPackage">
 
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult1">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -53,7 +54,9 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult3">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
@@ -65,7 +68,7 @@
        <cfset memberTags =  theData3.Params[1][1]['Groups']>
 
 		<cfif listFind(memberTags,'2099')>
-			<cfset returnString = "Thank you, your prerequisite proof has been uploaded. Please check back in two or three days to further confirm your submission. Once your document has been reviewed and approved, a ‘YES CHWC’ or ‘YES CPC’ will be listed at the Certification Results page in your Wellcoaches Customer Hub account.">
+			<cfset returnString = "Thank you, your prerequisite proof has been uploaded. Please check back in two or three days to further confirm your submission. Once your document has been reviewed and approved, a ï¿½YES CHWCï¿½ or ï¿½YES CPCï¿½ will be listed at the Certification Results page in your Wellcoaches Customer Hub account.">
 		<cfelse>
 			<cfset returnString = 'Your prerequisite document(s) has/have NOT been received'>
 		</cfif>

@@ -1,11 +1,12 @@
 
 <cfset selectedFieldsArray = ArrayNew(1)>
 <cfset selectedFieldsArray[1] = "Groups">
+
 <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 
 <cfset myArray = ArrayNew(1)>
 <cfset myArray[1]="ContactService.load"><!---Service.method always first param--->
-<cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+<cfset myArray[2]=key>
 <cfset myArray[3]='(int)#attributes.memberID#'>
 <cfset myArray[4]=selectedFieldsArray>
 
@@ -30,7 +31,7 @@
     <!-- 9769 which delivers the Certificate of Attendance [Core Jul2018 Mod 1 ALL Surveys Complete]  -->
     <cfset myArray = ArrayNew(1)>
     <cfset myArray[1]="ContactService.addToGroup">
-    <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset myArray[2]=key>
     <cfset myArray[3]="(int)#attributes.memberID#">
     <cfset myArray[4]="(int)9769">
 
@@ -48,8 +49,8 @@
 <!-- AS LONG AS 9705 is in place [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete] and 9707 apply 9771 -->
 <cfif listFindNoCase(local.tagList,9705) AND listFindNoCase(local.tagList,9707)>
     <cfset myArray = ArrayNew(1)>
-      <cfset myArray[1]="ContactService.addToGroup">
-    <cfset myArray[2]="fb7d1fc8a4aab143f6246c090a135a41">
+    <cfset myArray[1]="ContactService.addToGroup">
+    <cfset myArray[2]=key>
     <cfset myArray[3]="(int)#attributes.memberID#">
     <cfset myArray[4]="(int)9771">
 

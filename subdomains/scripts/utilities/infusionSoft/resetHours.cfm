@@ -17,7 +17,7 @@
 	User Email address:<input  class="input" type="text" name="userEmail" style="width:280px"/><br />
     <input type="submit" class="button" name="submit" value="Submit" />
 </form>
-
+<cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 <cfif structKeyExists(form,'submit')>
     <cfquery name="getRecords" datasource="#DSN#" username="#application.DSNuName#" password="#application.dsnpword#" >
         Select * 
@@ -32,7 +32,6 @@
             <cfset hoursTotal = hoursTotal + val(hours)>
         </cfloop>
         
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
         <cfset selectedFieldsArray = ArrayNew(1)>
         <cfset selectedFieldsArray[1] = "Id">
         <cfset selectedFieldsArray[2] = "FirstName">
@@ -71,7 +70,7 @@
         	#FORM.totalhours# Hours reset on #DateFormat(now(),'mm/dd/yyyy')# for user: #FORM.useremail#
         </cfdocument>
         
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        
 		<cfset selectedFieldsArray = ArrayNew(1)>
         <cfset selectedFieldsArray[1] = "Id">
         <cfset selectedFieldsArray[2] = "FirstName">
@@ -87,9 +86,10 @@
             method="CFML2XMLRPC"
             data="#myArray#"
             returnvariable="myPackage">
-        
-        
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+     
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
         
@@ -100,7 +100,7 @@
         
         
 
-        <cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
+        
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="FileService.uploadFile">
         <cfset myArray[2]=key>
@@ -112,9 +112,9 @@
             method="CFML2XMLRPC"
             data="#myArray#"
             returnvariable="myPackage">
-   
-        
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
        
