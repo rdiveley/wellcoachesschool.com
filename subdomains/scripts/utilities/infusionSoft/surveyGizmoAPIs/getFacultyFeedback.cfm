@@ -221,10 +221,10 @@ $(document).ready(function() {
                 <cfset temp = QuerySetCell(SurveyList,"dateSubmitted", field['datesubmitted'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"Id", field['id'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]'] )/>
-                <cfif structKeyExists(field, '[question(9), option(0)]')>
+                <cfif structKeyExists(field, '[question(9), option(0)]') AND LEN(field['[question(9), option(0)]'])>
                   <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9), option(0)]'])/>
                 <cfelse>
-                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(9)]'])/>
+                  <cfset temp = QuerySetCell(SurveyList,"email", field['[question(50)]'])/>
                 </cfif>
                 <cfset temp = QuerySetCell(SurveyList,"coaching_skills", field['[question(2)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"faculty_expertise",field['[question(3)]'])/>

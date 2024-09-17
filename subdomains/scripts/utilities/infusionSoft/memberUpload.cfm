@@ -5,7 +5,7 @@
 <cfparam name="URL.lastname" default="Diveley">
 <cfparam name="concierge" default="rdiveley@wellcoaches.com">
 
-		<cfset local.concierge = "lho@wellcoaches.com" />
+		<cfset local.concierge = "smyers@wellcoaches.com" />
 
 
 <cfif structKeyExists(FORM,"fileUpload")>
@@ -57,7 +57,7 @@
             returnvariable="myPackage">
 
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
@@ -77,7 +77,7 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
@@ -141,7 +141,7 @@
     data="#myArray#"
     returnvariable="myPackage">
 
-<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
     <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
     <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
 </cfhttp>

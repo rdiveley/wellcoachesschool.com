@@ -24,7 +24,7 @@
         data="#myArray#"
         returnvariable="myPackage4">
 
-    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="result">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
         </cfhttp>
@@ -37,7 +37,7 @@
 	<cfset local.tagList =  theData.Params[1]['Groups'] />
 	<!-- 9783 [Residential 4-day [Aug2018 Fwd]  -->
     <cfset local.hasInviteToMod3 = listFindNoCase(local.tagList,9783)>
-    
+    <!---
     <cfmodule template="inc/residential/aug2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/dec2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/feb2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
@@ -53,4 +53,5 @@
     <cfmodule template="inc/residential/oct2020.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/dec2020-virtual.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/residential/mar2021-4_day.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
+    --->
 </cfoutput>

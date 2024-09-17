@@ -28,7 +28,7 @@
     data="#myArray#"
     returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
@@ -220,7 +220,7 @@
             returnvariable="myPackage">
 
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>

@@ -24,7 +24,7 @@
         data="#myArray#"
         returnvariable="myPackage4">
 
-    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="result">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
     </cfhttp>
@@ -46,7 +46,7 @@
     <cfmodule template="inc/habits/mar2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/apr2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/may2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
-    <cfmodule template="inc/habits/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" /> --->
+    <cfmodule template="inc/habits/june2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" /> 
     <cfmodule template="inc/habits/july2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/july2019-core.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/habits/aug2019.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
@@ -141,7 +141,7 @@
     <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#"  runstep="2" />
     
-
+--->
 
 
 
@@ -162,7 +162,7 @@
                data="#myArray#"
                returnvariable="myPackage">
 
-           <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+           <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
                 <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>

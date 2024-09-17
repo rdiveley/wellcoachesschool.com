@@ -24,7 +24,7 @@
         data="#myArray#"
         returnvariable="myPackage4">
 
-    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="result">
         <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
         <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
     </cfhttp>
@@ -34,7 +34,7 @@
             data="#result.Filecontent#"
             returnvariable="theData">
    <cfset local.tagList =  theData.Params[1]['Groups'] />
-
+<!---
     <cfmodule template="inc/core/july2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/sept2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/nov2018.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
@@ -79,7 +79,7 @@
     <cfmodule template="inc/core/sept2021_4week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
     <cfmodule template="inc/core/sept2021_9week.cfm" memberid="#attributes.memberid#" tagList="#local.tagList#" />
 
-
+--->
 
 
 <!---   NOV2014_3567|3533:3569:3571:3587
@@ -131,7 +131,7 @@
                 data="#myArray#"
                 returnvariable="myPackage">
 
-            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
                 <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>

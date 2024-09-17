@@ -22,7 +22,7 @@
         data="#myArray#"
         returnvariable="myPackage4">
 
-    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="result">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
         </cfhttp>
@@ -46,7 +46,7 @@
             data="#myArray#"
             returnvariable="myPackage">
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
             <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
@@ -67,7 +67,7 @@
    <cfmodule template="inc/module2/may2019Core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/june2019res.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/resapr2019isreal.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
---->
+
    <cfmodule template="inc/module2/invalidcert.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/mod2standalone.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/july2019core.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
@@ -115,6 +115,6 @@
    <cfmodule template="inc/module2/genericpartners.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/untOct2021.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
    <cfmodule template="inc/module2/untJun2022.cfm" memberid="#attributes.memberid#" tagList="#tagList#" />
-
+--->
 
 </cfoutput>

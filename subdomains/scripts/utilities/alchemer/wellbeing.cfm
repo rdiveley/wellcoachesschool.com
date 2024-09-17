@@ -69,10 +69,9 @@
         <cfset local.question = local.results[local.item]['question'] />
         <cfset local.section_Id = local.results[local.item]['section_Id'] />
     
+        <cfset local.answer = 0  />
         <cfif structKeyExists(local.results[local.item], 'answer') and isNumeric(local.results[local.item]['answer'])>
             <cfset local.answer = local.results[local.item]['answer'] />
-        <cfelse>
-            <cfset local.answer = 0  />
         </cfif>
         
         <cfscript>
