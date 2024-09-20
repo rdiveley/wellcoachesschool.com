@@ -115,9 +115,10 @@
             returnvariable="myPackage">
 
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+		<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+			<cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+			<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+		</cfhttp>
 
 		<!--- update fields --->
 		<cfset updateField = structNew()>
@@ -140,9 +141,12 @@
                 data="#myArray#"
                 returnvariable="myPackage4">
 
-           <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-                <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-            </cfhttp>
+          
+
+			<cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="result">
+				<cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+				<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+			</cfhttp>
 
     	<cfif isDefined("myResult")>
 			Thank you, your NBC-HWC Certification exam results have been uploaded. <br />

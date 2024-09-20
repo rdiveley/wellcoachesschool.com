@@ -44,7 +44,8 @@
         	<cfset IStag = 2889 />     
         </cfif>
         
-        <cfset key = "74e097c5980ebb52ebfae71b0e575154">
+       
+        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
 		<cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.addToGroup"><!---Service.method always first param--->
         <cfset myArray[2]=key>
@@ -58,7 +59,10 @@
             returnvariable="myPackage">
         <cfdump var="#myPackage#">
         
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
+       
+
+        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/" result="myResult">
+            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
         

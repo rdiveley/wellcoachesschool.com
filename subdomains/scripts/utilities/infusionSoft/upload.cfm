@@ -85,9 +85,7 @@
     
 </cfif>    
     
-<!---<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-	<cfhttpparam type="xml" value="#myPackage.Trim()#">
-</cfhttp>--->
+
 
 
      

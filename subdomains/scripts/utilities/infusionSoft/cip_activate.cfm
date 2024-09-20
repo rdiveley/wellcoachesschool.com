@@ -38,7 +38,6 @@
 	data="#myArray#"
     returnvariable="myPackage">
 
-<!---<cfx_http5 url="https://my982.infusionsoft.com/api/xmlrpc" method="POST" body=#myPackage.Trim()# out="myResult"  >--->
 
 
 
