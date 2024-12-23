@@ -6,6 +6,8 @@
 	<cfset Application.sslfix = true />
 </cfif>
 
+
+
 <cfparam name="url.email" default="Lamcgivern53@gmail.com,Lauramcgivern53@yahoo.com" />
 
 
@@ -381,7 +383,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 	         		<tr>
 	                	<!---<td>#id#</td>
 	                	<td>#surveyTitle#</td>--->
-	                	<td><a href="##" onclick="window.open('./surveyGizmoAPIs/surveyPDF.cfm?id=#urlencodedformat(encrypt(id,'pdf'))#&surveyTitle=#urlencodedformat(encrypt(surveyTitle,'pdf'))#','openPDF#id#','width=750,height=750,menubar=no,resizable=no,directories=no,location=no')">#lesson#</a></td>
+	                	<td><a href="##" onclick="window.open('./surveyPDF.cfm?id=#urlencodedformat(ID)#&surveyTitle=#urlencodedformat(surveyTitle)#','openPDF#id#','width=750,height=750,menubar=no,resizable=no,directories=no,location=no')">#lesson#</a></td>
 	                	<td>#DateFormat(datesubmitted,'mm/dd/yyyy')#</td>
 
 						<cfif !listFind(NoHours,surveyTitle)>
@@ -494,7 +496,7 @@ Wellcoaches Live Workshops - 2013 (for CiP Members Only)			 																surv
 	                                7.5
 	                                <cfset total = total + 7>
 									
-	                            <cfelseif listFind("1026874,5664658,6634902", surveyTitle) AND datePart('yyyy',datesubmitted) GTE '2016' >
+	                            <cfelseif listFind("1026874,5664658,6634902,7668729,7668720,7668732,4144821,5769769,6298191,6756318,6738809,6697769,6734022,7188169,7716175,7188154,6657242,6697765,7668724,7188173,7188120", surveyTitle) AND datePart('yyyy',datesubmitted) GTE '2016' >
 								 <!---clear the subtotal when it's a new month--->
 	                                    <cfif currentMonthYear NEQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
 	                                        <cfset subtotal = 0 />

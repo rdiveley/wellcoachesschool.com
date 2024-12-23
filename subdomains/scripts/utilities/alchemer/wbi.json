@@ -3,7 +3,7 @@
     {
       "legend": {
         "color": "lightgray",
-        "opacity":"0.2"
+        "opacity": "0.2"
       },
       "type": "curve",
       "title": {
@@ -14,6 +14,10 @@
         "background-color": "#ed008a,#5432FF",
         "border-color": "#cccccc",
         "border-width": 1
+      },
+      "background": {
+        "gradient": "vertical",
+        "colors": ["#5633ff", "#f40090", "#25214e", "#0ae5ed", "#a6a6a6"]
       }
     }
   ]

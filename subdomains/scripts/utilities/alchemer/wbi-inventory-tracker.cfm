@@ -16,10 +16,11 @@
             GROUP BY convert(date,submitted)
         ) AS latest_submissions
         ON wba.submitted = latest_submissions.max_submitted
-        where email = <cfqueryparam value="#local.email#" cfsqltype="CF_SQL_NVARCHAR">
-        ORDER BY wba.submitted ASC;
-
+        WHERE email = <cfqueryparam value="#local.email#" cfsqltype="CF_SQL_NVARCHAR">
+        AND submitted > '9/29/2024'
+        ORDER BY convert(date,wba.submitted) ASC;
 </cfquery> 
+
 
 <cfset local.results = {} />
 <cfloop query="local.getWBA">
@@ -70,7 +71,7 @@
        select * 
        from qoq
        where section_id = 1 
-       and id not in (72,85,87,88,89,90)
+       and id not in (72,85,87,88,89,90,150,151,152,153)
        order by question desc
     </cfquery>
 
@@ -78,21 +79,21 @@
        select * 
        from qoq
        where section_id = 3 
-       and id not in (72,85,87,88,89,90)
+       and id not in (72,85,87,88,89,90,150,151,152,153)
        order by question desc
     </cfquery>
     <cfquery name="getWork_#local.count#" dbtype="query">
        select * 
        from qoq
        where section_id = 4 
-       and id not in (72,85,87,88,89,90)
+       and id not in (72,85,87,88,89,90,150,151,152,153)
        order by question desc
     </cfquery>
     <cfquery name="getLife_#local.count#" dbtype="query">
        select * 
        from qoq
        where section_id = 5 
-       and id not in (72,85,87,88,89,90)
+       and id not in (72,85,87,88,89,90,150,151,152,153)
        order by question desc
     </cfquery>
 
@@ -158,30 +159,48 @@
     <cfset local.mindTop5 = valueList(getMindTop5.question,"|") />
     <cfset local.mindTop5 = REReplaceNoCase(local.mindTop5, "<[^[:space:]][^>]*>", "", "ALL") />
     
+    <cfset local.colorList = ["##5633ff", "##f40090", "##25214e", "##0ae5ed", "##a6a6a6"]>
   
-    <cfchart format="html" 
-        xaxistitle="Date"
-        yaxistitle="Score"
-        style="wbi.json"
-        title="Top 5 Mind areas of the greatest change" 
-        chartHeight="500" 
-        chartWidth="1500" 
-        showLegend="yes" 
-        scalefrom="0"
-        scaleto="11"
-        seriesplacement="default"
-        legend="#legend#">
-        <cfloop query="getMind_1">
-            <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'),"|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getMind_1.question')#" markerstyle="circle" >
-                    <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
-                        <cfchartdata  item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
-                    </cfloop>
-                </cfchartseries>
-            </cfif>
-        </cfloop>
-    </cfchart>
-   
+
+<cfchart 
+    format="html" 
+    xaxistitle="Date"
+    yaxistitle="Score"
+    style="wbi.json"
+    title="Top 5 Mind areas of the greatest change" 
+    chartHeight="500" 
+    chartWidth="800" 
+    showLegend="yes" 
+    scalefrom="0"
+    scaleto="11"
+    seriesplacement="default"
+    legend="#legend#"
+    >
+
+    <cfset local.colorCounter = 1>
+    <cfloop query="getMind_1">
+        <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'), "|")>
+            <!--- Calculate the color index using the current row index to ensure different colors --->
+            <!--- Get the color based on the current colorCounter and then increment it --->
+            <cfset local.seriesColor = local.colorList[local.colorCounter]>
+            <cfset local.colorCounter = local.colorCounter + 1>
+            <cfset local.questionLabel = getMind_1.question />
+
+            <cfchartseries 
+                type="curve" 
+                serieslabel="#local.questionLabel#" 
+                color="#local.seriesColor#"
+                markerstyle="circle">
+                <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
+                    <!--- Assuming local.submitted contains the dates and local.mind contains the values --->
+                    <cfchartdata item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#" />
+                </cfloop>
+            </cfchartseries>
+        </cfif>
+    </cfloop>
+</cfchart>
+
+
     <br />
     <!--- Start Body Section --->
     <cfset qoq_body = queryNew("id,question,total", "varchar,varchar,integer") />
@@ -219,15 +238,23 @@
         style="wbi.json"
         title="Top 5 Body areas of the greatest change" 
         chartHeight="500" 
-        chartWidth="800" 
+        chartWidth="800"    
         showLegend="yes" 
         scalefrom="0"
         scaleto="11"
         seriesplacement="default"
         legend="#legend#">
+        <cfset local.colorCounter = 1>
         <cfloop query="getBody_1">
             <cfif listFindNoCase(local.bodyTop5, evaluate('getBody_1.question'),"|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getBody_1.question')#" markerstyle="circle" >
+                <cfset local.seriesColor = local.colorList[local.colorCounter]>
+                <cfset local.colorCounter = local.colorCounter + 1>
+                <cfset local.questionLabel = getBody_1.question />
+                <cfchartseries 
+                    type="curve" 
+                    color="#local.seriesColor#"
+                    serieslabel="#evaluate('getBody_1.question')#"  
+                    >
                     <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
                         <cfchartdata item="#local.submitted[local.count2]#" value="#local.body[local.count2][getBody_1.id]#"/>
                     </cfloop>
@@ -273,15 +300,23 @@
         style="wbi.json"
         title="Top 5 Work areas of the greatest change" 
         chartHeight="500" 
-        chartWidth="800" 
+        chartWidth="800"    
         showLegend="yes" 
         scalefrom="0"
         scaleto="11"
         seriesplacement="default"
         legend="#legend#">
+        <cfset local.colorCounter = 1>
         <cfloop query="getWork_1">
             <cfif listFindNoCase(local.workTop5, evaluate('getWork_1.question'),"|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getWork_1.question')#" markerstyle="circle" >
+                <cfset local.seriesColor = local.colorList[local.colorCounter]>
+                <cfset local.colorCounter = local.colorCounter + 1>
+                <cfset local.questionLabel = getBody_1.question />
+                <cfchartseries 
+                    type="curve" 
+                    serieslabel="#evaluate('getWork_1.question')#" 
+                    color="#local.seriesColor#"
+                    markerstyle="circle" >
                     <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
                         <cfchartdata item="#local.submitted[local.count2]#" value="#local.work[local.count2][getWork_1.id]#"/>
                     </cfloop>
@@ -328,15 +363,23 @@
         style="wbi.json"
         title="Top 5 Life areas of the greatest change" 
         chartHeight="500" 
-        chartWidth="800" 
+        chartWidth="800"    
         showLegend="yes" 
         scalefrom="0"
         scaleto="11"
         seriesplacement="default"
         legend="#legend#">
+        <cfset local.colorCounter = 1>
         <cfloop query="getLife_1">
             <cfif listFindNoCase(local.LifeTop5, evaluate('getLife_1.question'),"|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getLife_1.question')#" markerstyle="circle" >
+                 <cfset local.seriesColor = local.colorList[local.colorCounter]>
+                <cfset local.colorCounter = local.colorCounter + 1>
+                <cfset local.questionLabel = getLife_1.question />
+                <cfchartseries 
+                    type="curve" 
+                    serieslabel="#evaluate('getLife_1.question')#" 
+                    color="#local.seriesColor#"
+                    markerstyle="circle" >
                     <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
                         <cfif arrayLen(structFindKey(local.Life[local.count2],getLife_1.id))>
                         <cfchartdata item="#local.submitted[local.count2]#" value="#local.Life[local.count2][getLife_1.id]#"/>

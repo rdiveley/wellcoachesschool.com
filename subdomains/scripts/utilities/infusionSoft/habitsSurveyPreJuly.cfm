@@ -33,7 +33,7 @@
 
     <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
+        data="#myResult.Filecontent#"
         returnvariable="theData2">
 
 		<cfset memberID =  theData2.Params[1][1]['Id']>
@@ -67,7 +67,7 @@
 
         <cfinvoke component="utilities/XML-RPC"
             method="XMLRPC2CFML"
-            data="#myResult3.Filecontent#"
+            data="#myResult.Filecontent#"
             returnvariable="theData">
 
         <cfparam name="theData.Params[1][1]['_HabitsSurveysComplete']" default=" ">

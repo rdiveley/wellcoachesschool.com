@@ -7,7 +7,7 @@
 <cfset local.message="An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly." />
 
 <!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "871061,856231,856229,855397,846340,846335,846327,816040,804988,804987,804985,793694,793693,793691,793682,785081,776255,775645,770351,764200,764037,760391,747386,756035,756033,752456,748581,748578,744246,747386,731913,729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
+<cfset local.group_id = "907870,907872,906878,906887,905522,901768,900069,900067,894855,893888,893210,893209,893208,871061,856231,856229,855397,846340,846335,846327,816040,804988,804987,804985,793694,793693,793691,793682,785081,776255,775645,770351,764200,764037,760391,747386,756035,756033,752456,748581,748578,744246,747386,731913,729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
 <cfset local.group_id = listRemoveDuplicates(local.group_id) />
 <!--- 2. create the associated tags to the groups --->
 
@@ -21,13 +21,13 @@
 <!--- IS tags for #10480 Res Dec2018 [Bemidji] Mod 1* and #10610 Res Feb2019 [Ft Worth] Mod 1* --->
 <cfset local.LU122751_tags = "10480,10610,10910,1382,1384">
 <!--- #3054 – I have a Membership Free #1826 – I have a Membership Paid --->
-<cfset local.LU124692_tags = "3054,1826,1382,1384,7892">
+<cfset local.LU124692_tags = "1382,1384,7892">
 <!--- #10371 (Core Jan2019 Mod 1*) for  Core Coach Training - 18 Week Teleclasses --->
 <cfset local.LU132795_tags = "10371,1382,1384">
 <!--- #10732 Core Mar2019 Mod 1* --->
 <cfset local.LU132796_tags = "10732,1382,1384">
 <!--- #133227 Core Coach Training: Module 2 --->
-<cfset local.LU133227_tags = "17886,9617,1382,1384,18672,9617">
+<cfset local.LU133227_tags = "22712,17886,9617,1382,1384,18672,9617">
 <!--- #134579 Professional Coach Training 2019 --->
 <cfset local.LU134579_tags = "1382,1384,10145">
 <!--- 135804 = Burnout Prevention Program for Physicians --->
@@ -272,7 +272,32 @@
 <cfset local.LU856231_tags = "21546,1382,1384" />
 <!--- USCF - Module 1 4-day Training, September 2024 --->
 <cfset local.LU871061_tags = "22352,1382,1384" />
-
+<!--- Core Coach Training: Module 1 - 9 week (January 2025) --->
+<cfset local.LU893208_tags = "22380,1382,1384" />
+<!--- Core Coach Training: Module 1  - 9 week (February 2025) --->
+<cfset local.LU893209_tags = "22414,1382,1384" />
+<!--- Core Coach Training: Module 1 - 9 week (March 2025)--->
+<cfset local.LU893210_tags = "22448,1382,1384" />
+<!---  Core Coach Training: Module 1 - 4 week (January 2025) --->
+<cfset local.LU893888_tags = "22482,1382,1384" />
+<!---  Wellcoaches Membership: Upcoming Classes and Recorded Continuing Education Libra --->
+<cfset local.LU894855_tags = "1826,3054,1382,1384" />
+<!---   Core Coach Training: Module 1 - 4 week (February 2025) --->
+<cfset local.LU900067_tags = "22516,1382,1384" />
+<!---   Core Coach Training: Module 1 - 4 week (March 2025) --->
+<cfset local.LU900069_tags = "22550,1382,1384" />
+<!---  Core Coach Training: Module 1 - 9 week (April 2025) --->
+<cfset local.LU901768_tags = "22756,1382,1384" />
+<!---  Core Coach Training: Module 1 - 4 week (April 2025) --->
+<cfset local.LU905522_tags = "22788,1382,1384" />
+<!---  Core Coach Training: Module 1 - 4 week (May 2025) --->
+<cfset local.LU906887_tags = "22916,1382,1384" />
+<!---  Core Coach Training: Module 1 - 9 week (May 2025) --->
+<cfset local.LU906878_tags = "22852,1382,1384" />
+<!--- Core Coach Training: Module 1 - 4 week (June 2025) --->
+<cfset local.LU907872_tags = "22948,1382,1384" />
+<!--- Core Coach Training: Module 1 - 9 week (June 2025) --->
+<cfset local.LU907870_tags = "22884,1382,1384" />
 
 <cftry>
 	<!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
@@ -363,7 +388,7 @@
 								, 'email' : URL.email
 								, 'password' : "#local.userInfo['Password']#"
 								, 'language' : 'en'
-								, 'membership_type' : 'Learner'
+								
 							}
 					}
 			/>
@@ -373,12 +398,13 @@
 			<cfset local.user = ReplaceNoCase(local.user,'"','\"','all') />
 			<cfset local.user = ReplaceNoCase(local.user,' ','-','all') />
 
+
 			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
 				arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/users -H "Content-Type: application/json" -d #local.user#'
 				variable="myResult"
 				timeout = "200">
 			</cfexecute>
-			
+
 
 			<cfset local.messgeStruct = deserializeJSON(myresult)>
 

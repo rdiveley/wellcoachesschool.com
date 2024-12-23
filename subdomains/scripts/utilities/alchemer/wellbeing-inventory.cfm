@@ -50,7 +50,7 @@
             )
         </cfquery>
 
-         <cfset local.results = deserializeJSON(local.requestBody).survey_data />
+        <cfset local.results = deserializeJSON(local.requestBody).survey_data />
         
     </cftransaction>
 
@@ -166,7 +166,7 @@
 
     <cfset filePath = GetTempDirectory() & "#local.email#.pdf">
 
-     <cfsavecontent variable="results"> 
+      <cfsavecontent variable="results">
         <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
             <head>
                 <meta charset="UTF-8">
@@ -198,7 +198,7 @@
                     </thead>
                     <tbody style="width: 600px;" width="600">
                         <tr style="background-color: ##4B3EEC;">
-                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are the scores from the 20 most validated items in the assessment.</td>
+                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your scores from the core 20 items in the Wellcoaches Well-being Coaching Inventory.</td>
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
                             <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
@@ -244,6 +244,12 @@
                         <tr>
                             <td height="21" style="background-color: white;"></td>
                         </tr>
+                         <tr style="background-color: ##4B3EEC;">
+                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Below are your scores on all 49 items.</td>
+                        </tr>
+                        <tr>
+                            <td height="21" style="background-color: white;"></td>
+                        </tr>
                         <tr>
                             <td background="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/doing-well-bg.png" width="600" height="640" valign="top" style="background-color: ##4B3EEC; background-size: cover; page-break-inside: avoid; break-inside: avoid; width: 600px; height: 640px;">
                                 <table border="0" cellpadding="0" cellspacing="0">
@@ -253,6 +259,7 @@
                                                 <img src="https://prcr-misc.sfo3.cdn.digitaloceanspaces.com/wellcoaches-alchemer-email/wellcoaches-icon-white.png" width="16" height="14" alt="Wellcoaches Logo Icon">
                                             </td>
                                         </tr>
+                                       
                                         <tr>
                                             <td style="padding: 28px 215px 28px 28px; font-size: 40px; font-weight: 400; line-height: 120% !important; color: white;">Areas where you are <b style="white-space: nowrap;">doing well.</b></td>
                                         </tr>

@@ -110,6 +110,31 @@
                 <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
 
+            <!--- 16696,9833,22718->22720 
+                    If user has tag 16696 and tag 9833 and tag 22718 (which comes from a campagin)
+                    give them tag 22720
+                --->
+
+            <cfif listFindNoCase(local.tagList,16696) AND listFindNoCase(local.tagList,22718)>
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.addToGroup">
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]="(int)#memberID#">
+                    <cfset myArray[4]="(int)22720">
+
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
+                </cfif>
+
+
+
 	<!--- </cfif> --->
 
          <p>Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
