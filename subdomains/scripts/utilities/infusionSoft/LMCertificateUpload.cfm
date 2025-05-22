@@ -77,7 +77,7 @@
            
             <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
                 <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+                <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
             </cfhttp>
     
     
@@ -109,7 +109,7 @@
             <cfset updateField = structNew()>
             <cfset updateField['_SupportingNBCdocumentationreceived']='YES'>
             <!---  <cfset updateField['s']=form.score> --->
-            <cfset updateField['_PleaseselecttheNBCexamperiodyouparticipatedin0']=" #DateFormat(form.examDate,'mm-dd-yyyy')# ">
+            <!---<cfset updateField['_PleaseselecttheNBCexamperiodyouparticipatedin0']=" #DateFormat(form.examDate,'mm-dd-yyyy')# "> --->
     
     
             <cfset myArray = ArrayNew(1)>
@@ -221,8 +221,8 @@
                     <input type="hidden" name="lname" value="#theData.Params[1][1]['LastName']#" />
                     <input type="hidden" name="userFiles" value="NBC-HWC-DOCUMENTATION" />
     
-                    <p>
-                    <!---  NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br /> --->
+                   <!--- <p>
+                      NBC-HWC total test percentage: <input id="score" type="text" name="score" ><br /> 
                         Please select the NBC exam period you participated in: <!-- <input  readonly="readonly" placeholder="mm/dd/yyyy" id="examDate" type="date" name="examDate" > -->
                     <cfset currentYear = year(now()) />
                     <cfset startYear = currentYear - 3> <!--- Starting year --->
@@ -244,7 +244,7 @@
                                 </cfloop>
                             </cfoutput>
                         </select>
-                    </p>
+                    </p>--->
     
                     File: <input type="file" name="fileUpload" id="fileUpload" accept="application/pdf" size="20"/> <br />
                     <input type="hidden" id="fileName" size="20" name="fileName" />

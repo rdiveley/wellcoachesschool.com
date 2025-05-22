@@ -7,18 +7,18 @@
 <cfset local.email = url.email />
 
 <cfquery name="local.getWBA" datasource="#local.dsn#">
-    SELECT  wba.json, wba.submitted
+    SELECT wba.json, wba.submitted
         FROM wba
         JOIN (
             SELECT MAX(submitted) AS max_submitted
             FROM wba
             WHERE email = <cfqueryparam value="#local.email#" cfsqltype="CF_SQL_NVARCHAR">
-            AND newton IS NULL
+            AND newton = 1
             GROUP BY convert(date,submitted)
         ) AS latest_submissions
         ON wba.submitted = latest_submissions.max_submitted
         where email = <cfqueryparam value="#local.email#" cfsqltype="CF_SQL_NVARCHAR">
-        AND newton IS NULL
+        AND newton = 1
         ORDER BY wba.submitted ASC;
 
 </cfquery> 
@@ -178,18 +178,23 @@
         <cfset colorIndex = 1 />
         
         <cfloop query="getMind_1">
-            <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'), "|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getMind_1.question')#" markerstyle="circle"  color="#colorList[colorIndex]#">
-                    <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
-                        <!--- Check if the structure and key exist before accessing --->
-                        <cfif structKeyExists(local.mind, local.count2) AND structKeyExists(local.mind[local.count2], getMind_1.id)>
-                            <cfchartdata item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
-                        </cfif>
-                    </cfloop>
-                </cfchartseries>
-                 <cfset colorIndex = colorIndex MOD 5 + 1> <!-- Cycle through colors -->
-            </cfif>
-        </cfloop>
+        <cfif listFindNoCase(local.mindTop5, evaluate('getMind_1.question'), "|")>
+            <cfchartseries 
+                type="curve" 
+                serieslabel="#evaluate('getMind_1.question')#" 
+                markerstyle="circle"
+                color="#colorList[colorIndex]#">
+                
+                <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
+                    <cfif structKeyExists(local.mind, local.count2) AND structKeyExists(local.mind[local.count2], getMind_1.id)>
+                        <cfchartdata item="#local.submitted[local.count2]#" value="#local.mind[local.count2][getMind_1.id]#"/>
+                    </cfif>
+                </cfloop>
+
+            </cfchartseries>
+            <cfset colorIndex = colorIndex MOD 5 + 1> <!-- Cycle through colors -->
+        </cfif>
+    </cfloop>
     </cfchart>
    
     <br />
@@ -232,7 +237,7 @@
         chartWidth="800" 
         showLegend="yes" 
         scalefrom="0"
-       scaleto="10"
+        scaleto="10"
         seriesplacement="default"
         legend="#legend#">
 
@@ -241,7 +246,11 @@
 
         <cfloop query="getBody_1">
             <cfif listFindNoCase(local.bodyTop5, evaluate('getBody_1.question'), "|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getBody_1.question')#" markerstyle="circle" color="#colorList[colorIndex]#">
+                <cfchartseries 
+                    type="curve" 
+                    serieslabel="#evaluate('getBody_1.question')#" 
+                    markerstyle="circle"
+                    color="#colorList[colorIndex]#">>
                     <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
                         <!--- Ensure the structure exists before accessing --->
                         <cfif structKeyExists(local.body, local.count2) AND structKeyExists(local.body[local.count2], getBody_1.id)>
@@ -249,7 +258,7 @@
                         </cfif>
                     </cfloop>
                 </cfchartseries>
-                <cfset colorIndex = colorIndex MOD 5 + 1> 
+                <cfset colorIndex = colorIndex MOD 5 + 1> <!-- Cycle through colors -->
             </cfif>
         </cfloop>
     </cfchart>
@@ -294,7 +303,7 @@
         chartWidth="800" 
         showLegend="yes" 
         scalefrom="0"
-       scaleto="10"
+        scaleto="10"
         seriesplacement="default"
         legend="#legend#">
 
@@ -357,7 +366,7 @@
         chartWidth="800" 
         showLegend="yes" 
         scalefrom="0"
-       scaleto="10"
+        scaleto="10"
         seriesplacement="default"
         legend="#legend#">
 
@@ -366,7 +375,7 @@
 
         <cfloop query="getLife_1">
             <cfif listFindNoCase(local.LifeTop5, evaluate('getLife_1.question'),"|")>
-                <cfchartseries type="curve" serieslabel="#evaluate('getLife_1.question')#" markerstyle="circle" color="#colorList[colorIndex]#">
+                <cfchartseries type="curve" serieslabel="#evaluate('getLife_1.question')#" markerstyle="circle"  color="#colorList[colorIndex]#">
                     <cfloop from="1" to="#structCount(local.results)#" index="local.count2">
                         <cfif arrayLen(structFindKey(local.Life[local.count2],getLife_1.id))>
                         <cfchartdata item="#local.submitted[local.count2]#" value="#local.Life[local.count2][getLife_1.id]#"/>

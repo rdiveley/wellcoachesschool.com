@@ -20,7 +20,7 @@
         select top 1 json 
         from wba
         where email = <cfqueryparam value="#local.email#" cfsqltype="CF_SQL_NVARCHAR">
-        and newton IS NULL
+        and newton = 1
         order by submitted desc
     </cfquery> 
 
@@ -42,12 +42,14 @@
                 email
                 ,json
                 ,submitted
+                ,newton
                 )
             values
             (
                 <cfqueryparam value="#trim(local.email)#" cfsqltype="CF_SQL_NVARCHAR">
                 ,<cfqueryparam value="#local.requestBody#" cfsqltype="CF_SQL_LONGNVARCHAR">
                 ,<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">
+                ,1
             )
         </cfquery>
 
@@ -165,7 +167,7 @@
 
    <cfset averageStruct.wellbeing = round(averageStruct.body + averageStruct.mind + averageStruct.work + averageStruct.life) / 4> 
 
-    <cfset filePath = GetTempDirectory() & "Well-being-Inventory-#local.email#.pdf">
+    <cfset filePath = GetTempDirectory() & "#local.email#.pdf">
 
       <cfsavecontent variable="results">
         <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -188,7 +190,6 @@
                         color: white; /* Inherits the text color from the parent element */
                         text-decoration: underline; /* Keeps the underline if needed */
                     }
-
                 </style>
 
             </head>
@@ -202,10 +203,10 @@
                             </th>
                         </tr>
                     </thead>
+                    
                     <tbody style="width: 600px;" width="600">
                         <tr style="background-color: ##4B3EEC;">
-                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your scores from the core 20 items in the Wellcoaches Well-being Coaching Inventory.  
-                                <br><br />Click <a href="https://scripts.wellcoachesschool.com/utilities/alchemer/wbi-results.cfm?email=#local.email#" style="color:white">here</a> to compare your results over time.</td>
+                            <td style="padding: 56px 56px 28px 28px; font-size: 24px; color: white;">Here are your scores from the core 20 items in the Wellcoaches Well-being Coaching Inventory.  <br><br />Click <a href="https://scripts.wellcoachesschool.com/utilities/alchemer/wbi-results-nw.cfm?email=#local.email#" style="color:white">here</a> to compare your results over time.</td>
                         </tr>
                         <tr style="background-color: ##4B3EEC;">
                             <td style="padding: 0 28px 28px 28px; page-break-inside: avoid; break-inside: avoid;">
@@ -497,22 +498,7 @@
         </html>
     </cfsavecontent>
 
-     <!--- Generate PDF from HTML content --->
-    <cfdocument format="PDF" filename="#filePath#" overwrite="yes">
-        <cfoutput>#results#</cfoutput>
-    </cfdocument>
-
-   <!--- Send email with PDF attachment --->
-    <cfmail to="#trim(local.email)#"
-            from="wellcoaches@wellcoaches.com"
-            subject="Your Well-being Inventory Report"
-            type="html">
-        <cfmailparam file="#filePath#" disposition="attachment" type="application/pdf"  />
-             Dear #local.email#,<br/><br/>
-            Attached is your Well-being Inventory report in PDF format.<br/><br/>
-            The report is also included below for your convenience.<br/><br/>
-            Thank you,<br/>
-            The Wellcoaches Team<br/><br/>
+   <cfmail to="#trim(local.email)#"  subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
             #results#
     </cfmail>
 

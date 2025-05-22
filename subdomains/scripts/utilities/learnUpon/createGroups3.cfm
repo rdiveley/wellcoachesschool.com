@@ -1,372 +1,328 @@
 <cfinclude template="credentials.cfm">
 
-<cfif structKeyExists(form,'email')>
-	<cfset URL.email = FORM.email>
+<!--- Handle form email input --->
+<cfparam name="URL.email" default="">
+<cfif structKeyExists(form, "email")>
+    <cfset URL.email = FORM.email>
 </cfif>
 
-<cfset local.message="An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly." />
+<!--- Configuration --->
+<cfset local.config = {
+    "defaultMessage": "An Error has occurred, Wellcoaches IT has been informed and will get back to you shortly.",
+    "keapApiKey": "KeapAK-986c932da67be5b58500636bcc6b0e128efda00616e7dd8093",
+    "curlPath": "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe",
+    "learnUponBaseUrl": "https://wellcoaches.learnupon.com/api/v1"
+}>
 
-<!--- 1. add the Learn Upon group IDs here --->
-<cfset local.group_id = "894855,893888,893210,893209,893208,871061,856231,856229,855397,846340,846335,846327,816040,804988,804987,804985,793694,793693,793691,793682,785081,776255,775645,770351,764200,764037,760391,747386,756035,756033,752456,748581,748578,744246,747386,731913,729855,728278,720840,720428,715258,704813,674596,654892,651296,650725,647797,645020,638088,625819,611521,607295,595986,588117,583849,570664,570659,569236,569228,555224,555223,550736,546704,545173,539864,539861,537709,531867,517483,517484,497231,497171,476138,476136,475536,457198,467705,467704,467702,457195,444680,443399,443398,418135,418067,417007,415904,415521,399396,397128,394270,383008,357954,345594,335420,335393,331706,331102,326955,311207,310295,270378,215044,215036,204048,204039,133730,200727,200614,86550,92767,122134,122751,124692,132795,132796,133227,134579,135804,133731,133732,138684,143303,149768,149769,158563,165525,166587,135804,151620,172370,177643,179908,179925,166047,196765">
-<cfset local.group_id = listRemoveDuplicates(local.group_id) />
-<!--- 2. create the associated tags to the groups --->
+<!--- Tag mappings (kept simplified as in original) --->
+<cfset local.tagMappings = {
+   "86550": "9831,1382,1384,9821",
+    "92767": "9777,1382,1384",
+    "122134": "10163,1382,1384",
+    "122751": "10480,10610,10910,1382,1384",
+    "124692": "1382,1384,7892",
+    "132795": "10371,1382,1384",
+    "132796": "10732,1382,1384",
+    "133227": "22712,17886,9617,1382,1384,18672,9617",
+    "134579": "1382,1384,10145",
+    "135804": "1382,1384,11448,12319",
+    "133732": "11420,1382,1384",
+    "138684": "1382,1384,11458",
+    "143303": "11108,1382,1384",
+    "149768": "11012,1382,1384",
+    "149769": "11669,1382,1384",
+    "151620": "11204,1382,1384",
+    "158563": "11909,1382,1384",
+    "165525": "12383,1382,1384",
+    "166587": "12229,1382,1384",
+    "172370": "12649,1382,1384",
+    "177643": "12877,1382,1384",
+    "179908": "12771,1382,1384",
+    "179925": "13001,1382,1384",
+    "166047": "12535,1382,1384",
+    "196765": "13237,1382,1384",
+    "200614": "13091,1382,1384",
+    "200727": "13343,1382,1384",
+    "133730": "19658,19056,18990,17760,16438,15445,13673,1382,1384",
+    "133731": "21412,19526,18990,11372,12583,16436,16438,15443,15445,12858,13671,13673,1382,1384,17762",
+    "204039": "13489,1382,1384",
+    "204048": "13577,1382,1384",
+    "215036": "13975,1382,1384",
+    "215044": "13887,1382,1384",
+    "270378": "14557,1382,1384",
+    "310295": "14383,1382,1384",
+    "311207": "14711,1382,1384",
+    "326955": "14845,1382,1384",
+    "331102": "14935,1382,1384",
+    "331706": "15023,1382,1384",
+    "335393": "15217,1382,1384",
+    "335420": "15311,1382,1384",
+    "357954": "15506,1382,1384",
+    "345594": "15644,15660,1382,1384,15646",
+    "383008": "15762,1382,1384",
+    "394270": "15942,1382,1384",
+    "397128": "16138,1382,1384",
+    "399396": "16044,1382,1384",
+    "415521": "16516,1382,1384",
+    "415904": "16600,1382,1384",
+    "417007": "16886,1382,1384",
+    "418067": "16962,1382,1384",
+    "418135": "16748,1382,1384",
+    "443398": "17232,1382,1384",
+    "443399": "17256,1382,1384",
+    "444680": "17192,1382,1384",
+    "457195": "17344,1382,1384",
+    "467705": "17420,1382,1384",
+    "467704": "17436,1382,1384",
+    "467702": "17612,1382,1384",
+    "457198": "17328,1382,1384",
+    "475536": "17706,1382,1384",
+    "476136": "17468,1382,1384",
+    "476138": "17516,1382,1384",
+    "497171": "17532,1382,1384",
+    "497231": "17484,1382,1384",
+    "517484": "17500,1382,1384",
+    "517483": "17548,1382,1384",
+    "531867": "17922,1382,1384",
+    "537709": "17938,18056,1382,1384",
+    "539861": "18004,1382,1384",
+    "539864": "18020,1382,1384",
+    "546704": "18194,1382,1384",
+    "545173": "18074,18154,1382,1384",
+    "555223": "18242,1382,1384",
+    "555224": "18216,1382,1384",
+    "569228": "18338,1382,1384",
+    "569236": "18364,1382,1384",
+    "570659": "18420,1382,1384",
+    "570664": "18446,18472,1382,1384",
+    "550736": "18128,18602,1382,1384",
+    "583849": "18510,18562,18536,1382,1384",
+    "588117": "18714,18688,1382,1384",
+    "595986": "18773,18748,1382,1384",
+    "607295": "18840,18814,1382,1384",
+    "611521": "19102,18910,1382,1384",
+    "625819": "19006,1382,1384",
+    "638088": "19180,19154,1382,1384",
+    "645020": "19288,19262,1382,1384",
+    "647797": "19376,19350,1382,1384",
+    "650725": "19450,19476,1382,1384",
+    "651296": "19076,1382,1384",
+    "654892": "19614,19530,19556,1382,1384",
+    "674596": "19960,19672,1382,1384",
+    "704813": "19832,1382,1384",
+    "715258": "20620,20340,19884,19858,1382,1384",
+    "720428": "20570,20118,1382,1384",
+    "720840": "20084,19934,19910,1382,1384",
+    "728278": "20950,20272,20182,1382,1384",
+    "729855": "20320,20288,20198,1382,1384",
+    "731913": "20510,20304,1382,1384",
+    "747386": "20990,1382,1384",
+    "744246": "20662,1382,1384",
+    "748578": "20642,1382,1384",
+    "748581": "20902,1382,1384",
+    "752456": "21360,20788,20716,1382,1384",
+    "756033": "21528,20812,20740,1382,1384",
+    "756035": "20836,20764,1382,1384",
+    "760391": "20992,1382,1384",
+    "764037": "21256,1382,1384",
+    "764200": "20578,1382,1384",
+    "770351": "21098,21026,1382,1384",
+    "775645": "21918,21122,21050,1382,1384",
+    "776255": "21146,21074,1382,1384",
+    "785081": "21458,21460,1382,1384",
+    "793682": "21426,1382,1384",
+    "793691": "21436,1382,1384",
+    "793693": "21446,1382,1384",
+    "793694": "21456,1382,1384",
+    "804985": "21728,21626,1382,1384",
+    "804987": "21762,21660,1382,1384",
+    "804988": "21796,21694,1382,1384",
+    "816040": "21962,1382,1384",
+    "846327": "22112,22010,1382,1384",
+    "846335": "22146,22044,1382,1384",
+    "846340": "22180,22078,1382,1384",
+    "855397": "22304,1382,1384",
+    "856229": "21540,1382,1384",
+    "856231": "21546,1382,1384",
+    "871061": "22352,1382,1384",
+    "893208": "22380,1382,1384",
+    "893209": "22414,1382,1384",
+    "893210": "22448,1382,1384",
+    "893888": "22482,1382,1384",
+    "894855": "1826,3054,1382,1384",
+    "900067": "22516,1382,1384",
+    "900069": "22550,1382,1384",
+    "901768": "22756,1382,1384",
+    "905522": "22788,1382,1384",
+    "906887": "22916,1382,1384",
+    "906878": "22852,1382,1384",
+    "907872": "22948,1382,1384",
+    "907870": "22884,1382,1384",
+    "919766": "23096,23098,1382,1384",
+    "929339": "23172,1382,1384",
+    "929340": "23236,1382,1384",
+    "929341": "23204,1382,1384",
+    "929342": "23268,1382,1384"
+}>
 
-<!--- Group and Tag Definitions: Consolidate into a structure for better management --->
-<cfset local.groups = {
-    "86550": ["9831", "1382", "1384", "9821"], <!--- Fundamentals of Lifestyle Medicine --->
-    "92767": ["9777", "1382", "1384"], <!--- NBC-HWC Exam Preparation 2018 --->
-    "122134": ["10163", "1382", "1384"], <!--- Core Nov2018 Mod 1 --->
-    "122751": ["10480", "10610", "10910", "1382", "1384"], <!--- Res Dec2018 and Feb2019 --->
-    "124692": ["1382", "1384", "7892"], <!--- Membership Free and Paid --->
-    "132795": ["10371", "1382", "1384"], <!--- Core Jan2019 Mod 1 --->
-    "132796": ["10732", "1382", "1384"], <!--- Core Mar2019 Mod 1 --->
-    "133227": ["17886", "9617", "1382", "1384", "18672", "9617"], <!--- Core Coach Training Module 2 --->
-    "134579": ["1382", "1384", "10145"], <!--- Professional Coach Training 2019 --->
-    "135804": ["1382", "1384", "11448", "12319"], <!--- Burnout Prevention Program for Physicians --->
-    "133732": ["11420", "1382", "1384"], <!--- Core Coach Training: Module 1 (University of Wisconsin) --->
-    "138684": ["1382", "1384", "11458"], <!--- Core Coach Training: Module 1 (May 2019 cohort) --->
-    "143303": ["11108", "1382", "1384"], <!--- Core Coach Training: Module 1 (August 2019) --->
-    "149768": ["11012", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2019) --->
-    "149769": ["11669", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2019 cohort) --->
-    "151620": ["11204", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2019) --->
-    "158563": ["11909", "1382", "1384"], <!--- Core Sep2019 Mod 1 --->
-    "165525": ["12383", "1382", "1384"], <!--- Res Jul2019 Singapore Mod 1 --->
-    "166587": ["12229", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2019 cohort) --->
-    "172370": ["12649", "1382", "1384"], <!--- Res Feb2020 Mod 1 --->
-    "177643": ["12877", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2019) --->
-    "179908": ["12771", "1382", "1384"], <!--- Core Jan2020 Mod 1 --->
-    "179925": ["13001", "1382", "1384"], <!--- Core Feb2020 Mod 1 --->
-    "166047": ["12535", "1382", "1384"], <!--- PCTP Jan2020 --->
-    "196765": ["13237", "1382", "1384"], <!--- Res Apr2020 FL Mod 1 --->
-    "200614": ["13091", "1382", "1384"], <!--- Core Mar 2020 cohort --->
-    "200727": ["13343", "1382", "1384"], <!--- Core Apr 2020 cohort --->
-    "133730": ["19658", "19056", "18990", "17760", "16438", "15445", "13673", "1382", "1384"], <!--- Core Mod 2 CA Univ of PA --->
-    "133731": ["21412", "19526", "18990", "11372", "12583", "16436", "16438", "15443", "15445", "12858", "13671", "13673", "1382", "1384", "17762"], <!--- Core Mod 1 CA Univ of PA --->
-    "204039": ["13489", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2020) --->
-    "204048": ["13577", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2020) --->
-    "215036": ["13975", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2020) --->
-    "215044": ["13887", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2020) --->
-    "270378": ["14557", "1382", "1384"], <!--- Core Coach Training: Module 1 (April 2020 Singapore) --->
-    "310295": ["14383", "1382", "1384"], <!--- Core Coach Training: Module 1 (Aug 2020 cohort) --->
-    "311207": ["14711", "1382", "1384"], <!--- Core Coach Training: Module 1 (Monarch Dedicated 2020 cohort) --->
-    "326955": ["14845", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sept 2020) --->
-    "331102": ["14935", "1382", "1384"], <!--- Core Oct2020 Mod 1 --->
-    "331706": ["15023", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2020) --->
-    "335393": ["15217", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2020 4-day) --->
-    "335420": ["15311", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2020 4-day) --->
-    "357954": ["15506", "1382", "1384"], <!--- Core Coach Training: Module 1 (Jan 2021) --->
-    "345594": ["15644", "15660", "1382", "1384", "15646"], <!--- Behavior Change Agent --->
-    "383008": ["15762", "1382", "1384"], <!--- Core Coach Training: Module 1 (Feb 2021) --->
-    "394270": ["15942", "1382", "1384"], <!--- Core Mar2021 Mod 1 --->
-    "397128": ["16138", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2021) --->
-    "399396": ["16044", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2021) --->
-    "415521": ["16516", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2021 cohort) --->
-    "415904": ["16600", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2021) --->
-    "417007": ["16886", "1382", "1384"], <!--- Core Coach Training: Module 1 (Mar 2021) --->
-    "418067": ["16962", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2021) --->
-    "418135": ["16748", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2021) --->
-    "443398": ["17232", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2021) --->
-    "443399": ["17256", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2021 4-day) --->
-    "444680": ["17192", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2021 9-week) --->
-    "457195": ["17344", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sept 2021) --->
-    "467705": ["17420", "1382", "1384"], <!--- Core Coach Training: Module 1 (August 2021 9-week) --->
-    "467704": ["17436", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sept 2021 4-week) --->
-    "467702": ["17612", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sept 2021) --->
-    "457198": ["17328", "1382", "1384"], <!--- Professional Coach Training 2022 --->
-    "475536": ["17706", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2021 9-week) --->
-    "476136": ["17468", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2021) --->
-    "476138": ["17516", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2021 4-day) --->
-    "497171": ["17532", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2021 9-week) --->
-    "497231": ["17484", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2021 9-week) --->
-    "517484": ["17500", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2021 4-day) --->
-    "517483": ["17548", "1382", "1384"], <!--- Core Coach Training: Module 1 (Jan 2022 9-week) --->
-    "531867": ["17922", "1382", "1384"], <!--- Core Coach Training: Module 1 (Jan 2022 4-day) --->
-    "537709": ["17938", "18056", "1382", "1384"], <!--- Core Coach Training: Module 1 (Feb 2022 9-week) --->
-    "539861": ["18004", "1382", "1384"], <!--- Core Coach Training: Module 1 (Feb 2022 4-week) --->
-    "539864": ["18020", "1382", "1384"], <!--- Holiday Extra Credit Offer --->
-    "546704": ["18194", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2022) --->
-    "545173": ["18074", "18154", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2022) --->
-    "555223": ["18242", "1382", "1384"], <!--- Core Coach Training: Module 1 (April 2022 4-week) --->
-    "555224": ["18216", "1382", "1384"], <!--- Core Coach Training: Module 1 (April 2022 9-week) --->
-    "569228": ["18338", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2022 9-week) --->
-    "569236": ["18364", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2022 4-day) --->
-    "570659": ["18420", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2022 9-week) --->
-    "570664": ["18446", "18472", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2022 4-week) --->
-    "550736": ["18128", "18602", "1382", "1384"], <!--- Core Coach Training: Module 1 (Mar 2022 4-day) --->
-    "583849": ["18510", "18562", "18536", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2022 4-day) --->
-    "588117": ["18714", "18688", "1382", "1384"], <!--- Core Coach Training: Module 1 (Aug 2022) --->
-    "595986": ["18773", "18748", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sept 2022) --->
-    "607295": ["18840", "18814", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2022) --->
-    "611521": ["19102", "18910", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2022) --->
-    "625819": ["19006", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2022) --->
-    "638088": ["19180", "19154", "1382", "1384"], <!--- Core Coach Training: Module 1 (Jan 2023) --->
-    "645020": ["19288", "19262", "1382", "1384"], <!--- Core Coach Training: Module 1 (Feb 2023) --->
-    "647797": ["19376", "19350", "1382", "1384"], <!--- Core Coach Training: Module 1 (Mar 2023) --->
-    "650725": ["19450", "19476", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2023) --->
-    "651296": ["19076", "1382", "1384"], <!--- Professional Coach Training 2023 --->
-    "654892": ["19614", "19530", "19556", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2023) --->
-    "674596": ["19960", "19672", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2023) --->
-    "704813": ["19832", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2023) --->
-    "715258": ["20620", "20340", "19884", "19858", "1382", "1384"], <!--- Core Coach Training: Module 1 (Aug 2023) --->
-    "720428": ["20570", "20118", "1382", "1384"], <!--- Coaching for Mental Well-being --->
-    "720840": ["20084", "19934", "19910", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sep 2023) --->
-    "728278": ["20950", "20272", "20182", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2023) --->
-    "729855": ["20320", "20288", "20198", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2023) --->
-    "731913": ["20510", "20304", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2023) --->
-    "747386": ["20374", "1382", "1384"], <!--- Coaching for Social Resources and Health Equity --->
-    "744246": ["20662", "1382", "1384"], <!--- Professional Coach Training 2024 --->
-    "748578": ["20642", "1382", "1384"], <!--- Collection Offering #1 --->
-    "748581": ["20902", "1382", "1384"], <!--- Collection Offering #2 --->
-    "752456": ["21360", "20788", "20716", "1382", "1384"], <!--- Core Coach Training: Module 1 (Jan 2024) --->
-    "756033": ["21528", "20812", "20740", "1382", "1384"], <!--- Core Coach Training: Module 1 (Feb 2024) --->
-    "756035": ["20836", "20764", "1382", "1384"], <!--- Core Coach Training: Module 1 (Mar 2024) --->
-    "760391": ["20992", "1382", "1384"], <!--- Coaching for Social Resources and Health Equity --->
-    "764037": ["21256", "1382", "1384"], <!--- Coaching Clients to a Healthy Weight (on-demand) --->
-    "764200": ["20578", "1382", "1384"], <!--- Coaching for Mental Well-being (Dec 2023) --->
-    "770351": ["21098", "21026", "1382", "1384"], <!--- Core Coach Training: Module 1 (Apr 2024) --->
-    "775645": ["21918", "21122", "21050", "1382", "1384"], <!--- Core Coach Training: Module 1 (May 2024) --->
-    "776255": ["21146", "21074", "1382", "1384"], <!--- Core Coach Training: Module 1 (June 2024) --->
-    "785081": ["21458", "21460", "1382", "1384"], <!--- Cut Through the Noise --->
-    "793682": ["21426", "1382", "1384"], <!--- Coaching for Mental Well-being - Feb 2024 --->
-    "793691": ["21436", "1382", "1384"], <!--- Coaching for Mental Well-being - May 2024 --->
-    "793693": ["21446", "1382", "1384"], <!--- Coaching for Mental Well-being - Sep 2024 --->
-    "793694": ["21456", "1382", "1384"], <!--- Coaching for Mental Well-being - Nov 2024 --->
-    "804985": ["21728", "21626", "1382", "1384"], <!--- Core Coach Training: Module 1 (July 2024) --->
-    "804987": ["21762", "21660", "1382", "1384"], <!--- Core Coach Training: Module 1 (Aug 2024) --->
-    "804988": ["21796", "21694", "1382", "1384"], <!--- Core Coach Training: Module 1 (Sep 2024) --->
-    "816040": ["21962", "1382", "1384"], <!--- Professional Coach Training 2025 --->
-    "846327": ["22112", "22010", "1382", "1384"], <!--- Core Coach Training: Module 1 (Oct 2024) --->
-    "846335": ["22146", "22044", "1382", "1384"], <!--- Core Coach Training: Module 1 (Nov 2024) --->
-    "846340": ["22180", "22078", "1382", "1384"], <!--- Core Coach Training: Module 1 (Dec 2024) --->
-    "855397": ["22304", "1382", "1384"], <!--- NBC-HWC Preparation Course 2.0 --->
-    "856229": ["21540", "1382", "1384"], <!--- Coaching for Social Resources and Health Equity - Aug 2024 --->
-    "856231": ["21546", "1382", "1384"], <!--- Coaching for Social Resources and Health Equity - Nov 2024 --->
-    "871061": ["22352", "1382", "1384"], <!--- USCF - Module 1 4-day Training, September 2024 --->
-    "893208": ["22380", "1382", "1384"], <!--- Core Coach Training: Module 1 - 9 week (January 2025) --->
-    "893209": ["22414", "1382", "1384"], <!--- Core Coach Training: Module 1 - 9 week (February 2025) --->
-    "893210": ["22448", "1382", "1384"], <!--- Core Coach Training: Module 1 - 9 week (March 2025) --->
-    "893888": ["22482", "1382", "1384"], <!--- Core Coach Training: Module 1 - 4 week (January 2025) --->
-    "894855": ["1826", "3054", "1382", "1384"] <!--- Wellcoaches Membership: Upcoming Classes and Recorded Continuing Education --->
-} />
+<cftry>
+    <!--- Function to initialize group-tag lookup --->
+    <cffunction name="initGroupLookup" returntype="struct">
+        <cfargument name="tagMappings" type="struct" required="true">
+        <cfset var LU = {}>
+        <cfloop collection="#arguments.tagMappings#" item="groupId">
+            <cfset LU[groupId] = {}>
+            <cfloop list="#arguments.tagMappings[groupId]#" index="tag">
+                <cfset LU[groupId][tag] = "">
+            </cfloop>
+        </cfloop>
+        <cfreturn LU>
+    </cffunction>
 
+    <!--- Function to get Keap user data --->
+    <cffunction name="getKeapUserData" returntype="struct">
+        <cfargument name="email" type="string" required="true">
+		<cfargument name="local" type="struct" required="true">
 
+        <cfset var selectedFields = ["Id", "FirstName", "LastName", "Password", "Groups"]>
+        <cfset var myArray = ["ContactService.findByEmail", arguments.local.config.keapApiKey, arguments.email, selectedFields]>
+        <cfinvoke component="utilities/XML-RPC" method="CFML2XMLRPC" data="#myArray#" returnvariable="myPackage">
+        <cfexecute name="#arguments.local.config.curlPath#"
+            arguments='-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #arguments.local.config.keapApiKey#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+            variable="result"
+            timeout="200">
+        <cfinvoke component="utilities/XML-RPC" method="XMLRPC2CFML" data="#result#" returnvariable="data">
+        <cfreturn data>
+    </cffunction>
 
-	<!--- creates the structure that holds the tags as the key to the structure named using LU{group} --->
-	<cfloop list="#local.group_id#" index="local.id">
-		<cfset 'local.LU#local.id#' = {} />
-		<cfloop list="#evaluate('local.LU'&local.id&'_tags')#" index="local.tag">
-			<cfset local.LU[local.id][local.tag] = '' >
-		</cfloop>
-	</cfloop>
+    <!--- Initialize data structures --->
+    <cfset local.LU = initGroupLookup(local.tagMappings)>
+    <cfset local.message = local.config.defaultMessage>
 
-	<cfset key = "KeapAK-986c932da67be5b58500636bcc6b0e128efda00616e7dd8093" />
-    <cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Id">
-    <cfset selectedFieldsArray[2] = "FirstName">
-    <cfset selectedFieldsArray[3] = "LastName">
-	<cfset selectedFieldsArray[4] = "Password">
-	<cfset selectedFieldsArray[5] = "Groups">
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.findByEmail"><!----Service.method always first param---->
-    <cfset myArray[2]=key>
-    <cfset myArray[3]=URL.email>
-    <cfset myArray[4]=selectedFieldsArray>
+    <!--- Validate email --->
+    <cfif not len(trim(URL.email))>
+        <cfoutput>Please provide a valid email address.</cfoutput>
+        <cfabort>
+    </cfif>
 
-	
-		<cfinvoke component="utilities/XML-RPC"
-			method="CFML2XMLRPC"
-			data="#myArray#"
-			returnvariable="myPackage">
-		
-		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
-			variable="myResult1"
-			timeout = "200">
-		</cfexecute>
+    <!--- Fetch and validate Keap user --->
+    <cfset local.keapData = getKeapUserData(URL.email,local)>
 
-		<cfinvoke component="utilities/XML-RPC"
-			method="XMLRPC2CFML"
-			data="#myResult1#"
-			returnvariable="theData2">
+    <cfif !isArray(local.keapData['Params'][1]) || !arrayLen(local.keapData['Params'][1])>
+        <cfoutput>User #htmlEditFormat(URL.email)# does not exist in our records.</cfoutput>
+        <cfabort>
+    </cfif>
 
-		<cfif !isArray(theData2['Params'][1]) || !arrayLen(theData2['Params'][1])>
-			User <cfoutput>#URL.email#</cfoutput> does not exist in our records.<br /><cfabort />
-		</cfif>
+    <!--- Extract user info --->
+    <cfset local.userInfo = local.keapData.Params[1][1]>
+    <cfset local.tagList = local.userInfo['Groups']>
+    <cfif !structKeyExists(local.userInfo, 'LastName') && arrayLen(local.keapData.Params[1]) gt 1>
+        <cfset local.userInfo = local.keapData.Params[1][2]>
+        <cfset local.tagList = local.userInfo['Groups']>
+    </cfif>
 
-		<cfset local.userInfo = theData2.Params[1][1]>
-		<cfset local.tagList =  theData2.Params[1][1]['Groups'] />
+    <!--- Calculate groups to assign --->
+    <cfset local.assignGroups = "">
+    <cfloop list="#local.tagList#" index="tag">
+        <cfloop collection="#local.LU#" item="groupId">
+            <cfif structKeyExists(local.LU[groupId], tag)>
+                <cfset local.assignGroups = listAppend(local.assignGroups, groupId)>
+            </cfif>
+        </cfloop>
+    </cfloop>
+    <cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
 
-		<cfif !structKeyExists(local.userInfo,'LastName')>
-			<cfset local.userInfo = theData2.Params[1][2]>
-			<cfset local.tagList =  theData2.Params[1][2]['Groups'] />
-		</cfif>
+    <!--- Check LearnUpon user existence --->
+    <cfexecute name="#local.config.curlPath#"
+        arguments="-u #local.username#:#local.password# #local.config.learnUponBaseUrl#/users/search?email=#urlEncodedFormat(URL.email)#"
+        variable="userResult"
+        timeout="200">
+    <cfset local.user = deserializeJSON(userResult)>
+    <cfset local.userId = structKeyExists(local.user, 'response_code') ? "" : local.user.user[1].id>
 
-		<cfset local.assignGroups = "">
+    <!--- Create user if not exists --->
+    <cfif not len(local.userId)>
 
-		<!--- loop through all the tags, if you find a tag as a key to a structure/group, add that group to local.assignGroups --->
-		<cfloop list="#local.tagList#" index="local.tag">
-			<cfloop collection="#local.LU#" item="local.col">
-				<cfif structKeyExists(local.LU[local.col],local.tag)>
-					<cfset local.assignGroups = listAppend(local.assignGroups,local.col) />
-				</cfif>
-			</cfloop>
-		</cfloop>
+        <cfset local.userData = {
+            "User": {
+                "last_name": local.userInfo['LastName'],
+                "first_name": local.userInfo['FirstName'],
+                "email": URL.email,
+                "password": local.userInfo['Password'],
+                "language": "en"
+            }
+        }>
+        <cfset local.userJson = serializeJSON(local.userData)>
+		<cfset local.userJson = serializeJSON(local.userData).replace('"', '\"', 'all').replace(' ', '-', 'all') />
+        
+        <cfexecute name="#local.config.curlPath#"
+            arguments='-u #local.username#:#local.password# -X POST #local.config.learnUponBaseUrl#/users -H "Content-Type: application/json" -d #local.userJson#'
+            variable="createResult"
+            timeout="200">
+           
 
-		<cfset local.assignGroups = listRemoveDuplicates(local.assignGroups)>
+        <cfset local.createResponse = deserializeJSON(createResult)>
+        <cfif structKeyExists(local.createResponse, 'message') && local.createResponse.message contains 'user already exists'>
+            <cfset local.message = "User invite was sent successfully!">
+        <cfelse>
+            <cfset local.userId = local.createResponse.id>
+            <cfset local.message = "User created successfully!">
+        </cfif>
+    </cfif>
 
-		<cfset local.id = "">
+    <!--- Manage group memberships --->
+    <cfif len(local.userId) && len(local.assignGroups)>
+        <!--- Get current groups --->
+        <cfexecute name="#local.config.curlPath#"
+            arguments="-u #local.username#:#local.password# #local.config.learnUponBaseUrl#/group_memberships?user_id=#local.userId#"
+            variable="groupResult"
+            timeout="200">
+        <cfset local.groups = deserializeJSON(groupResult)>
+        <cfset local.currentGroupIds = arrayToList(arrayMap(local.groups['group'], function(group) { return group['id']; }))>
 
-		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/users/search?email=#URL.email#"
-			variable="myResult"
-			timeout = "200">
-		</cfexecute>
+        <!--- Add to new groups --->
+        <cfloop list="#local.assignGroups#" index="groupId">
+            <cfif not listFind(local.currentGroupIds, groupId)>
+                <cfset local.groupMembership = {"GroupMembership": {"group_id": groupId, "user_id": local.userId}}>
+                <cfset local.groupJson = serializeJSON(local.groupMembership)>
+                <cfexecute name="#local.config.curlPath#"
+                    arguments='-u #local.username#:#local.password# -X POST #local.config.learnUponBaseUrl#/group_memberships -H "Content-Type: application/json" -d #local.groupJson#'
+                    variable="addResult"
+                    timeout="200">
+            </cfif>
+        </cfloop>
 
+        <!--- Remove from old groups --->
+        <cfloop list="#local.currentGroupIds#" index="groupId">
+            <cfif not listFind(local.assignGroups, groupId)>
+                <cfset local.deleteMembership = {"GroupMembership": {"group_id": groupId, "user_id": local.userId}}>
+                <cfset local.deleteJson = serializeJSON(local.deleteMembership)>
+                <cfexecute name="#local.config.curlPath#"
+                    arguments='-X DELETE -H "Content-Type: application/json" --user #local.username#:#local.password# #local.config.learnUponBaseUrl#/group_memberships/0 -d #local.deleteJson#'
+                    timeout="200">
+            </cfif>
+        </cfloop>
+        
+        <cfset local.message = "User group memberships updated successfully!">
+    </cfif>
 
-		<cfset local.user = deserializeJSON(myResult)>
+    <!--- Handle redirect --->
+    <cfif structKeyExists(url, 'redirectFromCH')>
+        <cflocation url="https://wellcoaches.learnupon.com/sqsso?Email=#urlEncodedFormat(URL.email)#&TS=#URL.TS#&SSOToken=#URL.SSOToken#" addtoken="false">
+    </cfif>
 
-		<cfif !structKeyExists(local.user, 'response_code')>
-			<cfset local.user = deserializeJSON(myResult).user[1]>
-			<cfset local.id = local.user.id>
-		</cfif>
+    <cfcatch type="any">
+        <!---<cfmail to="rdiveley@wellcoaches.com" 
+                subject="LearnUpon Create Groups Error" 
+                from="wellcoaches@wellcoaches.com" 
+                type="html">
+            <h2>Error Details</h2>
+            <cfdump var="#cfcatch#" format="html">
+            <h2>URL Parameters</h2>
+            <cfdump var="#url#" format="html">
+        </cfmail> --->
+        <cfrethrow>
+    </cfcatch>
+</cftry>
 
-
-		<cfif !len(local.id)>
-			
-			<cfset local.user =
-					{"User": {    'last_name' : local.userInfo['lastName']
-								, 'first_name' : local.userInfo['firstName']
-								, 'email' : URL.email
-								, 'password' : "#local.userInfo['Password']#"
-								, 'language' : 'en'
-								, 'membership_type' : 'Learner'
-							}
-					}
-			/>
-
-			<!--- this creates the user  --->
-			<cfset local.user = serializeJSON(local.user) />
-			<cfset local.user = ReplaceNoCase(local.user,'"','\"','all') />
-			<cfset local.user = ReplaceNoCase(local.user,' ','-','all') />
-
-			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-				arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/users -H "Content-Type: application/json" -d #local.user#'
-				variable="myResult"
-				timeout = "200">
-			</cfexecute>
-			
-
-			<cfset local.messgeStruct = deserializeJSON(myresult)>
-
-			<cfif structKeyExists(local.messgeStruct,'message') AND local.messgeStruct.message contains 'user already exists'>
-
-				<cfif listLen(local.assignGroups)>
-					<cfloop list="#local.assignGroups#" index="local.groupId">
-						<!--- add to group --->
-						<cfset local.addUser =
-							{"GroupInvite": {
-										  'email_addresses' : URL.email
-										, 'group_id' : local.groupId
-										, 'group_membership_type_id' : 1
-									}
-							}
-						/>
-						<!--- send invite to each group --->
-						<cfset local.user = serializeJSON(local.addUser) />
-
-						<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-							arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/group_invites -H "Content-Type: application/json" -d #ReplaceNoCase(local.addUser,'"','\"','all')# '
-							variable="myResult"
-							timeout = "200">
-						</cfexecute>
-					</cfloop>
-				</cfif>
-
-				<h3>User invite was sent successfully!</h3>
-				<cfabort>
-			</cfif>
-
-			<cfset local.id = deserializeJSON(myResult).id>
-		</cfif>
-
-		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-			arguments = "-u #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships?user_id=#local.id#"
-			variable="myGroups"
-			timeout = "200">
-		</cfexecute>
-
-		<cfset local.groups = deserializeJSON(myGroups)>
-
-		<cfset local.groupids = "" />
-		
-
-		<cfloop array="#local.groups['group']#" index="local.group">
-			<cfset local.groupids = listAppend(local.groupids,local.group['id']) />
-		</cfloop>
-
-		<!--- assign the user to groups they should belong to --->
-		<cfif listLen(local.assignGroups)>
-			<cfloop list="#local.assignGroups#" index="local.groupId">
-
-				<cfif !listFind(local.groupids,local.groupid)>
-
-					<cfset local.groupMemberShip =
-						{"GroupMembership":
-							{ 'group_id' : local.groupId
-							,'user_id' : local.id
-							}
-						}
-					/>
-					<!--- this applies the newly created user to a group  --->
-					<cfset local.groupMemberShip = serializeJSON(local.groupMemberShip) />
-
-					<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-						arguments = '-u #local.username#:#local.password# -X POST https://wellcoaches.learnupon.com/api/v1/group_memberships -H "Content-Type: application/json" -d #ReplaceNoCase(local.groupMemberShip,'"','\"','all')# '
-						variable="myResult"
-						timeout = "200">
-					</cfexecute>
-
-				</cfif>	
-			</cfloop>
-		</cfif>
-
-		<!--- Find group Ids user doesn't belong to --->
-		<cfset local.deleteUserFromGroup = "" />
-		<cfloop list="#local.groupids#" index="local.groupid">
-			<cfif !listFind(local.assignGroups,local.groupid)>
-				<cfset local.deleteUserFromGroup = listAppend(local.deleteUserFromGroup,local.groupid) />
-			</cfif>
-		</cfloop>
-
-
-		<!--- remove user from groups he doesn't belong to --->
-		<cfloop list="#local.deleteUserFromGroup#" index="local.deletegroupid">
-
-			<cfset local.deleteGroup =
-				{"GroupMembership":
-					{ 'group_id' : local.deletegroupid
-					,'user_id' : local.id
-					}
-				}
-			/>
-
-			<cfset local.deleteGroup = serializeJSON(local.deleteGroup) />
-
-			<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-					arguments = '-X DELETE -H "Content-Type: application/json" --user #local.username#:#local.password# https://wellcoaches.learnupon.com/api/v1/group_memberships/0  -d #ReplaceNoCase(local.deleteGroup,'"','\"','all')# '>
-			</cfexecute> 
-			
-		</cfloop>
-
-		<cfset local.message = "User was added successfully to LearnUpon!">
-		<cfif structKeyExists(url,'redirectFromCH')>
-				 <cflocation url="https://wellcoaches.learnupon.com/sqsso?Email=#URL.email#&TS=#URL.TS#&SSOToken=#URL.SSOToken#" />
-		</cfif>
-		
-		
-
-<cfoutput>
-	<h3>#local.message#</h3>
-</cfoutput>
-
-
+<cfoutput><h3>#local.message#</h3></cfoutput>

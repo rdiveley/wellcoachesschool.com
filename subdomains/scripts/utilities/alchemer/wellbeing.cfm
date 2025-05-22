@@ -129,7 +129,7 @@
    </cfquery>
 
    <cfset section_mind_sum = arraySum(listToArray(valueList(getAverageMind.answer))) />
-   <cfset section_mind_average = round(val(section_mind_sum) / val(getAverageMind.recordcount)) /> 
+   <cfset section_mind_average = getAverageMind.recordcount GT 0 ? round(val(section_mind_sum) / val(getAverageMind.recordcount)) : 0 />
    <cfset averageStruct.Mind = val(section_mind_average) />
 
     <cfquery name="getAverageBody" dbtype="query">
@@ -139,7 +139,7 @@
    </cfquery>
 
    <cfset section_body_sum = arraySum(listToArray(valueList(getAverageBody.answer))) />
-   <cfset section_body_average = round(val(section_body_sum) / val(getAverageBody.recordcount)) /> 
+   <cfset section_body_average = getAverageBody.recordcount GT 0 ? round(val(section_body_sum) / val(getAverageBody.recordcount)) : 0 />
    <cfset averageStruct.Body = val(section_body_average) />
 
    <cfquery name="getAverageWork" dbtype="query">
@@ -149,7 +149,7 @@
    </cfquery>
 
    <cfset section_work_sum = arraySum(listToArray(valueList(getAverageWork.answer))) />
-   <cfset section_work_average = round(val(section_work_sum) / val(getAverageWork.recordcount)) /> 
+   <cfset section_work_average = getAverageWork.recordcount GT 0 ? round(val(section_work_sum) / val(getAverageWork.recordcount)) : 0 />
    <cfset averageStruct.Work = val(section_work_average) />
 
    <cfquery name="getAverageLife" dbtype="query">
@@ -159,12 +159,12 @@
    </cfquery>
 
    <cfset section_life_sum = arraySum(listToArray(valueList(getAverageLife.answer))) />
-   <cfset section_life_average = round(val(section_life_sum) / val(getAverageLife.recordcount)) /> 
+   <cfset section_life_average = getAverageLife.recordcount GT 0 ? round(val(section_life_sum) / val(getAverageLife.recordcount)) : 0 />
    <cfset averageStruct.Life = val(section_life_average) />
 
    <cfset averageStruct.wellbeing = round(averageStruct.body + averageStruct.mind + averageStruct.work + averageStruct.life) / 4> 
 
-    <cfset filePath = GetTempDirectory() & "#local.email#.pdf">
+    <cfset filePath = GetTempDirectory() & "Well-being-Inventory-#local.email#.pdf">
 
      <cfsavecontent variable="results"> 
         <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -183,6 +183,9 @@
                     table {
                         margin: auto;
                     }
+                     tr, td, th, table, img {
+                    page-break-inside: avoid;
+                }
                 </style>
 
             </head>
@@ -482,8 +485,28 @@
         </html>
     </cfsavecontent>
 
-   <cfmail to="#trim(local.email)#"  subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
+    <!--- Generate PDF from HTML content --->
+    <cfdocument format="PDF" filename="#filePath#" overwrite="yes">
+        <cfoutput>#results#</cfoutput>
+    </cfdocument>
+
+    <!--- Send email with PDF attachment --->
+    <cfmail to="#trim(local.email)#"
+            from="wellcoaches@wellcoaches.com"
+            subject="Your Well-being Inventory Report"
+            type="html">
+        <cfmailparam file="#filePath#" disposition="attachment" type="application/pdf"  />
+            Dear #local.email#,<br/><br/>
+            Attached is your Well-being Inventory report in PDF format.<br/><br/>
+            The report is also included below for your convenience.<br/><br/>
+            Thank you,<br/>
+            The Wellcoaches Team<br/><br/>
             #results#
     </cfmail>
+
+
+   <!---<cfmail to="#trim(local.email)#"  subject="Your Well-being Inventory" from="wellcoaches@wellcoaches.com" type="html" >
+            #results#
+    </cfmail> --->
 
 </cfoutput>

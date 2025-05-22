@@ -17,7 +17,7 @@
       },
       "background": {
         "gradient": "vertical",
-        "colors": ["#5633ff", "#f40090", "#25214e", "#0ae5ed", "#a6a6a6"]
+        "colors": ["#fffff", "#f40090", "#25214e", "#0ae5ed", "#a6a6a6"]
       }
     }
   ]
