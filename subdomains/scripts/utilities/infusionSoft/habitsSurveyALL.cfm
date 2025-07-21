@@ -50,7 +50,7 @@
 		<cfset memberID =  theData.Params[1][1]['Id']>
         <cfset memberTags =  theData.Params[1][1]['Groups']>
 
-
+<!--- wellcoaches habits course 40K responses, --->
 <cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/4051290/surveyresponse">
 
 <cfset emailParam = "[question(93)]" />	
@@ -61,6 +61,8 @@
         variable="local.myResult"
         timeout = "200">
 </cfexecute>
+
+    
 
 <cfset jsonData = deserializeJSON(local.myResult) />
 
@@ -74,6 +76,10 @@
 
 <cfset local.newList = listChangeDelims(listRemoveDuplicates(local.newList),"^") />
 <cfset local.updateList = "" />
+
+<cfif structKeyExists(local, 'skipSurveyAll')>
+    <cfset local.newList = "Y" />
+</cfif>
 
 <cfif local.newList NEQ 'Y' AND listLen(local.newList, "^") LT 8 AND local.newList NEQ 'STANDALONE'> 
 
@@ -283,11 +289,11 @@
                 </cfhttp>
 
             </cfif>
-
+    <cfif !structKeyExists(local, 'skipSurveyAll')>
          <p>
             Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
             If not, please contact your Coach Concierge for assistance. Thank you!
         </p>
-
+    </cfif>
 
 </cfoutput>

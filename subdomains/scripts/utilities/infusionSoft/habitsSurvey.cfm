@@ -35,7 +35,6 @@
             <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
         </cfhttp>
 
-
     <cfinvoke component="utilities/XML-RPC"
         method="XMLRPC2CFML"
         data="#myResult1.Filecontent#"
@@ -125,29 +124,29 @@
          ---> 
         
 
-         <cfif listLen(updateList,"^") GTE 8>
+         <cfif listLen(updateList,"^") GTE 8 OR updateList EQ "Y">
                 <!---Scenario #2
                     If HabitsSurveysComplete is "Y" AND tag 18680 exists then add tag 16862
                 --->
             
+                <cfif updateList NEQ "Y">
+                    <cfset updateField = structNew()>
+                    <cfset updateField['_HabitsSurveysComplete']="Y">
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]='(int)#memberID#'>
+                    <cfset myArray[4]=updateField>
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage4">
 
-                <cfset updateField = structNew()>
-                <cfset updateField['_HabitsSurveysComplete']="Y">
-                <cfset myArray = ArrayNew(1)>
-                <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-                <cfset myArray[2]=key>
-                <cfset myArray[3]='(int)#memberID#'>
-                <cfset myArray[4]=updateField>
-                <cfinvoke component="utilities/XML-RPC"
-                    method="CFML2XMLRPC"
-                    data="#myArray#"
-                    returnvariable="myPackage4">
-
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                    </cfhttp>
-
+                        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
+                            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                            <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+                        </cfhttp>
+                </cfif>
                     
                     <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
                     <cfset myArray2 = ArrayNew(1)>

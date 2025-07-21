@@ -11,10 +11,10 @@
         <cfset selectedFieldsArray[2] = "FirstName">
         <cfset selectedFieldsArray[3] = "LastName">
         <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]=local.emailUser>
-        <cfset myArray[4]=selectedFieldsArray>
+        <cfset myArray[1] = "ContactService.findByEmail">
+        <cfset myArray[2] = key>
+        <cfset myArray[3] = local.emailUser>
+        <cfset myArray[4] = selectedFieldsArray>
 
         <cfinvoke component="utilities/XML-RPC"
             method="CFML2XMLRPC"
@@ -36,44 +36,29 @@
             <cfset foundEmail = local.emailUser>
             <cfset memberID = theData2.Params[1][1]['Id']>
 
-            <cfset selectedFieldStruct = structNew()>
-            <cfset selectedFieldStruct["Id"] = memberID>
-
             <cfset selectedFieldsArray = ArrayNew(1)>
-            <!--- Start Date --->
             <cfset selectedFieldsArray[1] = "_CertificationStartDate2">
-            <!--- certification number --->
             <cfset selectedFieldsArray[2] = "_CertificationNumber1">
-            <!--- certification designation --->
             <cfset selectedFieldsArray[3] = "_CertificationDesignation">
-            <!--- Name as it appears on formal cert --->
             <cfset selectedFieldsArray[4] = "_NameasitappearsonformalCertificates">
-            <!--- Expiration/Inactive Date --->
             <cfset selectedFieldsArray[5] = "_RecertificationExpiryDate">
-            <!--- Inactive Date --->
             <cfset selectedFieldsArray[6] = "_InactiveDate">
-            <!--- Invalid Date --->
             <cfset selectedFieldsArray[7] = "_INVALIDDate">
-            <!--- CCEH for Previous Period --->
             <cfset selectedFieldsArray[8] = "_CCEHforPreviousPeriod">
-            <!--- Opted out reason --->
             <cfset selectedFieldsArray[9] = "_OptedoutofRecertificationProcessbecause">
-            <!--- renewal date --->
             <cfset selectedFieldsArray[10] = "_CertificationRenewedDate">
-            <!--- habits complete? --->
             <cfset selectedFieldsArray[11] = "_HabitsSurveysComplete">
-            <!--- module2 complete? --->
             <cfset selectedFieldsArray[12] = "_Module2SurveysComplete">
 
             <cfset myArray = ArrayNew(1)>
-            <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
-            <cfset myArray[2]=key>
-            <cfset myArray[3]="Contact">
-            <cfset myArray[4]="(int)10">
-            <cfset myArray[5]="(int)0">
-            <cfset myArray[6]=structNew()>
+            <cfset myArray[1] = "DataService.query">
+            <cfset myArray[2] = key>
+            <cfset myArray[3] = "Contact">
+            <cfset myArray[4] = 10>
+            <cfset myArray[5] = 0>
+            <cfset myArray[6] = structNew()>
             <cfset myArray[6]["Email"] = foundEmail>
-            <cfset myArray[7]=selectedFieldsArray>
+            <cfset myArray[7] = selectedFieldsArray>
 
             <cfinvoke component="utilities/XML-RPC"
                 method="CFML2XMLRPC"
@@ -90,69 +75,42 @@
                 data="#myResult3.Filecontent#"
                 returnvariable="theData">
 
-            <cfif !structKeyExists(theData.Params[1][1], '_Module2SurveysComplete')>
-                <cfset Module2Complete = '' />
-            <cfelse>
-                <cfset Module2Complete = theData.Params[1][1]['_Module2SurveysComplete'] />
-            </cfif>       
-            <cfif !structKeyExists(theData.Params[1][1], '_HabitsSurveysComplete')>
-                <cfset habitsComplete = '' />
-            <cfelse>
-                <cfset habitsComplete = theData.Params[1][1]['_HabitsSurveysComplete'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_CertificationStartDate2')>
-                <cfset certStartDate = '' />
-            <cfelse>
-                <cfset certStartDate = DateFormat(theData.Params[1][1]['_CertificationStartDate2'],'mm/dd/yyyy') />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_CertificationNumber1')>
-                <cfset certNo = '' />
-            <cfelse>
-                <cfset certNo = theData.Params[1][1]['_CertificationNumber1'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_CertificationDesignation')>
-                <cfset certDesignation = '' />
-            <cfelse>
-                <cfset certDesignation = theData.Params[1][1]['_CertificationDesignation'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_NameasitappearsonformalCertificates')>
-                <cfset nameAppears = '' />
-            <cfelse>
-                <cfset nameAppears = theData.Params[1][1]['_NameasitappearsonformalCertificates'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_RecertificationExpiryDate')>
-                <cfset REcertEndDate = '' />
-            <cfelse>
-                <cfset REcertEndDate = DateFormat(theData.Params[1][1]['_RecertificationExpiryDate'],'mm/dd/yyyy') />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_InactiveDate')>
-                <cfset certInactive = ''/>
-            <cfelse>
-                <cfset certInactive = DateFormat(theData.Params[1][1]['_InactiveDate'],'mm/dd/yyyy') />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_INVALIDDate')>
-                <cfset certInvalid = ''/>
-            <cfelse>
-                <cfset certInvalid = DateFormat(theData.Params[1][1]['_INVALIDDate'],'mm/dd/yyyy') />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_CCEHforPreviousPeriod')>
-                <cfset previousPeriod = '' />
-            <cfelse>
-                <cfset previousPeriod = theData.Params[1][1]['_CCEHforPreviousPeriod'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_OptedoutofRecertificationProcessbecause')>
-                <cfset optedOut = '' />
-            <cfelse>
-                <cfset optedOut = theData.Params[1][1]['_OptedoutofRecertificationProcessbecause'] />
-            </cfif>
-            <cfif !structKeyExists(theData.Params[1][1], '_CertificationRenewedDate')>
-                <cfif structKeyExists(theData.Params[1][1], '_CertificationStartDate2')>
-                    <cfset renewedDate = DateFormat(theData.Params[1][1]['_CertificationStartDate2'],'mm/dd/yyyy') />
+            <!--- Check if theData.Params[1] exists and has records --->
+            <cfif structKeyExists(theData, "Params") AND ArrayLen(theData.Params) GT 0 AND ArrayLen(theData.Params[1]) GT 0>
+                <cfset contactData = theData.Params[1][1]>
+                
+                <cfset Module2Complete = structKeyExists(contactData, '_Module2SurveysComplete') ? contactData['_Module2SurveysComplete'] : ''>
+                <cfset habitsComplete = structKeyExists(contactData, '_HabitsSurveysComplete') ? contactData['_HabitsSurveysComplete'] : ''>
+                <cfset certStartDate = structKeyExists(contactData, '_CertificationStartDate2') ? DateFormat(contactData['_CertificationStartDate2'], 'mm/dd/yyyy') : ''>
+                <cfset certNo = structKeyExists(contactData, '_CertificationNumber1') ? contactData['_CertificationNumber1'] : ''>
+                <cfset certDesignation = structKeyExists(contactData, '_CertificationDesignation') ? contactData['_CertificationDesignation'] : ''>
+                <cfset nameAppears = structKeyExists(contactData, '_NameasitappearsonformalCertificates') ? contactData['_NameasitappearsonformalCertificates'] : ''>
+                <cfset REcertEndDate = structKeyExists(contactData, '_RecertificationExpiryDate') ? DateFormat(contactData['_RecertificationExpiryDate'], 'mm/dd/yyyy') : ''>
+                <cfset certInactive = structKeyExists(contactData, '_InactiveDate') ? DateFormat(contactData['_InactiveDate'], 'mm/dd/yyyy') : ''>
+                <cfset certInvalid = structKeyExists(contactData, '_INVALIDDate') ? DateFormat(contactData['_INVALIDDate'], 'mm/dd/yyyy') : ''>
+                <cfset previousPeriod = structKeyExists(contactData, '_CCEHforPreviousPeriod') ? contactData['_CCEHforPreviousPeriod'] : ''>
+                <cfset optedOut = structKeyExists(contactData, '_OptedoutofRecertificationProcessbecause') ? contactData['_OptedoutofRecertificationProcessbecause'] : ''>
+                <cfif structKeyExists(contactData, '_CertificationRenewedDate')>
+                    <cfset renewedDate = DateFormat(contactData['_CertificationRenewedDate'], 'mm/dd/yyyy')>
+                <cfelseif structKeyExists(contactData, '_CertificationStartDate2')>
+                    <cfset renewedDate = DateFormat(contactData['_CertificationStartDate2'], 'mm/dd/yyyy')>
                 <cfelse>
-                    <cfset renewedDate = '' />
+                    <cfset renewedDate = ''>
                 </cfif>
             <cfelse>
-                <cfset renewedDate = DateFormat(theData.Params[1][1]['_CertificationRenewedDate'],'mm/dd/yyyy') />
+                <!--- Handle case where no data is returned --->
+                <cfset Module2Complete = ''>
+                <cfset habitsComplete = ''>
+                <cfset certStartDate = ''>
+                <cfset certNo = ''>
+                <cfset certDesignation = ''>
+                <cfset nameAppears = ''>
+                <cfset REcertEndDate = ''>
+                <cfset certInactive = ''>
+                <cfset certInvalid = ''>
+                <cfset previousPeriod = ''>
+                <cfset optedOut = ''>
+                <cfset renewedDate = ''>
             </cfif>
         </cfif>
     </cfif>

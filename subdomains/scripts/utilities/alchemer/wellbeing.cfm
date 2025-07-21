@@ -125,7 +125,7 @@
        select answer
        from myquery
        where section_id = 1 
-       and id in (101,103,105,107,109)
+       and id in (101, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17)
    </cfquery>
 
    <cfset section_mind_sum = arraySum(listToArray(valueList(getAverageMind.answer))) />
@@ -135,7 +135,7 @@
     <cfquery name="getAverageBody" dbtype="query">
        select answer
        from myquery
-       where section_id = 3 and id  in (116,117,118,121)
+       where section_id = 3 and id in (20, 21, 22, 23, 24, 25, 27, 102)
    </cfquery>
 
    <cfset section_body_sum = arraySum(listToArray(valueList(getAverageBody.answer))) />
@@ -145,7 +145,7 @@
    <cfquery name="getAverageWork" dbtype="query">
        select answer
        from myquery
-       where section_id = 4 and id  in (124,125,126,128,129,134,136)
+       where section_id = 4  and id in (29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 51, 95, 96)
    </cfquery>
 
    <cfset section_work_sum = arraySum(listToArray(valueList(getAverageWork.answer))) />
@@ -155,7 +155,7 @@
    <cfquery name="getAverageLife" dbtype="query">
        select answer
        from myquery
-       where section_id = 5 and id  in (140,142,144,148)
+       where section_id = 5  and id in (44, 45, 46, 47, 49, 50, 52, 53, 97, 99)
    </cfquery>
 
    <cfset section_life_sum = arraySum(listToArray(valueList(getAverageLife.answer))) />
