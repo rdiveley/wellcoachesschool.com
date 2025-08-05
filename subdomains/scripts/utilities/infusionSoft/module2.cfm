@@ -52,27 +52,53 @@
           	<cfset updateField['_Module2SurveysComplete']="Y">
 
             <cfset memberTags =  theData.Params[1][1]['Groups']>
-
+            <!--- 16878 is mod 1 all steps completed--->
             <cfif listFindNoCase(memberTags,16878)>
-                <cfset myArray = ArrayNew(1)>
-                <cfset myArray[1]="ContactService.addToGroup">
-                <cfset myArray[2]=key>
-                <cfset myArray[3]="(int)#memberID#">
-                <cfset myArray[4]="(int)16696">
 
-                <cfinvoke component="utilities/XML-RPC"
-                    method="CFML2XMLRPC"
-                    data="#myArray#"
-                    returnvariable="myPackage">
 
-                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
-                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                    <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-                </cfhttp>
+
+                <cfif !listFindNoCase(memberTags,22718)>
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.addToGroup">
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]="(int)#memberID#">
+                    <cfset myArray[4]="(int)16696">
+
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
+                </cfif>
+
+                <cfif !listFindNoCase(memberTags,23500)>
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.addToGroup">
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]="(int)#memberID#">
+                    <cfset myArray[4]="(int)16696">
+
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
+                </cfif>
+
 
                 <!--- 16696,9833,22718->22720 
                     If user has tag 16696 and tag 9833 and tag 22718 (which comes from a campagin)
                     give them tag 22720
+                    9833: lifestyle medicine mod 4 survey training complete
+                    22718: mod 2 april - august
                 --->
                 <cfif listFindNoCase(memberTags,9833) AND listFindNoCase(memberTags,22718)>
                     <cfset myArray = ArrayNew(1)>
@@ -80,6 +106,24 @@
                     <cfset myArray[2]=key>
                     <cfset myArray[3]="(int)#memberID#">
                     <cfset myArray[4]="(int)22720">
+
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
+                    </cfhttp>
+                </cfif>
+
+                <cfif listFindNoCase(memberTags,9833) AND listFindNoCase(memberTags,23500)>
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.addToGroup">
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]="(int)#memberID#">
+                    <cfset myArray[4]="(int)253504">
 
                     <cfinvoke component="utilities/XML-RPC"
                         method="CFML2XMLRPC"
