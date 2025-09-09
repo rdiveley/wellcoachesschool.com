@@ -122,6 +122,7 @@
             Scenario #2
             If HabitsSurveysComplete is “Y” AND tag 18680 exists then add tag 16862
          ---> 
+         <!---if the user comes after Sept 2025 look for 7 surveys not 8 --->
         
 
          <cfif listLen(updateList,"^") GTE 8 OR updateList EQ "Y">

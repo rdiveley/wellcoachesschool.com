@@ -1,8 +1,9 @@
     <cfquery name="local.get_HabitKAScore" datasource="wellcoachesschool">
-            SELECT  exampercentage
+            SELECT  TOP 1 exampercentage
             FROM learnuponwebhook lwh
             where emailaddress = <cfqueryparam value="sample.student@wellcoaches.com" cfsqltype="cf_sql_varchar">
             and courseId = <cfqueryparam value="4447857" cfsqltype="cf_sql_integer">
+            ORDER BY lastAttemptAt DESC;
            
         </cfquery> 
 
@@ -39,7 +40,7 @@
         <cfset memberID = theData['params'][1][1]['Id'] />
 
         <!--- start updating LU --->
-        <cfset updateField['_HabitsKAData']= int(96) />
+        <cfset updateField['_HabitsKAData']= int(local.get_HabitKAScore.exampercentage) />
         <cfset myArray = ArrayNew(1)>
         <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
         <cfset myArray[2]=key>
@@ -53,6 +54,5 @@
             variable="result"
             timeout = "200">
         </cfexecute>
-    <cfinclude  template="habitsSurvey.cfm">
-     <cfinclude  template="habitsSurveyAll.cfm">
+   
  

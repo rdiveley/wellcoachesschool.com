@@ -163,11 +163,12 @@
 
     <cfif local.requestpayload.courseid EQ '4447857'>
         <cfquery name="local.get_HabitKAScore" datasource="#local.datasource#">
-            SELECT  exampercentage
+            SELECT TOP 1 exampercentage
             FROM learnuponwebhook lwh
             where emailaddress = <cfqueryparam value="#local.requestpayload.user.email#" cfsqltype="cf_sql_varchar">
             and courseId = <cfqueryparam value="4447857" cfsqltype="cf_sql_integer">
-            GROUP BY emailaddress
+            ORDER BY lastAttemptAt DESC;
+          
         </cfquery> 
 
         <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />

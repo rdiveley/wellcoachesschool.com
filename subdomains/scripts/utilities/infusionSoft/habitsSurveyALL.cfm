@@ -81,6 +81,7 @@
     <cfset local.newList = "Y" />
 </cfif>
 
+
 <cfif local.newList NEQ 'Y' AND listLen(local.newList, "^") LT 8 AND local.newList NEQ 'STANDALONE'> 
 
     <cfset updateField = structNew()>

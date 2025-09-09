@@ -57,7 +57,7 @@
 	  <cfif !arrayLen(studentData.data)>
 			There is no data on this student using email: #url.email#. <cfabort>
 	  </cfif>
-	<!--- get the latest exam the student took--->
+	  <!--- get the latest exam the student took--->
 	  <cfset studentStruct = studentData.data[arrayLen(studentData.data)]>
 
 		<cfset currentrow = 1>

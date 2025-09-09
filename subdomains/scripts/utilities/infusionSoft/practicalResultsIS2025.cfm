@@ -87,7 +87,7 @@
                <br />
                <p>Here is their email address: <a href="mailto:#URL.student_email#" target="_top">#URL.student_email#</a></p>
                <br />
-               To view results, click <a href="https://scripts.wellcoachesschool.com/utilities/infusionsoft/practicalResults.cfm?showPracticalResults=1&student_email=#URL.student_email#"> Results </a>
+               To view results, click <a href="https://scripts.wellcoachesschool.com/utilities/infusionsoft/practicalResultsIS2025.cfm?practicalResultsIS2025=1&student_email=#URL.student_email#"> Results </a>
           </cfmail>
           Thank you for scoring the Practical Exam. <cfoutput> #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']# has been emailed their results!</cfoutput>
 
@@ -105,7 +105,7 @@
           <br />
           <p>Here is their email address: <a href="mailto:#URL.student_email#" target="_top">#URL.student_email#</a></p>
         	<br />
-          To view results, click <a href="https://scripts.wellcoachesschool.com/utilities/infusionsoft/practicalResults.cfm?showPracticalResults=1&student_email=#URL.student_email#"> Results </a>
+          To view results, click <a href="https://scripts.wellcoachesschool.com/utilities/infusionsoft/practicalResultsIS2025.cfm?practicalResultsIS2025=1&student_email=#URL.student_email#"> Results </a>
 	</cfmail>
 	<cfoutput>Thank you for scoring the Practical Exam.  Erika Jackson has been emailed with #theData.Params[1][1]['FirstName']# #theData.Params[1][1]['LastName']#'s score.</cfoutput>
 </cfif>
