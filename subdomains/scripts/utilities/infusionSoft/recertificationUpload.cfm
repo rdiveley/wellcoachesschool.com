@@ -150,7 +150,7 @@
 
     	<cfif isDefined("myResult")>
 			Thank you, your NBC-HWC Certification exam results have been uploaded. <br />
-			Please allow two - three business days for delivery of your updated Wellcoaches Certification document containing your new Expiration Date.
+			Please allow 2-3 business days for delivery of an email confirming you new Expiration Date.
 
 
       		<cfmail to="#concierge#;mthom@wellcoaches.com" from="wellcoaches@wellcoaches.com" subject="#FORM.userFiles#" type="html">

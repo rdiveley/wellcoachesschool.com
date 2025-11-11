@@ -1,23 +1,16 @@
-<cfparam name="url.email" default="Lamcgivern53@gmail.com,Lauramcgivern53@yahoo.com" />
 
-<!--- Include modern CSS --->
+<!--- Your Original Business Logic with Modern Presentation --->
 <cfinclude template="css\surveys.css" />
-
-<cftry>
-<!--- Configuration --->
 <cfset user = 'erika@wellcoaches.com' />
 <cfset password= 'Well5050' />
+
+<cfparam name="url.email" default="Lamcgivern53@gmail.com,Lauramcgivern53@yahoo.com" />
+
 <cfset DSN = "wellcoachesSchool">
 <cfset application.DSNuName = "sa">
 <cfset application.dsnpword = "NHg5^u+iNuz[W{Y">
-<cfset surveyGizmoAPIToken = "b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca">
 
-<!--- Retry configuration --->
-<cfset maxRetries = 3>
-<cfset retryDelay = 2000>
-
-<!--- Get email from database --->
-<cfquery name="getAllEmails" datasource="#DSN#" username="#application.DSNuName#" password="#application.dsnpword#">
+<cfquery name="getAllEmails" datasource="#DSN#" username="#application.DSNuName#" password="#application.dsnpword#" >
 	select top 1 email_address
     from coachInPracticeEmailFix
     where email_address like '%#url.email#%'
@@ -36,7 +29,6 @@
 <cfset columnList = "datesubmitted,id,lesson,email,surveyTitle,hours,score,premiumHours,originaldate" />
 <cfset SurveyList = QueryNew("#columnList#","#REReplace(RepeatString('varchar,',listLen(columnList)), ",+$", "")#") />
 
-<!--- Removed Practical skill assesment for now  1382009 --->
 <cfset allsurveys = "8478679,8458513,8344775,7820856,8126766,8126787,8126788,8126776,8107114,7716175,6439452,7135970,7649972,7668732,7668729,7668720,7668724,7668749,7473115,7518337,7394404,7135970,7188154,7188173,7188169,7188120,7178225,7080225,6738809,6756318,6734022,6697766,6697769,6697765,6657242,6634902,6439452,6350222,6307281,6174060,6174072,5820302,5121979,5769769,5664658,5508580,1013764,1020531,1120644,1060665,1330743,1117522,1026874,1117550,1447572,1849174,1953823,1994464,2338773,1959806,1144369,2913540,3839954,4229417,4051290,4144821,4305174,4227686,4320651,4543424,4776929,4144821,1959806,4238384">
 <cfset group1 = "1013764,1020531,1120644,1060665,1330743,1849174,2338773,2913540,3839954" />
 
@@ -44,6 +36,7 @@
   <cfloop list="#allsurveys#" index="column">
 
  	   <cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/#column#/surveyresponse">
+       <cfset emailParam = "[question(9), option(0)]" />
 
 	   <cfif listFind(group1,column) >
         	<cfset emailParam = "[question(9), option(0)]" />
@@ -63,66 +56,37 @@
         <cfelseif Find(1382009,column)>
 			 <cfset emailParam = "[question(21)]" />
 		<cfelseif listFind("7820856,6439452,7135970,7649972,7135970,4543424,5121979,6439452", column) >
-			<cfset emailParam = "[question(26)]" />
+			<cfset emailParam = "[question(26)]" />		 
         <cfelseif Find(4227686,column) OR find(4320651,column)>
 			 <cfset emailParam = "[question(61)]" />
-		<cfelseif listFind("8458513,8478679,8458513,8126788,8126787,8126776,8107114,5664658,1026874,7716175,7668732,7668729,7668720,7668724,7473115,7394404,7188154,5508580,7188173,7188169,7188120,7080225,5769769,4144821,6174072,6350222,6657242,6697765,6697769,6738809,6756318,6734022", column)>
-			<cfset emailParam = "[question(35)]" />
+		<cfelseif listFind("8458513,8126788,8126787,8126776,8107114,5664658,1026874,7716175,7668732,7668729,7668720,7668724,7473115,7394404,7188154,5508580,7188173,7188169,7188120,7080225,5769769,4144821,6174072,6350222,6657242,6697765,6697769,6738809,6756318,6734022", column)>
+			<cfset emailParam = "[question(35)]" />	 
 		<cfelseif listFind("8126766,7668749,7518337,1959806,4305174,4776929,6634902,5664658,6697766,7178225,4238384,6174060,6307281", column) >
-			<cfset emailParam = "[question(37)]" />
+			<cfset emailParam = "[question(37)]" />	 
 		<cfelseif Find(4229417,column)  >
-			<cfset emailParam = "[question(90)]" />
+			<cfset emailParam = "[question(90)]" />		
 		<cfelseif ListFind("4051290,8344775,5820302",column)  >
-			<cfset emailParam = "[question(93)]" />
+			<cfset emailParam = "[question(93)]" />		
 		</cfif>
 
-	  <!--- Make API call with retry logic --->
-	  <cfset success = false>
-	  <cfset attempt = 0>
+	  <cfset local.params = "filter[field][0]=#urlEncodedFormat(emailParam)#&filter[operator][0]=in&filter[value][0]=#trim(urlEncodedFormat(local.emailUser))#&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500" />
 
-	  <cfloop condition="attempt LT maxRetries AND !success">
-	      <cfset attempt = attempt + 1>
-	      <cftry>
-	          <cfhttp url="#SGurl#" method="GET" timeout="30" result="httpResult">
-	              <cfhttpparam type="url" name="api_token" value="#surveyGizmoAPIToken#">
-	              <cfhttpparam type="url" name="filter[field][0]" value="#emailParam#">
-	              <cfhttpparam type="url" name="filter[operator][0]" value="in">
-	              <cfhttpparam type="url" name="filter[value][0]" value="#trim(local.emailUser)#">
-	              <cfhttpparam type="url" name="filter[field][1]" value="status">
-	              <cfhttpparam type="url" name="filter[operator][1]" value="=">
-	              <cfhttpparam type="url" name="filter[value][1]" value="complete">
-	              <cfhttpparam type="url" name="resultsperpage" value="500">
-	          </cfhttp>
+	  <cfhttp url="#SGurl#" method="GET" timeout="60" result="httpResult">
+         <cfhttpparam type="url" name="api_token" value="b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca">
+         <cfhttpparam type="url" name="filter[field][0]" value="#emailParam#">
+         <cfhttpparam type="url" name="filter[operator][0]" value="in">
+         <cfhttpparam type="url" name="filter[value][0]" value="#trim(local.emailUser)#">
+         <cfhttpparam type="url" name="filter[field][1]" value="status">
+         <cfhttpparam type="url" name="filter[operator][1]" value="=">
+         <cfhttpparam type="url" name="filter[value][1]" value="complete">
+         <cfhttpparam type="url" name="resultsperpage" value="500">
+      </cfhttp>
 
-	          <!--- Check if successful --->
-	          <cfif structKeyExists(httpResult, "statusCode") AND left(httpResult.statusCode, 1) EQ "2">
-	              <cfset success = true>
-	          <cfelse>
-	              <cfif attempt LT maxRetries>
-	                  <cfset sleep(retryDelay)>
-	              </cfif>
-	          </cfif>
-
-	          <cfcatch type="any">
-	              <cfif attempt LT maxRetries>
-	                  <cfset sleep(retryDelay)>
-	              </cfif>
-	          </cfcatch>
-	      </cftry>
-	  </cfloop>
-
-	  <!--- Check if API call succeeded --->
-	  <cfif !success OR !structKeyExists(httpResult, "statusCode") OR left(httpResult.statusCode, 1) NEQ "2">
-	      <!--- Log error but continue processing other surveys --->
-	      <cfset errorMsg = "Survey API call failed for survey #column# after #maxRetries# retries">
-	      <cfcontinue>
-	  </cfif>
-
-      <cfif isDefined("httpResult.fileContent") AND len(httpResult.fileContent)>
-          <cfset myResult = httpResult.fileContent>
-      <cfelse>
-          <cfset myResult = "{}">
-      </cfif>
+<cfif isDefined("httpResult.fileContent") AND len(httpResult.fileContent)>
+    <cfset myResult = httpResult.fileContent>
+<cfelse>
+    <cfset myResult = "{}">
+</cfif>
 
       <cfset jsonData = deserializeJSON(myResult) />
 
@@ -203,7 +167,7 @@
 				<cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(40)]']  )/>
 				<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 			</cfif>
-
+			   
 			<cfif column eq 4238384 >
 				<cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(43)]']  )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(93)]'] )/>
@@ -212,7 +176,7 @@
 			<cfif column eq 8344775>
 				<cfset temp = QuerySetCell(SurveyList,"lesson", 'Wellcoaches Sept 2025 fwd. habits survey'  )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(93)]'] )/>
-				<cfset temp = QuerySetCell(SurveyList,"hours", "10" )/>
+				<cfset temp = QuerySetCell(SurveyList,"hours", "10" )/>	
 			</cfif>
 
 			<cfif column eq 5820302 >
@@ -221,10 +185,10 @@
 			</cfif>
 
 			<cfif listFind("8126787,8126776,7473115",column)>
-
+				
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(123)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
-				<cfset temp = QuerySetCell(SurveyList,"hours", "9" )/>
+				<cfset temp = QuerySetCell(SurveyList,"hours", "9" )/>	
 				<cfif findNoCase('specialty', field['[question(123)]']) >
 					<cfset temp = QuerySetCell(SurveyList,"hours", "5" )/>
 				<cfelseif findNoCase('weight', field['[question(123)]']) >
@@ -232,15 +196,15 @@
 				<cfelseif findNoCase('noise', field['[question(123)]']) >
 					<cfset temp = QuerySetCell(SurveyList,"hours", "3" )/>
 				<cfelseif findNoCase('motivational', field['[question(123)]']) >
-					<cfset temp = QuerySetCell(SurveyList,"hours", "10" )/>
+					<cfset temp = QuerySetCell(SurveyList,"hours", "10" )/>	
 				<cfelseif findNoCase('medications', field['[question(123)]']) >
-					<cfset temp = QuerySetCell(SurveyList,"hours", "6" )/>
+					<cfset temp = QuerySetCell(SurveyList,"hours", "6" )/>		
 				</cfif>
 				<cfif listfind("8126787,8126776",column) >
 					<cfset temp = QuerySetCell(SurveyList,"hours", field['[question(119)]'] )/>
 				</cfif>
 			</cfif>
-
+		
             <cfif column eq 1994464>
          		<cfset temp = QuerySetCell(SurveyList,"lesson", 'organize your mind online+mobile course - Feedback Survey' )/>
             </cfif>
@@ -277,8 +241,8 @@
                 <cfset temp = QuerySetCell(SurveyList,"hours", field['[question(31)]'] )/>
 				<cfif !LEN(field['[question(31)]'])>
 					<cfset temp = QuerySetCell(SurveyList,"hours", 1 )/>
-				</cfif>
-
+				</cfif> 
+				
                 <cfset temp = QuerySetCell(SurveyList,"PremiumHours", field['[question(80)]'] )/>
 
                 <cfset temp = QuerySetCell(SurveyList,"email", field['#emailParam#'] )/>
@@ -318,14 +282,14 @@
 			<cfelseif column eq 4229417>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Wellcoaches Habits #field['[question(88)]']#"  )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(90)]'] )/>
-				<cfset temp = QuerySetCell(SurveyList,"hours", '10' )/>
-
+				<cfset temp = QuerySetCell(SurveyList,"hours", '10' )/>	
+				
 			<cfelseif column eq 4227686>
 				<cfset temp = QuerySetCell(SurveyList,"lesson", "Core Coach Training - 4-day residential program day #field['[question(60)]']#" )/>
 				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(61)]'] )/>
 			<cfelseif column eq 4320651>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", "Lifestyle Medicine for Coaches" )/>
-				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(61)]'] )/>
+				<cfset temp = QuerySetCell(SurveyList,"email", field['[question(61)]'] )/>	
 			<cfelseif listFind("7820856,6439452,7135970,7649972,4543424,5121979,6439452,7135970",column)>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(8)]']  )/>
 				<cfif listFind('7820856,6439452,7135970,7649972,7135970', column) and field['[question(8)]'] contains 'Residential'>
@@ -373,7 +337,7 @@
 				<cfif listFind("8478679,8458513",column)>
 					<cfset temp = QuerySetCell(SurveyList,"hours", 1 )/>
 				</cfif>
-
+                	
 			<cfelseif listFind("7716175,7394404,7188154,7188173,7188169,7188120,6657242,6697765,6697769,6734022,6756318,6738809",column)>
                 <cfset temp = QuerySetCell(SurveyList,"lesson", field['[question(29)]'] )/>
                 <cfset temp = QuerySetCell(SurveyList,"email", field['[question(35)]'] ) />
@@ -386,7 +350,7 @@
 				<cfelse>
 					<cfset temp = QuerySetCell(SurveyList,"hours", 1 )/>
 				</cfif>
-
+                	
 		   </cfif>
            <cfset temp = QuerySetCell(SurveyList,"surveyTitle", column )/>
            <cfset temp =  QuerySetCell(SurveyList,"id", field['id']  )/>
@@ -404,10 +368,9 @@
       <cfif isDate(renewedDate) AND isDate(REcertEndDate) AND !structKeyExists(url,'concierge')>
       <!---	where cast(datesubmitted AS DATE) >= <cfqueryparam cfsqltype="cf_sql_date" value="#renewedDate#">
            AND cast(datesubmitted AS DATE) <= <cfqueryparam cfsqltype="cf_sql_date" value="#REcertEndDate#"> --->
-      </cfif>
+      </cfif> 
       order by datesubmitted desc
     </cfquery>
-
 
 <cfif local.results.recordcount EQ 0>
      <div class="container">
@@ -440,7 +403,7 @@
             <h1>Continuing Education Tracker</h1>
             <p>Professional Development Hours Summary</p>
         </div>
-
+        
         <!-- Dashboard Section -->
         <div class="dashboard">
             <div class="dashboard-grid">
@@ -452,18 +415,18 @@
                     <span class="stat-number" id="totalRecords">#results.recordCount#</span>
                     <span class="stat-label">Total Records</span>
                 </div>
-
+                
             </div>
-
+            
             <cfif isDate(renewedDate) AND isDate(REcertEndDate)>
                 <div class="certification-period">
                     <h3>Certification Period</h3>
-                    <p>Hours may be claimed from <strong>#dateFormat(renewedDate, "mm/dd/yyyy")#</strong>
+                    <p>Hours may be claimed from <strong>#dateFormat(renewedDate, "mm/dd/yyyy")#</strong> 
                     to <strong>#dateFormat(REcertEndDate, "mm/dd/yyyy")#</strong></p>
                 </div>
             </cfif>
         </div>
-
+        
         <!-- Controls Section -->
         <div class="controls">
             <div class="search-box">
@@ -484,7 +447,7 @@
                 <button id="lastPage" onclick="changePage('last')">Last</button>
             </div>
         </div>
-
+        
         <div class="table-container">
             <table class="modern-table" id="surveyTable">
                 <thead>
@@ -514,164 +477,164 @@
 	                	<td><a href="##" onclick="window.open('./surveyPDF.cfm?id=#urlencodedformat(ID)#&surveyTitle=#urlencodedformat(surveyTitle)#','openPDF#id#','width=750,height=750,menubar=no,resizable=no,directories=no,location=no')" class="lesson-link">#lesson#</a></td>
 	                	<td class="date-cell">#DateFormat(datesubmitted,'mm/dd/yyyy')#</td>
 
-					<cfif !listFind(NoHours,surveyTitle)>
-                        <td class="hours-cell">
-                        <cfif lesson contains 'residential'>
-                                <span class="hours-positive">21</span>
-							<cfset total = total + 21>
-                        <cfelseif surveyTitle eq 1117550>
-                                <span class="hours-positive">7.5</span>
-							<cfset total = total + 7>
-						<cfelseif surveyTitle eq 4776929>
-							<span class="hours-positive">4.5</span>
-							<cfset total = total + 4.5>
-                        <cfelseif surveyTitle eq 4229417  OR surveyTitle eq 4051290>
-                                <span class="hours-positive">10</span>
-							<cfset total = total + 10>
-						<cfelseif surveyTitle eq 1994464>
-							<span class="hours-positive">4</span>
-							<cfset total = total + 4>
-                        <cfelseif listFind("1447572,1144369,1959806,4144821",surveyTitle)>
-                                 <span class="hours-positive">#iif(len(hours),hours,0)#</span>
-                                 <cfset total = total + iif(len(hours),hours,0)>
-                        <cfelseif listFind("1117522,2913540,5121979",surveyTitle)>
-                                  <span class="hours-positive">1.5</span>
-                            	 <cfset total = total + 1.5>
-                        <cfelse>
-                                <span class="hours-positive">1.5</span>
-					   		<cfset total = total + 1.5>
-                        </cfif>
-                        </td>
-                    <cfelse>
-                    	<td class="hours-cell"><span class="hours-zero">-</span></td>
-                    </cfif>
-                    <cfif isDefined('url.debug')>
-                        <td>#id#</td>
-                        <td>#surveyTitle#</td>
-                    </cfif>
-                </tr>
-        	<cfelse>
-            	<tr>
-                 	<cfif surveyTitle EQ '1382009' AND score GTE 80>
-                 		 <td><a href="/utilities/infusionsoft/practicalResults.cfm?surveyTitle=#surveyTitle#&id=#id#" target="_blank" class="lesson-link">#lesson#</a></td>
-                     <cfelse>
-                     	<td>#lesson#</td>
-                	 </cfif>
-
-					<td class="date-cell">
-						<cfif len(originalDate) AND isDate(originalDate)>
-							#DateFormat(originalDate,'mm/dd/yyyy')#
-						<cfelse>
-							<cfif isDate(datesubmitted)>
-								#DateFormat(datesubmitted,'mm/dd/yyyy')#
-							<cfelse>
-								--
-							</cfif>
-						</cfif>
-					</td>
-					<cfif !listFind(NoHours,surveyTitle)>
-                        <td class="hours-cell">
-							<cfif listFind("1120644,1117522,2913540,5508580,5121979", surveyTitle)>
-								<cfif findNoCase('Residential', lesson) AND surveyTitle EQ 5121979>
-									<span class="hours-positive">20</span>
-									<cfset total = total + 20 />
-								<cfelse>
-									<span class="hours-positive">1.5</span>
-									<cfset total = total + 1.5>
-								</cfif>
-
-							<cfelseif listFind("4229417,4051290", surveyTitle) >
-								<cfset local.habits++>
-
-                            	<cfif (habitsComplete EQ "Y" OR habitsComplete EQ 'STANDALONE') AND (local.habits eq 8 AND !structKeyExists(local, 'habitsAdded'))>
-	                                <span class="hours-positive">10</span>
-									<cfset total = total + 10>
-									<cfset local.habitsAdded  = 1 />
-								<cfelse>
-									<span class="hours-zero">&mdash;</span>
-                            		<cfset total = total + 0>
-								</cfif>
-							<cfelseif  surveyTitle eq 4238384 >
-                            	<cfset local.module2++>
-                            	<cfif Module2Complete EQ "Y" AND (local.module2 gte 4 AND !structKeyExists(local, 'mod2Added'))>
-	                                <span class="hours-positive">10</span>
-									<cfset total = total + 10>
-									<cfset local.mod2Added  = 1 />
-								<cfelse>
-									<span class="hours-zero">&mdash;</span>
-                            		<cfset total = total + 0>
-								</cfif>
-							<cfelseif listFind("4227686,1953823", surveyTitle)>
-									<span class="hours-zero">&mdash;</span>
-									<cfset total = total + 0>
-							<cfelseif surveyTitle eq 4320651 >
-									<span class="hours-positive">21.5</span>
-									<cfset total = total + 21.5>
-							<cfelseif surveyTitle eq 5820302 >
-									<span class="hours-positive">5.5</span>
-                            		<cfset total = total + 5.5>
-							<cfelseif surveyTitle eq 1994464>
-							 	<span class="hours-positive">4</span>
-								<cfset total = total + 4>
+						<cfif !listFind(NoHours,surveyTitle)>
+	                        <td class="hours-cell">
+	                        <cfif lesson contains 'residential'>
+	                                <span class="hours-positive">21</span>
+								<cfset total = total + 21>
+	                        <cfelseif surveyTitle eq 1117550>
+	                                <span class="hours-positive">7.5</span>
+								<cfset total = total + 7>
 							<cfelseif surveyTitle eq 4776929>
 								<span class="hours-positive">4.5</span>
-								<cfset total = total + 4.5>
-							<cfelseif surveyTitle eq 1117550>
-                                <span class="hours-positive">7.5</span>
-                                <cfset total = total + 7>
+								<cfset total = total + 4.5>	
+	                        <cfelseif surveyTitle eq 4229417  OR surveyTitle eq 4051290>
+	                                <span class="hours-positive">10</span>
+								<cfset total = total + 10>
+							<cfelseif surveyTitle eq 1994464>
+								<span class="hours-positive">4</span>
+								<cfset total = total + 4>
+	                        <cfelseif listFind("1447572,1144369,1959806,4144821",surveyTitle)>
+	                                 <span class="hours-positive">#iif(len(hours),hours,0)#</span>
+	                                 <cfset total = total + iif(len(hours),hours,0)>
+	                        <cfelseif listFind("1117522,2913540,5121979",surveyTitle)>
+	                                  <span class="hours-positive">1.5</span>
+	                            	 <cfset total = total + 1.5>
+	                        <cfelse>
+	                                <span class="hours-positive">1.5</span>
+						   		<cfset total = total + 1.5>
+	                        </cfif>
+	                        </td>
+	                    <cfelse>
+	                    	<td class="hours-cell"><span class="hours-zero">-</span></td>
+	                    </cfif>
+	                    <cfif isDefined('url.debug')>
+	                        <td>#id#</td>
+	                        <td>#surveyTitle#</td>
+	                    </cfif>
+	                </tr>
+	        	<cfelse>
+	            	<tr>
+	                 	<cfif surveyTitle EQ '1382009' AND score GTE 80>
+	                 		 <td><a href="/utilities/infusionsoft/practicalResults.cfm?surveyTitle=#surveyTitle#&id=#id#" target="_blank" class="lesson-link">#lesson#</a></td>
+	                     <cfelse>
+	                     	<td>#lesson#</td>
+	                	 </cfif>
 
-                            <cfelseif listFind("8126766,1026874,5664658,6634902,7668729,7668720,7668732,4144821,5769769,6298191,6756318,6738809,6697769,6734022,7188169,7716175,7188154,6657242,6697765,7668724,7188173,7188120", surveyTitle) AND datePart('yyyy',datesubmitted) GTE '2016' >
-							 <!---clear the subtotal when it's a new month--->
-                                    <cfif currentMonthYear NEQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
-                                        <cfset subtotal = 0 />
-                                        <cfset currentMonthYear = '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'  />
-                                    </cfif>
+						<td class="date-cell">
+							<cfif len(originalDate) AND isDate(originalDate)>
+								#DateFormat(originalDate,'mm/dd/yyyy')#
+							<cfelse>
+								<cfif isDate(datesubmitted)>
+									#DateFormat(datesubmitted,'mm/dd/yyyy')#
+								<cfelse>
+									--	
+								</cfif>
+							</cfif>
+						</td>
+						<cfif !listFind(NoHours,surveyTitle)>
+	                        <td class="hours-cell">
+								<cfif listFind("1120644,1117522,2913540,5508580,5121979", surveyTitle)>
+									<cfif findNoCase('Residential', lesson) AND surveyTitle EQ 5121979>
+										<span class="hours-positive">20</span>
+										<cfset total = total + 20 />
+									<cfelse>
+										<span class="hours-positive">1.5</span>
+										<cfset total = total + 1.5>
+									</cfif>	
+									
+								<cfelseif listFind("4229417,4051290", surveyTitle) >
+									<cfset local.habits++>
+									
+	                            	<cfif (habitsComplete EQ "Y" OR habitsComplete EQ 'STANDALONE') AND (local.habits eq 8 AND !structKeyExists(local, 'habitsAdded'))>
+		                                <span class="hours-positive">10</span>
+										<cfset total = total + 10>
+										<cfset local.habitsAdded  = 1 />
+									<cfelse>
+										<span class="hours-zero">&mdash;</span>
+	                            		<cfset total = total + 0>
+									</cfif>
+								<cfelseif  surveyTitle eq 4238384 >
+	                            	<cfset local.module2++>
+	                            	<cfif Module2Complete EQ "Y" AND (local.module2 gte 4 AND !structKeyExists(local, 'mod2Added'))>
+		                                <span class="hours-positive">10</span>
+										<cfset total = total + 10>
+										<cfset local.mod2Added  = 1 />
+									<cfelse>
+										<span class="hours-zero">&mdash;</span>
+	                            		<cfset total = total + 0>
+									</cfif>	
+								<cfelseif listFind("4227686,1953823", surveyTitle)>
+										<span class="hours-zero">&mdash;</span>
+										<cfset total = total + 0>
+								<cfelseif surveyTitle eq 4320651 >
+										<span class="hours-positive">21.5</span>
+										<cfset total = total + 21.5>		
+								<cfelseif surveyTitle eq 5820302 >
+										<span class="hours-positive">5.5</span>
+	                            		<cfset total = total + 5.5>		
+								<cfelseif surveyTitle eq 1994464>
+								 	<span class="hours-positive">4</span>
+									<cfset total = total + 4>
+								<cfelseif surveyTitle eq 4776929>
+									<span class="hours-positive">4.5</span>
+									<cfset total = total + 4.5>		
+								<cfelseif surveyTitle eq 1117550>
+	                                <span class="hours-positive">7.5</span>
+	                                <cfset total = total + 7>
+									
+	                            <cfelseif listFind("8126766,1026874,5664658,6634902,7668729,7668720,7668732,4144821,5769769,6298191,6756318,6738809,6697769,6734022,7188169,7716175,7188154,6657242,6697765,7668724,7188173,7188120", surveyTitle) AND datePart('yyyy',datesubmitted) GTE '2016' >
+								 <!---clear the subtotal when it's a new month--->
+	                                    <cfif currentMonthYear NEQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
+	                                        <cfset subtotal = 0 />
+	                                        <cfset currentMonthYear = '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'  />
+	                                    </cfif>
 
-                                    <!---if month is the same add up subtotal--->
-                                    <cfif currentMonthYear EQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
+	                                    <!---if month is the same add up subtotal--->
+	                                    <cfif currentMonthYear EQ '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'>
 
-                                        <cfset currentMonthYear = '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'  />
-                                        <cfset subtotal++/>
+	                                        <cfset currentMonthYear = '#datePart('m',datesubmitted)##datePart('yyyy',datesubmitted)#'  />
+	                                        <cfset subtotal++/>
 
-                                        <!---always show premium hours--->
-                                        <cfif len(premiumHours)>
-                                             <span class="hours-positive">#premiumHours#</span>
-                                             <cfset total = total + premiumHours />
+	                                        <!---always show premium hours--->
+	                                        <cfif len(premiumHours)>
+	                                             <span class="hours-positive">#premiumHours#</span>
+	                                             <cfset total = total + premiumHours />
 
-                                        <cfelse>
-                                             <cfif subtotal LTE 4 >
-                                                  <span class="hours-positive">#iif(len(hours),hours,0)#</span>
-                                                  <cfset total = total + iif(len(premiumHours), premiumHours, iif(len(hours),hours,0)) />
-                                             <cfelse>
-                                                  <span class="hours-zero">[over allotted classes for #monthasstring(datePart('m',datesubmitted))#]</span>
-                                             </cfif>
-                                        </cfif>
-                                     </cfif>
+	                                        <cfelse>
+	                                             <cfif subtotal LTE 4 >
+	                                                  <span class="hours-positive">#iif(len(hours),hours,0)#</span>
+	                                                  <cfset total = total + iif(len(premiumHours), premiumHours, iif(len(hours),hours,0)) />
+	                                             <cfelse>
+	                                                  <span class="hours-zero">[over allotted classes for #monthasstring(datePart('m',datesubmitted))#]</span>
+	                                             </cfif>
+	                                        </cfif>
+	                                     </cfif>
 
-						  <cfelseif surveyTitle eq 1026874 AND datePart('yyyy',datesubmitted) LTE '2015'>
- 								 <span class="hours-positive">#iif(len(hours),hours,0)#</span>
-                                 <cfset total = total + iif(len(hours),hours,0)>
-                          <cfelseif listFind("8478679,8458513,8344775,7820856,7716175,6439452,7135970,7649972,7668732,7668729,7668720,7668724,7668749,7473115,7518337,7394404,7135970,7188173,7188169,7178225,6697766,1447572,1959806,1144369,4144821,4305174,5769769,6174072,6174060,6307281,6350222,6697765,6697769,6756318,6657242,6738809", surveyTitle)>
-                                  <span class="hours-positive">#iif(len(hours),hours,0)#</span>
-                                 <cfset total = total + iif(len(hours),hours,0)>
-                          <cfelseif surveyTitle eq 1382009>
-                            		<span class="hours-zero">&mdash;</span>
-                            	<cfset total = total + 0>
+							  <cfelseif surveyTitle eq 1026874 AND datePart('yyyy',datesubmitted) LTE '2015'>
+	 								 <span class="hours-positive">#iif(len(hours),hours,0)#</span>
+	                                 <cfset total = total + iif(len(hours),hours,0)>
+	                          <cfelseif listFind("8478679,8458513,8344775,7820856,7716175,6439452,7135970,7649972,7668732,7668729,7668720,7668724,7668749,7473115,7518337,7394404,7135970,7188173,7188169,7178225,6697766,1447572,1959806,1144369,4144821,4305174,5769769,6174072,6174060,6307281,6350222,6697765,6697769,6756318,6657242,6738809", surveyTitle)>
+	                                  <span class="hours-positive">#iif(len(hours),hours,0)#</span>
+	                                 <cfset total = total + iif(len(hours),hours,0)>
+	                          <cfelseif surveyTitle eq 1382009>
+	                            		<span class="hours-zero">&mdash;</span>
+	                            	<cfset total = total + 0>
 
-                            <cfelse>
-                                	<span class="hours-positive">1</span>
-                                <cfset total = total + 1>
-                            </cfif>
-                        </td>
-                    <cfelse>
-                    	<td class="hours-cell"><span class="hours-zero">-</span></td>
-                    </cfif>
-                    <cfif isDefined('url.debug')>
-                        <td>#id#</td>
-                        <td>#surveyTitle#</td>
-                    </cfif>
-                </tr>
-        	</cfif>
+	                            <cfelse>
+	                                	<span class="hours-positive">1</span>
+	                                <cfset total = total + 1>
+	                            </cfif>
+	                        </td>
+	                    <cfelse>
+	                    	<td class="hours-cell"><span class="hours-zero">-</span></td>
+	                    </cfif>
+	                    <cfif isDefined('url.debug')>
+	                        <td>#id#</td>
+	                        <td>#surveyTitle#</td>
+	                    </cfif>
+	                </tr>
+	        	</cfif>
 
          </cfloop>
                 </tbody>
@@ -694,39 +657,3 @@
    <cfinclude template="js/survey.js" />
 </body>
 </html>
-
-<cfcatch type="any">
-    <!--- Log error details --->
-    <cfset errorDetails = structNew()>
-    <cfset errorDetails.type = cfcatch.type>
-    <cfset errorDetails.message = cfcatch.message>
-    <cfset errorDetails.detail = cfcatch.detail>
-    <cfset errorDetails.email = url.email>
-    <cfset errorDetails.timestamp = now()>
-
-    <!--- Send error notification email --->
-    <cfmail to="rdiveley@wellcoaches.com"
-            from="noreply@wellcoaches.com"
-            subject="Survey Gizmo API Error - getAllSurveys.cfm"
-            type="html">
-        <h2>Error in Survey Gizmo API Processing</h2>
-        <p><strong>Time:</strong> #dateFormat(errorDetails.timestamp, "mm/dd/yyyy")# #timeFormat(errorDetails.timestamp, "hh:mm:ss tt")#</p>
-        <p><strong>Error Type:</strong> #errorDetails.type#</p>
-        <p><strong>Error Message:</strong> #errorDetails.message#</p>
-        <p><strong>Error Detail:</strong> #errorDetails.detail#</p>
-        <hr>
-        <h3>Request Details:</h3>
-        <p><strong>Email:</strong> #errorDetails.email#</p>
-        <hr>
-        <h3>Stack Trace:</h3>
-        <pre>#cfcatch.stackTrace#</pre>
-    </cfmail>
-
-    <!--- Display user-friendly error message --->
-    <cfoutput>
-        <h3>We're sorry, but there was an error retrieving your survey data.</h3>
-        <p>Our team has been notified and will investigate this issue. Please contact your Coach Concierge at rdiveley@wellcoaches.com for assistance.</p>
-        <p>Error Reference: #dateFormat(now(), "mm/dd/yyyy")# #timeFormat(now(), "hh:mm:ss tt")#</p>
-    </cfoutput>
-</cfcatch>
-</cftry>

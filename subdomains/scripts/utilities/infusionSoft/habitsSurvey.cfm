@@ -40,6 +40,7 @@
         data="#myResult1.Filecontent#"
         returnvariable="theData">
 
+
         <cfset memberID = theData.Params[1][1]['Id'] />
         <cfset memberTags =  theData.Params[1][1]['Groups']>
 
@@ -287,6 +288,47 @@
                 </cfhttp>
 
             </cfif>
+
+            <!--- Tag 24027 + ONE survey 8344775 = Y in habits survey field AND tag 18682. --->
+            <cfif listFindNoCase(memberTags,24027) AND (structKeyExists(URL, "survey_id") AND URL.survey_id EQ 8344775)>
+
+                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
+                    <cfset myArray2 = ArrayNew(1)>
+                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
+                    <cfset myArray2[2]=key>
+                    <cfset myArray2[3]="(int)#memberID#">
+                    <cfset myArray2[4]="(int)18682">
+                
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray2#"
+                        returnvariable="myPackage2">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
+                    </cfhttp>
+
+                    <cfset updateField = structNew()>
+                    <cfset updateField['_HabitsSurveysComplete']="Y">
+                    <cfset myArray = ArrayNew(1)>
+                    <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
+                    <cfset myArray[2]=key>
+                    <cfset myArray[3]='(int)#memberID#'>
+                    <cfset myArray[4]=updateField>
+                    <cfinvoke component="utilities/XML-RPC"
+                        method="CFML2XMLRPC"
+                        data="#myArray#"
+                        returnvariable="myPackage4">
+
+                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
+                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
+                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
+                    </cfhttp>
+
+                 </cfif>
+
+
 
          <p>
             Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.

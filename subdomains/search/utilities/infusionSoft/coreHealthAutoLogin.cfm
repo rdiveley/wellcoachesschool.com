@@ -9,34 +9,29 @@
 	</cfloop>
 </cfif>
 
-<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-<cfset selectedFieldsArray = ArrayNew(1)>
-<cfset selectedFieldsArray[1] = "Id">
-<cfset selectedFieldsArray[2] = "FirstName">
-<cfset selectedFieldsArray[3] = "LastName">
-<cfset selectedFieldsArray[4] = "Password">
-<cfset selectedFieldsArray[5] = "Groups">
-<cfset selectedFieldsArray[6] = "Email">
-<cfset myArray = ArrayNew(1)>
-<cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-<cfset myArray[2]=key>
-<cfset myArray[3]=FORM.email>
-<cfset myArray[4]=selectedFieldsArray>
+<cfif structKeyExists(FORM,'email')>
+	<cfset URL.email = FORM.email />
+</cfif>
 
-<cfinvoke component="utilities/XML-RPC"
-    method="CFML2XMLRPC"
-    data="#myArray#"
-    returnvariable="myPackage">
+	<cfset key = "KeapAK-986c932da67be5b58500636bcc6b0e128efda00616e7dd8093" />
+    <cfset selectedFieldsArray = ["Id", "FirstName", "LastName", "Password", "Groups"]>
+    <cfset myArray = ["ContactService.findByEmail", key, URL.email, selectedFieldsArray]>
 
+		<cfinvoke component="utilities/XML-RPC"
+			method="CFML2XMLRPC"
+			data="#myArray#"
+			returnvariable="myPackage">
+		
+		<cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
+			arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
+			variable="myResult1"
+			timeout = "200">
+		</cfexecute>
 
-<cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult">
-	<cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-</cfhttp>
-
-<cfinvoke component="utilities/XML-RPC"
-    method="XMLRPC2CFML"
-    data="#myResult.Filecontent#"
-    returnvariable="theData">
+		<cfinvoke component="utilities/XML-RPC"
+			method="XMLRPC2CFML"
+			data="#myResult1#"
+			returnvariable="theData">
 
 
 
