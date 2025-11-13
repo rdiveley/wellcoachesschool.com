@@ -1,105 +1,210 @@
-	<cfset key = "fb7d1fc8a4aab143f6246c090a135a41">
-    <cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Id">
-    <cfset selectedFieldsArray[2] = "FirstName">
-    <cfset selectedFieldsArray[3] = "LastName">
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-    <cfset myArray[2]=key>
-    <cfset myArray[3]=URL.email>
-    <cfset myArray[4]=selectedFieldsArray>
+<cfscript>
+// Configuration
+API_KEY = "fb7d1fc8a4aab143f6246c090a135a41";
+API_URL = "https://my982.infusionsoft.com/api/xmlrpc";
+MAX_RETRIES = 3;
+RETRY_DELAY_MS = 1000;
+ERROR_EMAIL = "rdiveley@wellcoaches.com";
 
+// Helper function to log and email errors
+function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
+    try {
+        var emailBody = "
+            <h3>Survey Error Report</h3>
+            <p><strong>File:</strong> module2.cfm</p>
+            <p><strong>Error Type:</strong> #errorType#</p>
+            <p><strong>User Email:</strong> #userEmail#</p>
+            <p><strong>Error Message:</strong> #errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorDetail#</p>
+            <p><strong>Timestamp:</strong> #now()#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        ";
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="CFML2XMLRPC"
-        data="#myArray#"
-        returnvariable="myPackage">
+        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: module2.cfm", type="html") {
+            writeOutput(emailBody);
+        }
+    } catch (any e) {
+        // Silent fail - don't break the page if email fails
+    }
+}
 
+// Parse URL parameters
+param name="URL.lesson" default="";
+param name="URL.email" default="";
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult1">
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+// Validate required parameters
+if (URL.email == "") {
+    logAndEmailError("Missing Email", "No email parameter provided", "", "N/A");
+    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
+    abort;
+}
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
-        returnvariable="theData2">
+// Basic email validation
+if (!isValid("email", URL.email)) {
+    logAndEmailError("Invalid Email Format", "Invalid email format", "Email provided: #URL.email#", URL.email);
+    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
+    abort;
+}
 
-		<cfset memberID =  theData2.Params[1][1]['Id']>
+// Helper function to call Infusionsoft API with retry logic
+function callInfusionsoftAPI(myArray, retryCount = 0) {
+    try {
+        var myPackage = "";
+        var myResult = "";
 
-        <cfset selectedFieldStruct =structNew()>
-        <cfset selectedFieldStruct["Id"]=memberID>
+        // Convert to XML-RPC format
+        invokeMethod = createObject("component", "utilities/XML-RPC");
+        myPackage = invokeMethod.CFML2XMLRPC(myArray);
 
-        <cfset selectedFieldsArray = ArrayNew(1)>
-        <cfset selectedFieldsArray[1] = "_Module2SurveysComplete">
-        <cfset selectedFieldsArray[2] = "Id">
+        // Make HTTP request
+        cfhttp(method="post", url=API_URL, result="myResult", timeout="30") {
+            cfhttpparam(type="XML", value=myPackage.Trim());
+        }
 
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="DataService.query"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='Contact'>
-        <cfset myArray[4]='(int)10'>
-        <cfset myArray[5]='(int)0'>
-        <cfset myArray[6]=selectedFieldStruct>
-        <cfset myArray[7]=selectedFieldsArray>
+        // Check for HTTP errors
+        if (myResult.statusCode != "200 OK") {
+            throw(message="HTTP Error: #myResult.statusCode#", type="APIError");
+        }
 
-        <cfinvoke component="utilities/XML-RPC"
-            method="CFML2XMLRPC"
-            data="#myArray#"
-            returnvariable="myPackage">
+        // Parse response
+        var theData = invokeMethod.XMLRPC2CFML(myResult.Filecontent);
+        return { success: true, data: theData };
 
-        <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="myResult3">
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+    } catch (any e) {
+        // Retry logic
+        if (retryCount < MAX_RETRIES) {
+            sleep(RETRY_DELAY_MS);
+            return callInfusionsoftAPI(myArray, retryCount + 1);
+        } else {
+            return { success: false, error: e.message, detail: e.detail };
+        }
+    }
+}
 
+// Helper function to update contact field
+function updateContactField(memberID, fieldName, fieldValue) {
+    var updateField = {};
+    updateField[fieldName] = fieldValue;
 
-        <cfinvoke component="utilities/XML-RPC"
-            method="XMLRPC2CFML"
-            data="#myResult3.Filecontent#"
-            returnvariable="theData">
-            
+    var myArray = [
+        "ContactService.update",
+        API_KEY,
+        "(int)#memberID#",
+        updateField
+    ];
+    return callInfusionsoftAPI(myArray);
+}
 
-        <cfparam name="theData.Params[1][1]['_Module2SurveysComplete']" default=" ">
+// Helper function to clean and deduplicate survey list
+function cleanSurveyList(surveyList) {
+    var cleanList = listRemoveDuplicates(trim(surveyList), "^");
+    return replace(cleanList, ",", "^", "all");
+}
+</cfscript>
 
-        <cfset updateList = theData.Params[1][1]['_Module2SurveysComplete']>
+<!--- Step 1: Find contact by email --->
+<cfset myArray = [
+    "ContactService.findByEmail",
+    API_KEY,
+    URL.email,
+    ["Id", "FirstName", "LastName"]
+]>
 
+<cfset contactResult = callInfusionsoftAPI(myArray)>
 
-          <cfif updateList NEQ "Y">
+<cfif !contactResult.success>
+    <cfscript>
+        logAndEmailError("API Error", "Failed to retrieve contact", contactResult.error, URL.email);
+    </cfscript>
+    <cfoutput>
+        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+    </cfoutput>
+    <cfabort>
+</cfif>
 
-			<cfset updateList = trim(listAppend(updateList,URL.Lesson,"^"))>
-			<cfset updateField = structNew()>
-	        <cfset updateField['_Module2SurveysComplete']=Replace(updateList.trim(),",","^","all")>
-        </cfif>
-        
-        <cfset updateList = listRemoveDuplicates(updateList,'^') />
+<cfif !arrayLen(contactResult.data.Params[1])>
+    <cfscript>
+        logAndEmailError("Contact Not Found", "No user with email address in records", "", URL.email);
+    </cfscript>
+    <cfoutput>
+        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+    </cfoutput>
+    <cfabort>
+</cfif>
 
-        <cfif listLen(updateList,'^') GTE 4 OR updateList EQ 'Y'>
-          	<cfset updateField = structNew()>
-          	<cfset updateField['_Module2SurveysComplete']="Y">
-	  		<cfmodule template="applyModule2Complete.cfm" memberID="#memberID#" />
-         </cfif>
+<cfset memberID = contactResult.data.Params[1][1]['Id']>
 
-         <cfset myArray = ArrayNew(1)>
-         <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-         <cfset myArray[2]=key>
-         <cfset myArray[3]='(int)#memberID#'>
-         <cfset myArray[4]=updateField>
+<!--- Step 2: Query for Module 2 surveys complete field --->
+<cfset selectedFieldStruct = {"Id": memberID}>
+<cfset myArray = [
+    "DataService.query",
+    API_KEY,
+    "Contact",
+    "(int)10",
+    "(int)0",
+    selectedFieldStruct,
+    ["_Module2SurveysComplete", "Id"]
+]>
 
+<cfset queryResult = callInfusionsoftAPI(myArray)>
 
-         <cfinvoke component="utilities/XML-RPC"
-              method="CFML2XMLRPC"
-              data="#myArray#"
-              returnvariable="myPackage4">
+<cfif !queryResult.success>
+    <cfscript>
+        logAndEmailError("API Error", "Failed to query survey data", queryResult.error, URL.email);
+    </cfscript>
+    <cfoutput>
+        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+    </cfoutput>
+    <cfabort>
+</cfif>
 
-         <cfhttp method="post" url="https://my982.infusionsoft.com/api/xmlrpc" result="result">
-              <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-          </cfhttp>
+<!--- Step 3: Get current survey completion status --->
+<cfset currentModule2Surveys = structKeyExists(queryResult.data.Params[1][1], '_Module2SurveysComplete') ? queryResult.data.Params[1][1]['_Module2SurveysComplete'] : "">
 
+<!--- Step 4: Process the current lesson and update survey list --->
+<cfset updateList = currentModule2Surveys>
+<cfset updateField = structNew()>
 
+<cfif updateList NEQ "Y">
+    <!--- Append the new lesson --->
+    <cfset updateList = trim(listAppend(updateList, URL.Lesson, "^"))>
 
+    <!--- Clean and deduplicate the list --->
+    <cfset updateList = cleanSurveyList(updateList)>
 
-         <p>Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
-           If not, please contact your Coach Concierge for assistance. Thank you!
-        </p>
+    <!--- Prepare update field --->
+    <cfset updateField['_Module2SurveysComplete'] = updateList>
+</cfif>
 
+<!--- Step 5: Check if all 4 surveys are complete --->
+<cfset surveyCount = listLen(updateList, "^")>
 
+<cfif surveyCount GTE 4 OR updateList EQ "Y">
+    <!--- Mark as complete --->
+    <cfset updateField['_Module2SurveysComplete'] = "Y">
+
+    <!--- Apply module 2 completion logic (tags, groups, etc.) --->
+    <cftry>
+        <cfmodule template="applyModule2Complete.cfm" memberID="#memberID#">
+        <cfcatch>
+            <cfscript>
+                logAndEmailError("Module Error", "applyModule2Complete.cfm failed", cfcatch.message, URL.email);
+            </cfscript>
+        </cfcatch>
+    </cftry>
+</cfif>
+
+<!--- Step 6: Update the contact record --->
+<cfset updateResult = updateContactField(memberID, "_Module2SurveysComplete", updateField['_Module2SurveysComplete'])>
+
+<cfif !updateResult.success>
+    <cfscript>
+        logAndEmailError("Update Error", "Could not update survey record", updateResult.error, URL.email);
+    </cfscript>
+</cfif>
+
+<!--- Step 7: Display success message --->
+<p>
+    Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
+    If not, please contact your Coach Concierge for assistance. Thank you!
+</p>

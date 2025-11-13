@@ -1,340 +1,254 @@
-	<!-- 	AFTER 1 through 8 Habits surveys are completed -->
-<!-- 		a Y is added to the Habits Surveys [Jul2018 Fwd] field -->
-<!-- 		AS LONG AS 9705 is in place [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete] -->
-<!-- 		THEN 9707 can be applied [Res Aug2018 [Indy] Mod 1 Habits Surveys Complete] -->
-<!-- 		AS WELL AS 9771 which delivers the Certificate of Attendance [ Res Aug2018 [Indy] Mod 1 ALL Surveys Complete -->
+<!---
+    AFTER 1 through 8 Habits surveys are completed
+    a Y is added to the Habits Surveys [Jul2018 Fwd] field
+    AS LONG AS 9705 is in place [Res Aug2018 [Indy] Mod 1 Four-Day Surveys Complete]
+    THEN 9707 can be applied [Res Aug2018 [Indy] Mod 1 Habits Surveys Complete]
+    AS WELL AS 9771 which delivers the Certificate of Attendance [ Res Aug2018 [Indy] Mod 1 ALL Surveys Complete
+--->
 
+<cfscript>
+// Configuration
+API_KEY = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e";
+MAX_RETRIES = 3;
+RETRY_DELAY_MS = 1000;
+ERROR_EMAIL = "rdiveley@wellcoaches.com";
 
-<!-- https://www.surveygizmo.com/s3/4229417/Wellcoaches-Habits-course-Module-1?email=rdiveley@wellcoaches.com -->
+// Helper function to log and email errors
+function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
+    try {
+        var emailBody = "
+            <h3>Survey Error Report</h3>
+            <p><strong>File:</strong> habitsSurvey.cfm</p>
+            <p><strong>Error Type:</strong> #errorType#</p>
+            <p><strong>User Email:</strong> #userEmail#</p>
+            <p><strong>Error Message:</strong> #errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorDetail#</p>
+            <p><strong>Timestamp:</strong> #now()#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        ";
 
-    <cfparam  name="URL.lesson" default="">
+        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: habitsSurvey.cfm", type="html") {
+            writeOutput(emailBody);
+        }
+    } catch (any e) {
+        // Silent fail - don't break the page if email fails
+    }
+}
 
-	
-    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-    <cfset selectedFieldsArray = ArrayNew(1)>
-    <cfset selectedFieldsArray[1] = "Id">
-    <cfset selectedFieldsArray[2] = "FirstName">
-    <cfset selectedFieldsArray[3] = "LastName">
-    <cfset selectedFieldsArray[4] = "_HabitsSurveysComplete">
-    <cfset selectedFieldsArray[5] = "_HWCTFeedbackSurveysComplete3">
-    <cfset selectedFieldsArray[6] = "Groups">
-    
-    <cfset myArray = ArrayNew(1)>
-    <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-    <cfset myArray[2]=key>
-    <cfset myArray[3]=URL.email>
-    <cfset myArray[4]=selectedFieldsArray>
+// Parse URL parameters
+param name="URL.lesson" default="";
+param name="URL.email" default="";
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="CFML2XMLRPC"
-        data="#myArray#"
-        returnvariable="myPackage">
+// Validate required parameters
+if (URL.email == "") {
+    logAndEmailError("Missing Email", "No email parameter provided", "", "N/A");
+    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
+    abort;
+}
 
-        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
-            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-            <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-        </cfhttp>
+// Basic email validation
+if (!isValid("email", URL.email)) {
+    logAndEmailError("Invalid Email Format", "Invalid email format", "Email provided: #URL.email#", URL.email);
+    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
+    abort;
+}
 
-    <cfinvoke component="utilities/XML-RPC"
-        method="XMLRPC2CFML"
-        data="#myResult1.Filecontent#"
-        returnvariable="theData">
+// Helper function to call Keap API with retry logic
+function callKeapAPI(myArray, retryCount = 0) {
+    try {
+        var myPackage = "";
+        var myResult = "";
 
+        // Convert to XML-RPC format
+        invokeMethod = createObject("component", "utilities/XML-RPC");
+        myPackage = invokeMethod.CFML2XMLRPC(myArray);
 
-        <cfset memberID = theData.Params[1][1]['Id'] />
-        <cfset memberTags =  theData.Params[1][1]['Groups']>
+        // Make HTTP request
+        cfhttp(method="post", url="https://api.infusionsoft.com/crm/xmlrpc/v1/", result="myResult", timeout="30") {
+            cfhttpparam(type="HEADER", name="X-Keap-API-Key", value=API_KEY);
+            cfhttpparam(type="XML", value=myPackage.Trim());
+        }
 
-        <cfif !arrayLen(theData.Params[1])>
-            The email you entered <cfoutput><em>#URL.email#</em></cfoutput> does not exist in our records.  Please contact your concierge for further assistance.<cfabort />
-        </cfif>
+        // Check for HTTP errors
+        if (myResult.statusCode != "200 OK") {
+            throw(message="HTTP Error: #myResult.statusCode#", type="APIError");
+        }
 
-        <cfparam name="theData.Params[1][1]['_HabitsSurveysComplete']" default=" ">
+        // Parse response
+        var theData = invokeMethod.XMLRPC2CFML(myResult.Filecontent);
+        return { success: true, data: theData };
 
-        <cfset updateList = theData.Params[1][1]['_HabitsSurveysComplete']>
+    } catch (any e) {
+        // Retry logic
+        if (retryCount < MAX_RETRIES) {
+            sleep(RETRY_DELAY_MS);
+            return callKeapAPI(myArray, retryCount + 1);
+        } else {
+            return { success: false, error: e.message, detail: e.detail };
+        }
+    }
+}
 
-        <cfif updateList NEQ 'Y' AND listLen(updateList, "^") LT 8 AND updateList NEQ 'STANDALONE'> 
+// Helper function to add contact to group
+function addContactToGroup(memberID, groupID) {
+    var myArray = [
+        "ContactService.addToGroup",
+        API_KEY,
+        "(int)#memberID#",
+        "(int)#groupID#"
+    ];
+    return callKeapAPI(myArray);
+}
 
-            <cfset updateList = listAppend(updateList,URL.Lesson,"^")>
-            <cfset newList = {} />
-            <cfloop list="#updateList#" index="i" delimiters="^">
-                <cfif isNumeric(i)>
-                    <cfset i = int(i) />
-                </cfif>
-                <cfset newList[i] = i />
-            </cfloop>
+// Helper function to update contact field
+function updateContactField(memberID, fieldName, fieldValue) {
+    var updateField = {};
+    updateField[fieldName] = fieldValue;
 
-           <cfif listContains(updateList, ".")>
-                <cfset updateList = listDeleteAt(updateList, listContains(updateList,".")) />
-           </cfif>
+    var myArray = [
+        "ContactService.update",
+        API_KEY,
+        "(int)#memberID#",
+        updateField
+    ];
+    return callKeapAPI(myArray);
+}
 
-            <cfset updateList = structKeyList(newlist) />
+// Helper function to get unique survey lessons from list
+function cleanSurveyList(surveyList) {
+    // Create a struct to deduplicate (structs have unique keys)
+    var uniqueSurveys = {};
+    var cleanList = "";
 
-			<cfset updateField = structNew()>
-            <cfset updateField['_HabitsSurveysComplete']=Replace(updateList.trim(),",","^","all")>
-          
-	        <cfset myArray = ArrayNew(1)>
-	        <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-	        <cfset myArray[2]=key>
-	        <cfset myArray[3]='(int)#memberID#'>
-            <cfset myArray[4]=updateField>
-            
-	        <cfinvoke component="utilities/XML-RPC"
-	              method="CFML2XMLRPC"
-	              data="#myArray#"
-	              returnvariable="myPackage4">
+    loop list="#surveyList#" index="item" delimiters="^" {
+        item = trim(item);
+        // Skip empty items and items with periods
+        if (item != "" && !find(".", item)) {
+            // Convert to integer if numeric
+            if (isNumeric(item)) {
+                item = int(item);
+            }
+            uniqueSurveys[item] = item;
+        }
+    }
 
-                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
-                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                    <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                </cfhttp>
+    // Return as caret-delimited list
+    cleanList = structKeyList(uniqueSurveys);
+    return replace(cleanList, ",", "^", "all");
+}
+</cfscript>
 
-        </cfif>
+<!--- Step 1: Find contact by email --->
+<cfset selectedFieldsArray = ["Id", "FirstName", "LastName", "_HabitsSurveysComplete", "_HWCTFeedbackSurveysComplete3", "Groups"]>
+<cfset myArray = [
+    "ContactService.findByEmail",
+    API_KEY,
+    URL.email,
+    selectedFieldsArray
+]>
 
-        <cfif structKeyExists(theData.Params[1][1],'_HWCTFeedbackSurveysComplete3') AND theData.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
+<cfset contactResult = callKeapAPI(myArray)>
 
-            
-            <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-            <cfset myArray2 = ArrayNew(1)>
-            <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-            <cfset myArray2[2]=key>
-            <cfset myArray2[3]="(int)#memberID#">
-            <cfset myArray2[4]="(int)16874">
-        
-            <cfinvoke component="utilities/XML-RPC"
-                method="CFML2XMLRPC"
-                data="#myArray2#"
-                returnvariable="myPackage2">
+<cfif !contactResult.success>
+    <cfscript>
+        logAndEmailError("API Error", "Failed to retrieve contact", contactResult.error, URL.email);
+    </cfscript>
+    <cfoutput>
+        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+    </cfoutput>
+    <cfabort>
+</cfif>
 
+<cfif !arrayLen(contactResult.data.Params[1])>
+    <cfscript>
+        logAndEmailError("Contact Not Found", "No user with email address in records", "", URL.email);
+    </cfscript>
+    <cfoutput>
+        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+    </cfoutput>
+    <cfabort>
+</cfif>
 
-            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-            </cfhttp>
+<cfset memberID = contactResult.data.Params[1][1]['Id']>
+<cfset memberTags = contactResult.data.Params[1][1]['Groups']>
+<cfset currentHabitsSurveys = structKeyExists(contactResult.data.Params[1][1], '_HabitsSurveysComplete') ? contactResult.data.Params[1][1]['_HabitsSurveysComplete'] : "">
 
-        </cfif>
+<!--- Step 2: Process the current lesson and update survey list --->
+<cfset updateList = currentHabitsSurveys>
 
-        <cfset updateList = listRemoveDuplicates(updateList,'^') />
-        <cfset updateList = listChangeDelims(updateList,"^") / >
+<cfif updateList NEQ 'Y' AND listLen(updateList, "^") LT 8 AND updateList NEQ 'STANDALONE'>
+    <!--- Append the new lesson --->
+    <cfset updateList = listAppend(updateList, URL.Lesson, "^")>
 
-         <!---
-            Scenario #1
-            If HabitsSurveysComplete is “Y” AND tag 16874 and tag 16876 exists then add tag 16692
+    <!--- Clean and deduplicate the list --->
+    <cfset updateList = cleanSurveyList(updateList)>
 
-            Scenario #2
-            If HabitsSurveysComplete is “Y” AND tag 18680 exists then add tag 16862
-         ---> 
-         <!---if the user comes after Sept 2025 look for 7 surveys not 8 --->
-        
+    <!--- Update the contact record --->
+    <cfset updateResult = updateContactField(memberID, "_HabitsSurveysComplete", updateList)>
 
-         <cfif listLen(updateList,"^") GTE 8 OR updateList EQ "Y">
-                <!---Scenario #2
-                    If HabitsSurveysComplete is "Y" AND tag 18680 exists then add tag 16862
-                --->
-            
-                <cfif updateList NEQ "Y">
-                    <cfset updateField = structNew()>
-                    <cfset updateField['_HabitsSurveysComplete']="Y">
-                    <cfset myArray = ArrayNew(1)>
-                    <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-                    <cfset myArray[2]=key>
-                    <cfset myArray[3]='(int)#memberID#'>
-                    <cfset myArray[4]=updateField>
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray#"
-                        returnvariable="myPackage4">
+    <cfif !updateResult.success>
+        <cfoutput>
+            <p>Warning: Could not update survey list. Please contact your Coach Concierge.</p>
+        </cfoutput>
+    </cfif>
+</cfif>
 
-                        <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                            <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                            <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                        </cfhttp>
-                </cfif>
-                    
-                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-                    <cfset myArray2 = ArrayNew(1)>
-                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                    <cfset myArray2[2]=key>
-                    <cfset myArray2[3]="(int)#memberID#">
-                    <cfset myArray2[4]="(int)16876">
-                
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray2#"
-                        returnvariable="myPackage2">
+<!--- Step 3: Add to feedback group if feedback surveys are complete --->
+<cfif structKeyExists(contactResult.data.Params[1][1], '_HWCTFeedbackSurveysComplete3') AND contactResult.data.Params[1][1]['_HWCTFeedbackSurveysComplete3'] EQ 'Y'>
+    <cfset groupResult = addContactToGroup(memberID, 16874)>
+</cfif>
 
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+<!--- Step 4: Process completion scenarios (8+ surveys or already marked complete) --->
+<cfset surveyCount = listLen(updateList, "^")>
 
-                <cfif listFindNoCase(memberTags, 18680) >
+<cfif surveyCount GTE 8 OR updateList EQ "Y">
+    <!--- Mark surveys as complete if not already --->
+    <cfif updateList NEQ "Y">
+        <cfset updateResult = updateContactField(memberID, "_HabitsSurveysComplete", "Y")>
+    </cfif>
 
-                    
-                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-                    <cfset myArray2 = ArrayNew(1)>
-                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                    <cfset myArray2[2]=key>
-                    <cfset myArray2[3]="(int)#memberID#">
-                    <cfset myArray2[4]="(int)18682">
-                
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray2#"
-                        returnvariable="myPackage2">
+    <!--- Add to completion group 16876 --->
+    <cfset groupResult = addContactToGroup(memberID, 16876)>
 
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
-                </cfif>
+    <!--- Scenario #2: If tag 18680 exists, add tag 18682 --->
+    <cfif listFindNoCase(memberTags, 18680)>
+        <cfset groupResult = addContactToGroup(memberID, 18682)>
+    </cfif>
 
-                <!--- Scenario #3
-                    If _HabitsSurveysComplete has 8 surveys or "Y”, AND the record has tag 18680 OR tag 18684, 
-                    then add tag 18682 AND enter “STANDALONE” to _HabitsSurveysComplete --->
+    <!--- Scenario #3: Standalone course completion --->
+    <cfif listFindNoCase(memberTags, 18680) OR listFindNoCase(memberTags, 18684)>
+        <cfset groupResult = addContactToGroup(memberID, 18682)>
+        <cfset updateResult = updateContactField(memberID, "_HabitsSurveysComplete", "STANDALONE")>
+    </cfif>
+</cfif>
 
-                 <cfif listFindNoCase(memberTags,18680) OR listFindNoCase(memberTags,18684)>
+<!--- Step 5: Re-fetch contact to get updated tags --->
+<cfset myArray = [
+    "ContactService.findByEmail",
+    API_KEY,
+    URL.email,
+    ["Id", "Groups"]
+]>
 
-                    
-                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-                    <cfset myArray2 = ArrayNew(1)>
-                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                    <cfset myArray2[2]=key>
-                    <cfset myArray2[3]="(int)#memberID#">
-                    <cfset myArray2[4]="(int)18682">
-                
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray2#"
-                        returnvariable="myPackage2">
+<cfset finalContactResult = callKeapAPI(myArray)>
 
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
+<cfif finalContactResult.success AND arrayLen(finalContactResult.data.Params[1])>
+    <cfset updatedMemberTags = finalContactResult.data.Params[1][1]['Groups']>
 
-                    <cfset updateField = structNew()>
-                    <cfset updateField['_HabitsSurveysComplete']="STANDALONE">
-                    <cfset myArray = ArrayNew(1)>
-                    <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-                    <cfset myArray[2]=key>
-                    <cfset myArray[3]='(int)#memberID#'>
-                    <cfset myArray[4]=updateField>
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray#"
-                        returnvariable="myPackage4">
+    <!--- Scenario #1: If both tags 16874 and 16876 exist, add tag 16692 --->
+    <cfif listFindNoCase(updatedMemberTags, 16874) AND listFindNoCase(updatedMemberTags, 16876)>
+        <cfset groupResult = addContactToGroup(memberID, 16692)>
+    </cfif>
 
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                    </cfhttp>
+    <!--- Special case: Tag 24027 + specific survey (8344775) = Y in habits survey field AND tag 18682 --->
+    <cfif listFindNoCase(updatedMemberTags, 24027) AND structKeyExists(URL, "survey_id") AND URL.survey_id EQ 8344775>
+        <cfset groupResult = addContactToGroup(memberID, 18682)>
+        <cfset updateResult = updateContactField(memberID, "_HabitsSurveysComplete", "Y")>
+    </cfif>
+</cfif>
 
-                 </cfif>
-
-        </cfif>
-
-
-        
-        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-        <cfset selectedFieldsArray = ArrayNew(1)>
-        <cfset selectedFieldsArray[1] = "Id">
-        <cfset selectedFieldsArray[2] = "FirstName">
-        <cfset selectedFieldsArray[3] = "LastName">
-        <cfset selectedFieldsArray[4] = "_HabitsSurveysComplete">
-        <cfset selectedFieldsArray[5] = "_HWCTFeedbackSurveysComplete3">
-        <cfset selectedFieldsArray[6] = "Groups">
-        
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]=URL.email>
-        <cfset myArray[4]=selectedFieldsArray>
-
-        <cfinvoke component="utilities/XML-RPC"
-            method="CFML2XMLRPC"
-            data="#myArray#"
-            returnvariable="myPackage">
-
-            <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
-                <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                <cfhttpparam type="XML" value="#myPackage.Trim()#"/>
-            </cfhttp>
-
-        <cfinvoke component="utilities/XML-RPC"
-            method="XMLRPC2CFML"
-            data="#myResult1.Filecontent#"
-            returnvariable="theData">
-
-        <cfset memberTags =  theData.Params[1][1]['Groups']>
-
-        <cfif listFindNoCase(memberTags, 16874) AND listFindNoCase(memberTags, 16876)>
-
-                
-                <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-                <cfset myArray2 = ArrayNew(1)>
-                <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                <cfset myArray2[2]=key>
-                <cfset myArray2[3]="(int)#memberID#">
-                <cfset myArray2[4]="(int)16692">
-            
-                <cfinvoke component="utilities/XML-RPC"
-                    method="CFML2XMLRPC"
-                    data="#myArray2#"
-                    returnvariable="myPackage2">
-                
-                <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                    <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                    <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                </cfhttp>
-
-            </cfif>
-
-            <!--- Tag 24027 + ONE survey 8344775 = Y in habits survey field AND tag 18682. --->
-            <cfif listFindNoCase(memberTags,24027) AND (structKeyExists(URL, "survey_id") AND URL.survey_id EQ 8344775)>
-
-                    <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
-                    <cfset myArray2 = ArrayNew(1)>
-                    <cfset myArray2[1]="ContactService.addToGroup"><!---Service.method always first param--->
-                    <cfset myArray2[2]=key>
-                    <cfset myArray2[3]="(int)#memberID#">
-                    <cfset myArray2[4]="(int)18682">
-                
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray2#"
-                        returnvariable="myPackage2">
-
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult2">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage2.Trim()#"/>
-                    </cfhttp>
-
-                    <cfset updateField = structNew()>
-                    <cfset updateField['_HabitsSurveysComplete']="Y">
-                    <cfset myArray = ArrayNew(1)>
-                    <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-                    <cfset myArray[2]=key>
-                    <cfset myArray[3]='(int)#memberID#'>
-                    <cfset myArray[4]=updateField>
-                    <cfinvoke component="utilities/XML-RPC"
-                        method="CFML2XMLRPC"
-                        data="#myArray#"
-                        returnvariable="myPackage4">
-
-                    <cfhttp method="post" url="https://api.infusionsoft.com/crm/xmlrpc/v1/" result="myResult1">
-                        <cfhttpparam type="HEADER" name="X-Keap-API-Key" value="#key#"/>
-                        <cfhttpparam type="XML" value="#myPackage4.Trim()#"/>
-                    </cfhttp>
-
-                 </cfif>
-
-
-
-         <p>
-            Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
-            If not, please contact your Coach Concierge for assistance. Thank you!
-        </p>
-
-         
-
-
+<!--- Step 6: Display success message --->
+<p>
+    Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
+    If not, please contact your Coach Concierge for assistance. Thank you!
+</p>
