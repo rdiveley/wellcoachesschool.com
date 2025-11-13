@@ -109,9 +109,11 @@ if (isJSON(_payload)) {
         <cfset local.lastAttemptAt = structKeyExists(local.requestpayload.header, 'lastAttemptAt') ? local.requestpayload.header.lastAttemptAt : "">
 
         <!--- Check if this webhook record already exists to prevent duplicates --->
+        <!--- IMPORTANT: Add index for performance: CREATE NONCLUSTERED INDEX IX_webhook_duplicate
+              ON learnuponwebhook(webhookid, emailaddress, lastAttemptAt, examName) --->
         <cfquery name="local.checkDuplicate" datasource="#local.datasource#">
-            SELECT TOP 1 id
-            FROM [wellcoachesSchool].[dbo].[learnuponwebhook]
+            SELECT TOP 1 1 AS exists_flag
+            FROM [wellcoachesSchool].[dbo].[learnuponwebhook] WITH (NOLOCK)
             WHERE webhookid = <cfqueryparam value="#local.webhookId#" cfsqltype="cf_sql_integer">
             AND emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
             AND lastAttemptAt = <cfqueryparam value="#local.lastAttemptAt#" cfsqltype="CF_SQL_TIMESTAMP">
@@ -151,20 +153,26 @@ if (isJSON(_payload)) {
             </cfquery>
         </cfif>
 
-        <!--- Get Module 1 KA data count and average --->
+        <!--- Get Module 1 KA data count and average - OPTIMIZED VERSION --->
+        <!--- IMPORTANT: Add indexes for performance:
+              CREATE NONCLUSTERED INDEX IX_webhook_email_exam ON learnuponwebhook(emailaddress, examName, lastAttemptAt) INCLUDE (exampercentage)
+              CREATE NONCLUSTERED INDEX IX_webhook_examname ON learnuponwebhook(examName) WHERE examName LIKE 'Lesson Knowledge Assessment%' --->
         <cfquery name="local.get_ModOneKADataCount" datasource="#local.datasource#">
-            SELECT  COUNT(DISTINCT examName) as countRecord
-                    ,CAST(AVG(exampercentage) AS DECIMAL(10,2)) as average
-            FROM learnuponwebhook lwh
-            WHERE examName LIKE 'Lesson Knowledge Assessment%'
-            AND lastAttemptAt = (
-                SELECT MAX(lastAttemptAt)
-                FROM learnuponwebhook
-                WHERE examName = lwh.examName
-                AND emailaddress = lwh.emailaddress
+            WITH LatestAttempts AS (
+                SELECT
+                    examName,
+                    emailaddress,
+                    exampercentage,
+                    ROW_NUMBER() OVER (PARTITION BY examName, emailaddress ORDER BY lastAttemptAt DESC) AS rn
+                FROM [wellcoachesSchool].[dbo].[learnuponwebhook] WITH (NOLOCK)
+                WHERE emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                AND examName LIKE 'Lesson Knowledge Assessment%'
             )
-            AND emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
-            GROUP BY emailaddress
+            SELECT
+                COUNT(DISTINCT examName) as countRecord,
+                CAST(AVG(CAST(exampercentage AS DECIMAL(10,2))) AS DECIMAL(10,2)) as average
+            FROM LatestAttempts
+            WHERE rn = 1
         </cfquery>
 
         <cfcatch type="any">
@@ -217,9 +225,11 @@ if (isJSON(_payload)) {
 
     <!--- Process Habits course (courseId 4447857) --->
     <cfif local.courseId EQ 4447857>
+        <!--- IMPORTANT: Add index for performance: CREATE NONCLUSTERED INDEX IX_webhook_habits
+              ON learnuponwebhook(emailaddress, courseId, lastAttemptAt DESC) INCLUDE (exampercentage) --->
         <cfquery name="local.get_HabitKAScore" datasource="#local.datasource#">
             SELECT TOP 1 exampercentage
-            FROM learnuponwebhook lwh
+            FROM [wellcoachesSchool].[dbo].[learnuponwebhook] WITH (NOLOCK)
             WHERE emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
             AND courseId = <cfqueryparam value="4447857" cfsqltype="cf_sql_integer">
             ORDER BY lastAttemptAt DESC
