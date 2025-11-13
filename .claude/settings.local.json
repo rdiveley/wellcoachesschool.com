@@ -6,7 +6,9 @@
       "Bash(powershell:*)",
       "Bash(findstr:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nRestructure LearnUpon group tags to modern struct format and reverse order\n\n- Refactored createGroups.cfm from 150+ individual variables to single clean struct\n- Reversed group order: newest (1027429) at top, oldest (86550) at bottom for easier tracking\n- Optimized tag matching logic from O(n×m) to O(n) with early exit\n- Added URL encoding for email parameters in API calls\n- Improved error handling for existing users with retry logic\n- Added bidirectional sync: automatically removes users from groups when tags are deleted\n- Production ready with debug output removed\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nRestructure LearnUpon group tags to modern struct format and reverse order\n\n- Refactored createGroups.cfm from 150+ individual variables to single clean struct\n- Reversed group order: newest (1027429) at top, oldest (86550) at bottom for easier tracking\n- Optimized tag matching logic from O(n×m) to O(n) with early exit\n- Added URL encoding for email parameters in API calls\n- Improved error handling for existing users with retry logic\n- Added bidirectional sync: automatically removes users from groups when tags are deleted\n- Production ready with debug output removed\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []
