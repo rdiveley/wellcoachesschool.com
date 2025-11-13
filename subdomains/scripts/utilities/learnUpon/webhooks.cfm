@@ -1,223 +1,268 @@
 <cfscript>
-    local.datasource= 'wellcoachesschool';
-    local.insert = FALSE;
+// Configuration
+API_KEY = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e";
+CURL_PATH = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe";
+MAX_RETRIES = 3;
+RETRY_DELAY_MS = 1000;
+ERROR_EMAIL = "rdiveley@wellcoaches.com";
 
-    _payload = "{}";  
-    if (structKeyExists(URL,"payload")) {  
-        // Get payload from GET Request
-        _payload = URL.payload;
-    } else if (structKeyExists(FORM,"payload")) {
-        // Get payload from POST Request
-        _payload = FORM.payload;
-    } else {
-        // Get payload from the Body of the Request
-        _payload = getHttpRequestData().content;
+local.datasource = 'wellcoachesschool';
+local.insert = FALSE;
+
+// Helper function to log and email errors
+function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
+    try {
+        var emailBody = "
+            <h3>LearnUpon Webhook Error Report</h3>
+            <p><strong>File:</strong> webhooks.cfm</p>
+            <p><strong>Error Type:</strong> #errorType#</p>
+            <p><strong>User Email:</strong> #userEmail#</p>
+            <p><strong>Error Message:</strong> #errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorDetail#</p>
+            <p><strong>Timestamp:</strong> #now()#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        ";
+
+        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="LearnUpon Webhook Error", type="html") {
+            writeOutput(emailBody);
+        }
+    } catch (any e) {
+        // Silent fail - don't break the page if email fails
     }
+}
 
-    if(isJSON(_payload)){
-    // now turn our payload into a structure 
-        local.requestpayload = deserializeJSON(_payload);  
-        local.insert = TRUE;
-    }else{
-        local.requestpayload = {}; 
+// Helper function to call Keap API with retry logic
+function callKeapAPI(myArray, retryCount = 0) {
+    try {
+        var myPackage = "";
+        var myResult = "";
+
+        // Convert to XML-RPC format
+        invokeMethod = createObject("component", "utilities/XML-RPC");
+        myPackage = invokeMethod.CFML2XMLRPC(myArray);
+
+        // Make HTTP request
+        cfhttp(method="post", url="https://api.infusionsoft.com/crm/xmlrpc/v1/", result="myResult", timeout="30") {
+            cfhttpparam(type="HEADER", name="X-Keap-API-Key", value=API_KEY);
+            cfhttpparam(type="XML", value=myPackage.Trim());
+        }
+
+        // Check for HTTP errors
+        if (myResult.statusCode != "200 OK") {
+            throw(message="HTTP Error: #myResult.statusCode#", type="APIError");
+        }
+
+        // Parse response
+        var theData = invokeMethod.XMLRPC2CFML(myResult.Filecontent);
+        return { success: true, data: theData };
+
+    } catch (any e) {
+        // Retry logic
+        if (retryCount < MAX_RETRIES) {
+            sleep(RETRY_DELAY_MS);
+            return callKeapAPI(myArray, retryCount + 1);
+        } else {
+            return { success: false, error: e.message, detail: e.detail };
+        }
     }
+}
 
+// Get payload from request
+_payload = "{}";
+if (structKeyExists(URL, "payload")) {
+    _payload = URL.payload;
+} else if (structKeyExists(FORM, "payload")) {
+    _payload = FORM.payload;
+} else {
+    _payload = getHttpRequestData().content;
+}
+
+// Parse JSON payload
+if (isJSON(_payload)) {
+    local.requestpayload = deserializeJSON(_payload);
+    local.insert = TRUE;
+} else {
+    local.requestpayload = {};
+}
 </cfscript>
 
-<!---
-<cfset local.requestpayload.user.email = 'rdiveley@gmail.com' />
-<cfset local.requestpayload.courseName = 'Core Coach Training: Module 2' />
-<cfset local.requestpayload.percentage = '98' />
-<cfset local.requestpayload.header.webhookId = '6498208' />
-<cfparam name="local.requestpayload.header.webhookType" default="exam_completion" />
-<cfset local.requestpayload.examName = 'a. Organize Your Mind Assessment' />
-<cfset local.requestpayload.passPercentage = '80' />
-<cfset local.requestpayload.courseid = '416952' />
-<cfset local.requestpayload.attemptstaken = '1' />
-<cfset local.requestpayload.status = 'pass' />
-<cfset local.requestpayload.header.lastAttemptAt = '2023' />
+<!--- Process webhook if valid JSON and matches criteria --->
+<cfif local.insert
+    AND structKeyExists(local.requestpayload, 'header')
+    AND structKeyExists(local.requestpayload.header, 'webhookType')
+    AND findNoCase('exam_completion', local.requestpayload.header.webhookType)
+    AND structKeyExists(local.requestpayload, 'courseName')
+    AND findNoCase('Module 1', local.requestpayload.courseName)>
 
-<cfparam name="local.requestpayload.user.email" default="" />
-<cfparam name="local.requestpayload.courseName" default="" />
-<cfparam name="local.requestpayload.percentage" default="" />
-<cfparam name="local.requestpayload.header.webhookId" default="" />
-<cfparam name="local.requestpayload.header.webhookType" default="" />
-<cfparam name="local.requestpayload.examName" default="" />
-<cfparam name="local.requestpayload.passPercentage" default="" />
-<cfparam name="local.requestpayload.courseid" default=""/>
-<cfparam name="local.requestpayload.attemptstaken" default="" />
-<cfparam name="local.requestpayload.status" default="" />
-<cfparam name="local.requestpayload.header.lastAttemptAt" default="" />
-<cfif local.insert 
-    AND findNoCase('exam_completion', local.requestpayload.header.webhookType) 
-    AND findNoCase('Module 1', local.requestpayload.courseName)>
---->
-<cfif local.insert 
-    AND findNoCase('exam_completion', local.requestpayload.header.webhookType) 
-    AND findNoCase('Module 1', local.requestpayload.courseName)>
     <cftry>
-        <cfquery name="local.insertLU" datasource="#local.datasource#">
-            insert into [wellcoachesSchool].[dbo].[learnuponwebhook]
-            (   emailaddress
-                ,coursename
-                ,courseId
-                ,exampercentage
-                ,webhookid
-                ,webhooktype
-                ,examName
-                ,passPercentage
-                ,attemptsTaken
-                ,examstatus
-                ,lastAttemptAt
-            )
-            values
-            (
-                <cfqueryparam value="#local.requestpayload.user.email#" cfsqltype="cf_sql_varchar">
-                ,<cfqueryparam value="#local.requestpayload.courseName#" cfsqltype="cf_sql_varchar">
-                ,<cfqueryparam value="#local.requestpayload.courseId#" cfsqltype="cf_sql_integer">
-                ,<cfqueryparam value="#local.requestpayload.percentage#" cfsqltype="cf_sql_integer">
-                ,<cfqueryparam value="#local.requestpayload.header.webhookId#" cfsqltype="cf_sql_integer">
-                ,<cfqueryparam value="#local.requestpayload.header.webHookType#" cfsqltype="cf_sql_varchar">
-                ,<cfqueryparam value="#local.requestpayload.examName#" cfsqltype="cf_sql_varchar">
-                ,<cfqueryparam value="#local.requestpayload.passPercentage#" cfsqltype="cf_sql_integer">
-                ,<cfqueryparam value="#local.requestpayload.attemptsTaken#" cfsqltype="cf_sql_integer">
-                ,<cfqueryparam value="#local.requestpayload.status#" cfsqltype="cf_sql_varchar">
-                ,<cfqueryparam value="#local.requestpayload.header.lastAttemptAt#" cfsqltype="CF_SQL_TIMESTAMP">
-            )
+        <!--- Extract values with defaults --->
+        <cfset local.email = structKeyExists(local.requestpayload, 'user') AND structKeyExists(local.requestpayload.user, 'email') ? local.requestpayload.user.email : "">
+        <cfset local.courseName = structKeyExists(local.requestpayload, 'courseName') ? local.requestpayload.courseName : "">
+        <cfset local.courseId = structKeyExists(local.requestpayload, 'courseId') ? local.requestpayload.courseId : 0>
+        <cfset local.percentage = structKeyExists(local.requestpayload, 'percentage') ? local.requestpayload.percentage : 0>
+        <cfset local.webhookId = structKeyExists(local.requestpayload.header, 'webhookId') ? local.requestpayload.header.webhookId : 0>
+        <cfset local.webhookType = structKeyExists(local.requestpayload.header, 'webhookType') ? local.requestpayload.header.webhookType : "">
+        <cfset local.examName = structKeyExists(local.requestpayload, 'examName') ? local.requestpayload.examName : "">
+        <cfset local.passPercentage = structKeyExists(local.requestpayload, 'passPercentage') ? local.requestpayload.passPercentage : 0>
+        <cfset local.attemptsTaken = structKeyExists(local.requestpayload, 'attemptsTaken') ? local.requestpayload.attemptsTaken : 0>
+        <cfset local.status = structKeyExists(local.requestpayload, 'status') ? local.requestpayload.status : "">
+        <cfset local.lastAttemptAt = structKeyExists(local.requestpayload.header, 'lastAttemptAt') ? local.requestpayload.header.lastAttemptAt : "">
+
+        <!--- Check if this webhook record already exists to prevent duplicates --->
+        <cfquery name="local.checkDuplicate" datasource="#local.datasource#">
+            SELECT TOP 1 id
+            FROM [wellcoachesSchool].[dbo].[learnuponwebhook]
+            WHERE webhookid = <cfqueryparam value="#local.webhookId#" cfsqltype="cf_sql_integer">
+            AND emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+            AND lastAttemptAt = <cfqueryparam value="#local.lastAttemptAt#" cfsqltype="CF_SQL_TIMESTAMP">
+            AND examName = <cfqueryparam value="#local.examName#" cfsqltype="cf_sql_varchar">
         </cfquery>
 
+        <!--- Only insert if this is a new record --->
+        <cfif local.checkDuplicate.recordCount EQ 0>
+            <cfquery name="local.insertLU" datasource="#local.datasource#">
+                INSERT INTO [wellcoachesSchool].[dbo].[learnuponwebhook]
+                (   emailaddress
+                    ,coursename
+                    ,courseId
+                    ,exampercentage
+                    ,webhookid
+                    ,webhooktype
+                    ,examName
+                    ,passPercentage
+                    ,attemptsTaken
+                    ,examstatus
+                    ,lastAttemptAt
+                )
+                VALUES
+                (
+                    <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+                    ,<cfqueryparam value="#local.courseName#" cfsqltype="cf_sql_varchar">
+                    ,<cfqueryparam value="#local.courseId#" cfsqltype="cf_sql_integer">
+                    ,<cfqueryparam value="#local.percentage#" cfsqltype="cf_sql_integer">
+                    ,<cfqueryparam value="#local.webhookId#" cfsqltype="cf_sql_integer">
+                    ,<cfqueryparam value="#local.webhookType#" cfsqltype="cf_sql_varchar">
+                    ,<cfqueryparam value="#local.examName#" cfsqltype="cf_sql_varchar">
+                    ,<cfqueryparam value="#local.passPercentage#" cfsqltype="cf_sql_integer">
+                    ,<cfqueryparam value="#local.attemptsTaken#" cfsqltype="cf_sql_integer">
+                    ,<cfqueryparam value="#local.status#" cfsqltype="cf_sql_varchar">
+                    ,<cfqueryparam value="#local.lastAttemptAt#" cfsqltype="CF_SQL_TIMESTAMP">
+                )
+            </cfquery>
+        </cfif>
+
+        <!--- Get Module 1 KA data count and average --->
         <cfquery name="local.get_ModOneKADataCount" datasource="#local.datasource#">
-            SELECT  COUNT(distinct examName) as countRecord
-                    ,CAST(AVG(exampercentage) as decimal(10,2)) as average
+            SELECT  COUNT(DISTINCT examName) as countRecord
+                    ,CAST(AVG(exampercentage) AS DECIMAL(10,2)) as average
             FROM learnuponwebhook lwh
-            where examName like 'Lesson Knowledge Assessment%'
-            AND lastAttemptAt = (SELECT MAX(lastAttemptAt) from learnuponwebhook where examName = lwh.examName AND emailaddress = lwh.emailaddress )    
-            AND emailaddress = <cfqueryparam value="#local.requestpayload.user.email#" cfsqltype="cf_sql_varchar">
+            WHERE examName LIKE 'Lesson Knowledge Assessment%'
+            AND lastAttemptAt = (
+                SELECT MAX(lastAttemptAt)
+                FROM learnuponwebhook
+                WHERE examName = lwh.examName
+                AND emailaddress = lwh.emailaddress
+            )
+            AND emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
             GROUP BY emailaddress
-        </cfquery> 
+        </cfquery>
 
         <cfcatch type="any">
-            <cfmail to="rdiveley@wellcoaches.com" subject="LearnUpon webhooks" from="wellcoaches@wellcoaches.com" type="html">
-                        <table>
-                            <tr>
-                                <td><cfdump var="#cfcatch#" format="html"></td>
-                            </tr>
-                            
-                            <tr>
-                                <td><cfdump var="#url#" format="html"></td>
-                            </tr>
-                        </table>
-                    </cfmail>   
+            <cfscript>
+                logAndEmailError("Database Error", cfcatch.message, cfcatch.detail, local.email);
+            </cfscript>
         </cfcatch>
     </cftry>
 
-    <cfif local.get_ModOneKADataCount.countRecord GTE 4>
-        
-        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
+    <!--- Update Keap if 4+ assessments completed --->
+    <cfif structKeyExists(local, 'get_ModOneKADataCount') AND local.get_ModOneKADataCount.recordCount GT 0 AND local.get_ModOneKADataCount.countRecord GTE 4>
 
-        <cfset selectedFieldsArray = ArrayNew(1)>
-        <cfset selectedFieldsArray[1] = "Id">
-        <cfset selectedFieldsArray[2] = "FirstName">
-        <cfset selectedFieldsArray[3] = "LastName">
+        <!--- Find contact by email --->
+        <cfset myArray = [
+            "ContactService.findByEmail",
+            API_KEY,
+            local.email,
+            ["Id", "FirstName", "LastName"]
+        ]>
 
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='#local.requestpayload.user.email#'>
-        <cfset myArray[4]=selectedFieldsArray>
+        <cfset contactResult = callKeapAPI(myArray)>
 
-        <cfinvoke component="utilities/XML-RPC"  
-            method="CFML2XMLRPC" 
-            data="#myArray#" 
-            returnvariable="myPackage">
+        <cfif contactResult.success AND structKeyExists(contactResult.data, 'params') AND arrayLen(contactResult.data.params[1]) GT 0>
+            <cfset memberID = contactResult.data.params[1][1]['Id']>
 
-        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
-            variable="myResult"
-            timeout = "200">
-        </cfexecute>
+            <!--- Update Mod1KAData field --->
+            <cfset updateField = {}>
+            <cfset updateField['_Mod1KAData'] = int(local.get_ModOneKADataCount.average)>
 
-        <cfinvoke component="utilities/XML-RPC" 
-            method="XMLRPC2CFML"  
-            data="#myResult#"  
-            returnvariable="theData">
+            <cfset myArray = [
+                "ContactService.update",
+                API_KEY,
+                "(int)#memberID#",
+                updateField
+            ]>
 
-        <cfset memberID = theData['params'][1][1]['Id'] />
+            <cfset updateResult = callKeapAPI(myArray)>
 
-        <!--- start updating LU --->
-        <cfset updateField['_Mod1KAData']= int(local.get_ModOneKADataCount.average) />
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='(int)#memberID#'>
-        <cfset myArray[4]=updateField>
-
-        <cfinvoke component="utilities/XML-RPC"  method="CFML2XMLRPC"  data="#myArray#" returnvariable="myPackage4">
-
-        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
-            variable="result"
-            timeout = "200">
-        </cfexecute>
+            <cfif !updateResult.success>
+                <cfscript>
+                    logAndEmailError("Keap Update Error", "Failed to update Mod1KAData", updateResult.error, local.email);
+                </cfscript>
+            </cfif>
+        <cfelse>
+            <cfscript>
+                logAndEmailError("Contact Not Found", "Could not find contact in Keap", contactResult.error, local.email);
+            </cfscript>
+        </cfif>
     </cfif>
 
-    <cfif local.requestpayload.courseid EQ '4447857'>
+    <!--- Process Habits course (courseId 4447857) --->
+    <cfif local.courseId EQ 4447857>
         <cfquery name="local.get_HabitKAScore" datasource="#local.datasource#">
             SELECT TOP 1 exampercentage
             FROM learnuponwebhook lwh
-            where emailaddress = <cfqueryparam value="#local.requestpayload.user.email#" cfsqltype="cf_sql_varchar">
-            and courseId = <cfqueryparam value="4447857" cfsqltype="cf_sql_integer">
-            ORDER BY lastAttemptAt DESC;
-          
-        </cfquery> 
+            WHERE emailaddress = <cfqueryparam value="#local.email#" cfsqltype="cf_sql_varchar">
+            AND courseId = <cfqueryparam value="4447857" cfsqltype="cf_sql_integer">
+            ORDER BY lastAttemptAt DESC
+        </cfquery>
 
-        <cfset key = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e" />
+        <cfif local.get_HabitKAScore.recordCount GT 0>
+            <!--- Find contact by email --->
+            <cfset myArray = [
+                "ContactService.findByEmail",
+                API_KEY,
+                local.email,
+                ["Id", "FirstName", "LastName"]
+            ]>
 
-        <cfset selectedFieldsArray = ArrayNew(1)>
-        <cfset selectedFieldsArray[1] = "Id">
-        <cfset selectedFieldsArray[2] = "FirstName">
-        <cfset selectedFieldsArray[3] = "LastName">
+            <cfset contactResult = callKeapAPI(myArray)>
 
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.findByEmail"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='#local.requestpayload.user.email#'>
-        <cfset myArray[4]=selectedFieldsArray>
+            <cfif contactResult.success AND structKeyExists(contactResult.data, 'params') AND arrayLen(contactResult.data.params[1]) GT 0>
+                <cfset memberID = contactResult.data.params[1][1]['Id']>
 
-        <cfinvoke component="utilities/XML-RPC"  
-            method="CFML2XMLRPC" 
-            data="#myArray#" 
-            returnvariable="myPackage">
+                <!--- Update HabitsKAData field --->
+                <cfset updateField = {}>
+                <cfset updateField['_HabitsKAData'] = int(local.get_HabitKAScore.exampercentage)>
 
-        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage.Trim()#'
-            variable="myResult"
-            timeout = "200">
-        </cfexecute>
+                <cfset myArray = [
+                    "ContactService.update",
+                    API_KEY,
+                    "(int)#memberID#",
+                    updateField
+                ]>
 
-        <cfinvoke component="utilities/XML-RPC" 
-            method="XMLRPC2CFML"  
-            data="#myResult#"  
-            returnvariable="theData">
+                <cfset updateResult = callKeapAPI(myArray)>
 
-        <cfset memberID = theData['params'][1][1]['Id'] />
-
-        <!--- start updating LU --->
-        <cfset updateField['_HabitsKAData']= int(local.get_HabitKAScore.exampercentage) />
-        <cfset myArray = ArrayNew(1)>
-        <cfset myArray[1]="ContactService.update"><!---Service.method always first param--->
-        <cfset myArray[2]=key>
-        <cfset myArray[3]='(int)#memberID#'>
-        <cfset myArray[4]=updateField>
-
-        <cfinvoke component="utilities/XML-RPC"  method="CFML2XMLRPC"  data="#myArray#" returnvariable="myPackage4">
-
-        <cfexecute name = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\learnUpon\curl7_76_1\bin\curl.exe"
-            arguments = '-X POST https://api.infusionsoft.com/crm/xmlrpc/ -H "X-Keap-API-Key: #key#" -H "Content-Type: application/xml" -H "Accept: application/xml" -d #myPackage4.Trim()#'
-            variable="result"
-            timeout = "200">
-        </cfexecute>
-        
+                <cfif !updateResult.success>
+                    <cfscript>
+                        logAndEmailError("Keap Update Error", "Failed to update HabitsKAData", updateResult.error, local.email);
+                    </cfscript>
+                </cfif>
+            <cfelse>
+                <cfscript>
+                    logAndEmailError("Contact Not Found", "Could not find contact in Keap for Habits", contactResult.error, local.email);
+                </cfscript>
+            </cfif>
+        </cfif>
     </cfif>
 
-</cfif> 
+</cfif>
