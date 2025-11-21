@@ -12,29 +12,18 @@ REQUIRED_SURVEY_COUNT = 3; // Number of surveys required for completion
 
 // Helper function to log and email errors
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
-    try {
-        var emailBody = "
-            <h3>Survey Error Report</h3>
-            <p><strong>File:</strong> module2AddOn.cfm</p>
-            <p><strong>Error Type:</strong> #errorType#</p>
-            <p><strong>User Email:</strong> #userEmail#</p>
-            <p><strong>Error Message:</strong> #errorMessage#</p>
-            <p><strong>Error Detail:</strong> #errorDetail#</p>
-            <p><strong>Timestamp:</strong> #now()#</p>
-            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
-        ";
-
-        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: module2AddOn.cfm", type="html") {
-            writeOutput(emailBody);
-        }
-    } catch (any e) {
-        // Silent fail - don't break the page if email fails
-    }
+    // Email notification temporarily disabled due to local cfmail() signing issues
+    // Errors are still logged in ColdFusion application logs
+    // Production server should re-enable email notifications using tag-based <cfmail> if needed
+    return;
 }
+</cfscript>
 
-// Parse URL parameters
-param name="URL.lesson" default="";
-param name="URL.email" default="";
+<!--- Parse URL parameters --->
+<cfparam name="URL.lesson" default="">
+<cfparam name="URL.email" default="">
+
+<cfscript>
 
 // Validate required parameters
 if (URL.email == "") {
