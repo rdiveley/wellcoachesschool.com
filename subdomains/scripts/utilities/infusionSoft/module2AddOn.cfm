@@ -1,7 +1,6 @@
 <cfscript>
 // Configuration
-API_KEY = "fb7d1fc8a4aab143f6246c090a135a41";
-API_URL = "https://my982.infusionsoft.com/api/xmlrpc";
+API_KEY = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e";
 MAX_RETRIES = 3;
 RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
@@ -62,7 +61,8 @@ function callInfusionsoftAPI(myArray, retryCount = 0) {
         myPackage = invokeMethod.CFML2XMLRPC(myArray);
 
         // Make HTTP request
-        cfhttp(method="post", url=API_URL, result="myResult", timeout="30") {
+        cfhttp(method="post", url="https://api.infusionsoft.com/crm/xmlrpc/v1/", result="myResult", timeout="30") {
+            cfhttpparam(type="HEADER", name="X-Keap-API-Key", value=API_KEY);
             cfhttpparam(type="XML", value=myPackage.Trim());
         }
 
