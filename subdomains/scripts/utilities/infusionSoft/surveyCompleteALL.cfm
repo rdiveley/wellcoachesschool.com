@@ -6,6 +6,7 @@ CURL_PATH = "C:\websites\wellcoachesschool.com\subdomains\scripts\utilities\lear
 MAX_RETRIES = 3;
 RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
+SURVEY_ID = "1013764"; // Feedback survey ID
 
 // Helper function to log and email errors
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
@@ -27,28 +28,6 @@ function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
     } catch (any e) {
         // Silent fail - don't break the page if email fails
     }
-}
-
-// Parse email parameter from URL
-local.email = "";
-if (structKeyExists(url, 'email')) {
-    local.email = trim(url.email);
-} else if (structKeyExists(url, 'emailForm')) {
-    local.email = trim(url.emailForm);
-}
-
-// Validate email parameter
-if (local.email == "") {
-    logAndEmailError("Missing Email", "No email parameter provided", "", "N/A");
-    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
-    abort;
-}
-
-// Basic email validation
-if (!isValid("email", local.email)) {
-    logAndEmailError("Invalid Email Format", "Invalid email format", "Email provided: #local.email#", local.email);
-    writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
-    abort;
 }
 
 // Helper function to call Keap API with retry logic
@@ -111,57 +90,40 @@ function updateContactField(memberID, fieldName, fieldValue) {
     ];
     return callKeapAPI(myArray);
 }
+
+// Helper function to clean survey list - extracts numbers, removes zeros, deduplicates
+function cleanFeedbackSurveyList(surveyList) {
+    var cleanList = rematch("[\d]+", surveyList);
+
+    // Remove zeros if found
+    var zeroIndex = arrayFind(cleanList, "0");
+    if (zeroIndex) {
+        arrayDeleteAt(cleanList, zeroIndex);
+    }
+
+    // Convert to list and remove duplicates
+    var listVersion = arrayToList(cleanList, "^");
+    return listRemoveDuplicates(listVersion, "^");
+}
 </cfscript>
 
-<!--- Step 1: Find contact by email --->
-<cfset selectedFieldsArray = ["Id", "FirstName", "LastName", "_HWCTFeedbackSurveysComplete3", "_HabitsSurveysComplete", "Groups"]>
-<cfset myArray = [
-    "ContactService.findByEmail",
-    API_KEY,
-    local.email,
-    selectedFieldsArray
-]>
-
-<cfset contactResult = callKeapAPI(myArray)>
-
-<cfif !contactResult.success>
-    <cfscript>
-        logAndEmailError("API Error", "Failed to retrieve contact", contactResult.error, local.email);
-    </cfscript>
-    <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
-    <cfabort>
-</cfif>
-
-<cfif !ArrayLen(contactResult.data.Params[1])>
-    <cfscript>
-        logAndEmailError("Contact Not Found", "No user with email address in records", "", local.email);
-    </cfscript>
-    <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
-    <cfabort>
-</cfif>
-
-<cfset memberID = contactResult.data.Params[1][1]['Id']>
-<cfset memberTags = contactResult.data.Params[1][1]['Groups']>
-<cfset currentHabitsSurveys = structKeyExists(contactResult.data.Params[1][1], '_HabitsSurveysComplete') ? contactResult.data.Params[1][1]['_HabitsSurveysComplete'] : "">
-
-<!--- Step 2: Fetch feedback survey responses from SurveyGizmo --->
-<cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/1013764/surveyresponse">
-<cfset emailParam = "[question(50)]">
-<cfset local.params = "filter[field][0]=#urlEncodedFormat(emailParam)#&filter[operator][0]=in&filter[value][0]=#trim(urlEncodedFormat(local.email))#&filter[field][1]=status&filter[operator][1]==&filter[value][1]=complete&resultsperpage=500">
+<!--- Step 1: Fetch ALL feedback survey responses from SurveyGizmo --->
+<cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/#SURVEY_ID#/surveyresponse">
+<cfset local.params = "filter[field][0]=status&filter[operator][0]==&filter[value][0]=complete&resultsperpage=500">
 
 <cftry>
     <cfexecute name="#CURL_PATH#"
         arguments='-G -k #SGurl#?api_token=b372e5a8eef26991d36bbebb354d285defb60f913b0f645aca -d #local.params#'
         variable="local.myResult"
-        timeout="30">
+        timeout="60">
     </cfexecute>
 
     <!--- Validate we got a response --->
     <cfif !isDefined("local.myResult") OR trim(local.myResult) EQ "">
         <cfscript>
-            logAndEmailError("SurveyGizmo Error", "No response from survey service", "", local.email);
+            logAndEmailError("SurveyGizmo Error", "No response from survey service", "", "System");
         </cfscript>
-        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+        <p>Error: Unable to fetch survey data.</p>
         <cfabort>
     </cfif>
 
@@ -170,82 +132,162 @@ function updateContactField(memberID, fieldName, fieldValue) {
     <!--- Validate JSON structure --->
     <cfif !structKeyExists(jsonData, "data") OR !isArray(jsonData.data)>
         <cfscript>
-            logAndEmailError("SurveyGizmo Error", "Invalid survey data format", "Response: #left(local.myResult, 500)#", local.email);
+            logAndEmailError("SurveyGizmo Error", "Invalid survey data format", "Response: #left(local.myResult, 500)#", "System");
         </cfscript>
-        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+        <p>Error: Invalid survey data format.</p>
         <cfabort>
     </cfif>
 
     <cfcatch>
         <cfscript>
-            logAndEmailError("SurveyGizmo Error", cfcatch.message, cfcatch.detail, local.email);
+            logAndEmailError("SurveyGizmo Error", cfcatch.message, cfcatch.detail, "System");
         </cfscript>
-        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
+        <p>Error fetching surveys: #cfcatch.message#</p>
         <cfabort>
     </cfcatch>
 </cftry>
 
-<!--- Step 3: Process survey data --->
-<cfset local.surveyList = "">
-<cfloop array="#jsonData.data#" index="local.field">
-    <cfset local.updateList = arrayToList(rematch("[\d]+", local.field['[question(8)]']))>
-    <cfset local.surveyList = listAppend(local.surveyList, local.updateList)>
+<!--- Step 2: Group survey responses by email --->
+<cfset local.emailSurveyMap = {}>
+<cfset local.processedCount = 0>
+<cfset local.errorCount = 0>
+
+<cfloop array="#jsonData.data#" index="local.response">
+    <cftry>
+        <!--- Extract email from question 50 --->
+        <cfset local.email = "">
+        <cfif structKeyExists(local.response, "[question(50)]")>
+            <cfset local.email = trim(local.response["[question(50)]"])>
+        </cfif>
+
+        <!--- Skip if no valid email --->
+        <cfif local.email EQ "" OR !isValid("email", local.email)>
+            <cfcontinue>
+        </cfif>
+
+        <!--- Extract lesson numbers from question 8 --->
+        <cfset local.lessonNumbers = "">
+        <cfif structKeyExists(local.response, "[question(8)]")>
+            <cfset local.lessonNumbers = local.response["[question(8)]"]>
+        </cfif>
+
+        <!--- Initialize email entry if not exists --->
+        <cfif !structKeyExists(local.emailSurveyMap, local.email)>
+            <cfset local.emailSurveyMap[local.email] = "">
+        </cfif>
+
+        <!--- Append lesson numbers to this email's survey list --->
+        <cfset local.emailSurveyMap[local.email] = listAppend(local.emailSurveyMap[local.email], local.lessonNumbers)>
+
+        <cfcatch>
+            <cfset local.errorCount++>
+        </cfcatch>
+    </cftry>
 </cfloop>
 
-<cfset local.surveyList = listChangeDelims(listRemoveDuplicates(local.surveyList), "^")>
-<cfset local.surveyCount = listLen(local.surveyList, "^")>
+<p><strong>Processing #structCount(local.emailSurveyMap)# unique email addresses...</strong></p>
 
-<!--- Step 4: Process completion scenarios (18+ surveys) --->
-<cfif local.surveyCount GTE 18>
-    <!--- Mark as complete --->
-    <cfset updateResult = updateContactField(memberID, "_HWCTFeedbackSurveysComplete3", "Y")>
+<!--- Step 3: Process each unique email --->
+<cfloop collection="#local.emailSurveyMap#" item="local.email">
+    <cftry>
+        <!--- Find contact by email --->
+        <cfset selectedFieldsArray = ["Id", "FirstName", "LastName", "_HWCTFeedbackSurveysComplete3", "_HabitsSurveysComplete", "Groups"]>
+        <cfset myArray = [
+            "ContactService.findByEmail",
+            API_KEY,
+            local.email,
+            selectedFieldsArray
+        ]>
 
-    <!--- Add to feedback completion group 16874 --->
-    <cfset groupResult = addContactToGroup(memberID, 16874)>
+        <cfset contactResult = callKeapAPI(myArray)>
 
-    <!--- If habits surveys are also complete, add to group 16692 --->
-    <cfif currentHabitsSurveys EQ 'Y'>
-        <cfset groupResult = addContactToGroup(memberID, 16692)>
-    </cfif>
+        <cfif !contactResult.success OR !ArrayLen(contactResult.data.Params[1])>
+            <cfscript>
+                logAndEmailError("Contact Not Found", "No user with email in records", "", local.email);
+            </cfscript>
+            <cfset local.errorCount++>
+            <cfcontinue>
+        </cfif>
 
-    <!--- Check for Module 3 invitation eligibility --->
-    <!--- IF 9781 [Core 18-Week Teleclass [Jul2018 Fwd]], 9531, and 9553 are in place --->
-    <!--- THEN 9557 can be applied [Core Jul2018 Mod 1 Lesson Surveys Complete] --->
-    <cfset local.hasInviteToMod3 = listFindNoCase(memberTags, 9781)
-                                    AND listFindNoCase(memberTags, 9531)
-                                    AND listFindNoCase(memberTags, 9553)>
+        <cfset memberID = contactResult.data.Params[1][1]['Id']>
+        <cfset memberTags = contactResult.data.Params[1][1]['Groups']>
+        <cfset currentFeedbackSurveys = structKeyExists(contactResult.data.Params[1][1], '_HWCTFeedbackSurveysComplete3') ? contactResult.data.Params[1][1]['_HWCTFeedbackSurveysComplete3'] : "">
+        <cfset currentHabitsSurveys = structKeyExists(contactResult.data.Params[1][1], '_HabitsSurveysComplete') ? contactResult.data.Params[1][1]['_HabitsSurveysComplete'] : "">
 
-    <cfif local.hasInviteToMod3>
-        <cfset groupResult = addContactToGroup(memberID, 9557)>
-    </cfif>
+        <!--- Skip if already marked complete --->
+        <cfif currentFeedbackSurveys EQ "Y">
+            <cfset local.processedCount++>
+            <cfcontinue>
+        </cfif>
 
-<cfelse>
-    <!--- Update with the survey list (not yet complete) --->
-    <cfset updateResult = updateContactField(memberID, "_HWCTFeedbackSurveysComplete3", local.surveyList)>
+        <!--- Clean and deduplicate the survey list --->
+        <cfset local.surveyList = cleanFeedbackSurveyList(local.emailSurveyMap[local.email])>
+        <cfset local.surveyCount = listLen(local.surveyList, "^")>
 
-    <cfif !updateResult.success>
-        <cfscript>
-            logAndEmailError("Update Error", "Could not update feedback survey field", updateResult.error, local.email);
-        </cfscript>
-    </cfif>
-</cfif>
+        <!--- Check if 18+ surveys complete --->
+        <cfif local.surveyCount GTE 18>
+            <!--- Mark as complete --->
+            <cfset updateResult = updateContactField(memberID, "_HWCTFeedbackSurveysComplete3", "Y")>
 
-<!--- Step 5: Check if all surveys are completed --->
-<cftry>
-    <cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#">
-    <cfcatch>
-        <cfscript>
-            logAndEmailError("Module Error", "allSurveysCompleted.cfm failed", cfcatch.message, local.email);
-        </cfscript>
-    </cfcatch>
-</cftry>
+            <!--- Add to feedback completion group 16874 --->
+            <cfset groupResult = addContactToGroup(memberID, 16874)>
 
-<!--- Step 6: Display success message --->
-<p>
-    Thank you! Please check the Completed Surveys page (under the Feedback Surveys menu at your CustomerHub home) within 10-15 minutes to verify that the survey has been saved and uploaded to your file. If not, please contact your Coach Concierge for assistance.
-</p>
-<p>
-    <font color="##ff0000">IMPORTANT: If you are going to complete another survey for a different lesson, DO NOT click the back button. Please exit this survey and click the survey link again to start a new survey. If you do not follow these instructions, you will override your survey entry and it will not be recorded.</font>
-</p>
+            <!--- If habits surveys are also complete, add to group 16692 --->
+            <cfif currentHabitsSurveys EQ 'Y'>
+                <cfset groupResult = addContactToGroup(memberID, 16692)>
+            </cfif>
+
+            <!--- Check for Module 3 invitation eligibility --->
+            <cfset local.hasInviteToMod3 = listFindNoCase(memberTags, 9781)
+                                            AND listFindNoCase(memberTags, 9531)
+                                            AND listFindNoCase(memberTags, 9553)>
+
+            <cfif local.hasInviteToMod3>
+                <cfset groupResult = addContactToGroup(memberID, 9557)>
+            </cfif>
+
+            <cfoutput><p style="color: green;">✓ Completed: #local.email# (#local.surveyCount# surveys)</p></cfoutput>
+
+        <cfelse>
+            <!--- Update with the survey list (not yet complete) --->
+            <cfset updateResult = updateContactField(memberID, "_HWCTFeedbackSurveysComplete3", local.surveyList)>
+
+            <cfif !updateResult.success>
+                <cfscript>
+                    logAndEmailError("Update Error", "Could not update feedback survey field", updateResult.error, local.email);
+                </cfscript>
+                <cfset local.errorCount++>
+            <cfelse>
+                <cfoutput><p>Updated: #local.email# (#local.surveyCount# surveys)</p></cfoutput>
+            </cfif>
+        </cfif>
+
+        <!--- Call allSurveysCompleted module --->
+        <cftry>
+            <cfmodule template="allSurveysCompleted.cfm" memberID="#memberID#">
+            <cfcatch>
+                <cfscript>
+                    logAndEmailError("Module Error", "allSurveysCompleted.cfm failed", cfcatch.message, local.email);
+                </cfscript>
+            </cfcatch>
+        </cftry>
+
+        <cfset local.processedCount++>
+
+        <cfcatch>
+            <cfscript>
+                logAndEmailError("Processing Error", "Error processing contact", cfcatch.message, local.email);
+            </cfscript>
+            <cfset local.errorCount++>
+        </cfcatch>
+    </cftry>
+</cfloop>
+
+<!--- Step 4: Display summary --->
+<hr>
+<p><strong>Processing Complete!</strong></p>
+<p>Total survey responses fetched: #arrayLen(jsonData.data)#</p>
+<p>Unique emails processed: #local.processedCount#</p>
+<p>Errors encountered: #local.errorCount#</p>
 
 </cfoutput>
