@@ -13,26 +13,20 @@ MAX_RETRIES = 3;
 RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
 
-// Helper function to log and email errors
+// Helper function to log errors (email sent via tag at end of file)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
-    try {
-        var emailBody = "
-            <h3>Survey Error Report</h3>
-            <p><strong>File:</strong> habitsSurvey.cfm</p>
-            <p><strong>Error Type:</strong> #errorType#</p>
-            <p><strong>User Email:</strong> #userEmail#</p>
-            <p><strong>Error Message:</strong> #errorMessage#</p>
-            <p><strong>Error Detail:</strong> #errorDetail#</p>
-            <p><strong>Timestamp:</strong> #now()#</p>
-            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
-        ";
-
-        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: habitsSurvey.cfm", type="html") {
-            writeOutput(emailBody);
-        }
-    } catch (any e) {
-        // Silent fail - don't break the page if email fails
+    // Store error info in request scope for email sending later
+    if (!structKeyExists(request, "surveyErrors")) {
+        request.surveyErrors = [];
     }
+
+    arrayAppend(request.surveyErrors, {
+        errorType: errorType,
+        errorMessage: errorMessage,
+        errorDetail: errorDetail,
+        userEmail: userEmail,
+        timestamp: now()
+    });
 }
 
 // Parse URL parameters
@@ -41,14 +35,12 @@ param name="URL.email" default="";
 
 // Validate required parameters
 if (URL.email == "") {
-    logAndEmailError("Missing Email", "No email parameter provided", "", "N/A");
     writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
     abort;
 }
 
 // Basic email validation
 if (!isValid("email", URL.email)) {
-    logAndEmailError("Invalid Email Format", "Invalid email format", "Email provided: #URL.email#", URL.email);
     writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
     abort;
 }
@@ -119,9 +111,12 @@ function cleanSurveyList(surveyList) {
     // Create a struct to deduplicate (structs have unique keys)
     var uniqueSurveys = {};
     var cleanList = "";
+    var i = 0;
+    var item = "";
+    var listLength = listLen(surveyList, "^");
 
-    loop list="#surveyList#" index="item" delimiters="^" {
-        item = trim(item);
+    for (i = 1; i <= listLength; i++) {
+        item = trim(listGetAt(surveyList, i, "^"));
         // Skip empty items and items with periods
         if (item != "" && !find(".", item)) {
             // Convert to integer if numeric
@@ -160,9 +155,6 @@ function cleanSurveyList(surveyList) {
 </cfif>
 
 <cfif !arrayLen(contactResult.data.Params[1])>
-    <cfscript>
-        logAndEmailError("Contact Not Found", "No user with email address in records", "", URL.email);
-    </cfscript>
     <cfoutput>
         <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
     </cfoutput>
@@ -252,3 +244,19 @@ function cleanSurveyList(surveyList) {
     Thank you! Please check the "Completed Survey" tab within 10-15 minutes to verify that the survey has been saved and uploaded to your file.
     If not, please contact your Coach Concierge for assistance. Thank you!
 </p>
+
+<!--- Send error emails if any errors were logged --->
+<cfif structKeyExists(request, "surveyErrors") AND arrayLen(request.surveyErrors) GT 0>
+    <cfloop array="#request.surveyErrors#" index="errorInfo">
+        <cfmail to="#ERROR_EMAIL#" from="noreply@wellcoaches.com" subject="Survey Error: habitsSurvey.cfm" type="html">
+            <h3>Survey Error Report</h3>
+            <p><strong>File:</strong> habitsSurvey.cfm</p>
+            <p><strong>Error Type:</strong> #errorInfo.errorType#</p>
+            <p><strong>User Email:</strong> #errorInfo.userEmail#</p>
+            <p><strong>Error Message:</strong> #errorInfo.errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorInfo.errorDetail#</p>
+            <p><strong>Timestamp:</strong> #errorInfo.timestamp#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        </cfmail>
+    </cfloop>
+</cfif>

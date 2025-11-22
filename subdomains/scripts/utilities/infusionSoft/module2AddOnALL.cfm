@@ -15,26 +15,20 @@ SURVEYGIZMO_API_TOKEN = "your_surveygizmo_token"; // Update with actual token
 SURVEYGIZMO_API_SECRET = "your_surveygizmo_secret"; // Update with actual secret
 SURVEY_ID = "8397154"; // Module 2 courses NEW Courses only 2025
 
-// Helper function to log and email errors
+// Helper function to log errors (email sent via tag at end of file)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
-    try {
-        var emailBody = "
-            <h3>Survey Error Report</h3>
-            <p><strong>File:</strong> module2AddOnALL.cfm</p>
-            <p><strong>Error Type:</strong> #errorType#</p>
-            <p><strong>User Email:</strong> #userEmail#</p>
-            <p><strong>Error Message:</strong> #errorMessage#</p>
-            <p><strong>Error Detail:</strong> #errorDetail#</p>
-            <p><strong>Timestamp:</strong> #now()#</p>
-            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
-        ";
-
-        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: module2AddOnALL.cfm", type="html") {
-            writeOutput(emailBody);
-        }
-    } catch (any e) {
-        // Silent fail - don't break the page if email fails
+    // Store error info in request scope for email sending later
+    if (!structKeyExists(request, "surveyErrors")) {
+        request.surveyErrors = [];
     }
+
+    arrayAppend(request.surveyErrors, {
+        errorType: errorType,
+        errorMessage: errorMessage,
+        errorDetail: errorDetail,
+        userEmail: userEmail,
+        timestamp: now()
+    });
 }
 
 // Helper function to call Infusionsoft API with retry logic
@@ -189,9 +183,6 @@ function hasTag(memberID, tagID) {
                 <cfset contactResult = callInfusionsoftAPI(myArray)>
 
                 <cfif !contactResult.success OR !arrayLen(contactResult.data.Params[1])>
-                    <cfscript>
-                        logAndEmailError("Contact Not Found", "No user with email in records", "", respondentEmail);
-                    </cfscript>
                     <cfcontinue>
                 </cfif>
 
@@ -278,3 +269,19 @@ function hasTag(memberID, tagID) {
         </cfoutput>
     </cfcatch>
 </cftry>
+
+<!--- Send error emails if any errors were logged --->
+<cfif structKeyExists(request, "surveyErrors") AND arrayLen(request.surveyErrors) GT 0>
+    <cfloop array="#request.surveyErrors#" index="errorInfo">
+        <cfmail to="#ERROR_EMAIL#" from="noreply@wellcoaches.com" subject="Survey Error: module2AddOnALL.cfm" type="html">
+            <h3>Survey Error Report</h3>
+            <p><strong>File:</strong> module2AddOnALL.cfm</p>
+            <p><strong>Error Type:</strong> #errorInfo.errorType#</p>
+            <p><strong>User Email:</strong> #errorInfo.userEmail#</p>
+            <p><strong>Error Message:</strong> #errorInfo.errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorInfo.errorDetail#</p>
+            <p><strong>Timestamp:</strong> #errorInfo.timestamp#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        </cfmail>
+    </cfloop>
+</cfif>

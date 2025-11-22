@@ -8,26 +8,20 @@ RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
 SURVEY_ID = "1013764"; // Feedback survey ID
 
-// Helper function to log and email errors
+// Helper function to log errors (email sent via tag at end of file)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
-    try {
-        var emailBody = "
-            <h3>Survey Error Report</h3>
-            <p><strong>File:</strong> surveyCompleteALL.cfm</p>
-            <p><strong>Error Type:</strong> #errorType#</p>
-            <p><strong>User Email:</strong> #userEmail#</p>
-            <p><strong>Error Message:</strong> #errorMessage#</p>
-            <p><strong>Error Detail:</strong> #errorDetail#</p>
-            <p><strong>Timestamp:</strong> #now()#</p>
-            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
-        ";
-
-        cfmail(to=ERROR_EMAIL, from="noreply@wellcoaches.com", subject="Survey Error: surveyCompleteALL.cfm", type="html") {
-            writeOutput(emailBody);
-        }
-    } catch (any e) {
-        // Silent fail - don't break the page if email fails
+    // Store error info in request scope for email sending later
+    if (!structKeyExists(request, "surveyErrors")) {
+        request.surveyErrors = [];
     }
+
+    arrayAppend(request.surveyErrors, {
+        errorType: errorType,
+        errorMessage: errorMessage,
+        errorDetail: errorDetail,
+        userEmail: userEmail,
+        timestamp: now()
+    });
 }
 
 // Helper function to call Keap API with retry logic
@@ -202,9 +196,6 @@ function cleanFeedbackSurveyList(surveyList) {
         <cfset contactResult = callKeapAPI(myArray)>
 
         <cfif !contactResult.success OR !ArrayLen(contactResult.data.Params[1])>
-            <cfscript>
-                logAndEmailError("Contact Not Found", "No user with email in records", "", local.email);
-            </cfscript>
             <cfset local.errorCount++>
             <cfcontinue>
         </cfif>
@@ -291,3 +282,19 @@ function cleanFeedbackSurveyList(surveyList) {
 <p>Errors encountered: #local.errorCount#</p>
 
 </cfoutput>
+
+<!--- Send error emails if any errors were logged --->
+<cfif structKeyExists(request, "surveyErrors") AND arrayLen(request.surveyErrors) GT 0>
+    <cfloop array="#request.surveyErrors#" index="errorInfo">
+        <cfmail to="#ERROR_EMAIL#" from="noreply@wellcoaches.com" subject="Survey Error: surveyCompleteALL.cfm" type="html">
+            <h3>Survey Error Report</h3>
+            <p><strong>File:</strong> surveyCompleteALL.cfm</p>
+            <p><strong>Error Type:</strong> #errorInfo.errorType#</p>
+            <p><strong>User Email:</strong> #errorInfo.userEmail#</p>
+            <p><strong>Error Message:</strong> #errorInfo.errorMessage#</p>
+            <p><strong>Error Detail:</strong> #errorInfo.errorDetail#</p>
+            <p><strong>Timestamp:</strong> #errorInfo.timestamp#</p>
+            <p><strong>URL:</strong> #cgi.script_name#?#cgi.query_string#</p>
+        </cfmail>
+    </cfloop>
+</cfif>
