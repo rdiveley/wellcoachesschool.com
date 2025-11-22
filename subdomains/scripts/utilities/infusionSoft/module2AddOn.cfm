@@ -6,15 +6,16 @@ RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
 
 // Tag IDs
-REQUIRED_TAG_ID = 23728; // "LU Access to Mod 2 Additional Classes ONLY [Sep25 fwd]"
 COMPLETION_TAG_ID = 23744; // "Mod 2 Additional Courses 2025 Surveys Complete"
 REQUIRED_SURVEY_COUNT = 3; // Number of surveys required for completion
 
-// Helper function to log and email errors
+// Helper function to log and email API errors (Keap communication issues only)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
-    // Email notification temporarily disabled due to local cfmail() signing issues
-    // Errors are still logged in ColdFusion application logs
-    // Production server should re-enable email notifications using tag-based <cfmail> if needed
+    // TODO: Re-enable email notifications for production using tag-based <cfmail>
+    // Only emails for API/Keap communication errors, not validation errors
+    // Example implementation:
+    // var emailBody = "<h3>Keap API Error</h3><p>Type: " & errorType & "</p><p>Message: " & errorMessage & "</p>";
+    // Then use <cfmail> tag outside cfscript to send
     return;
 }
 </cfscript>
@@ -27,14 +28,12 @@ function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
 
 // Validate required parameters
 if (URL.email == "") {
-    logAndEmailError("Missing Email", "No email parameter provided", "", "N/A");
     writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
     abort;
 }
 
 // Basic email validation
 if (!isValid("email", URL.email)) {
-    logAndEmailError("Invalid Email Format", "Invalid email format", "Email provided: #URL.email#", URL.email);
     writeOutput("<p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>");
     abort;
 }
@@ -105,29 +104,6 @@ function applyTag(memberID, tagID) {
     ];
     return callInfusionsoftAPI(myArray);
 }
-
-// Helper function to check if contact has a specific tag
-function hasTag(memberID, tagID) {
-    var myArray = [
-        "ContactService.load",
-        API_KEY,
-        "(int)#memberID#",
-        ["Id", "Groups"]
-    ];
-
-    var result = callInfusionsoftAPI(myArray);
-
-    if (!result.success) {
-        return false;
-    }
-
-    // Check if Groups key exists and contains the tag
-    if (structKeyExists(result.data.Params[1], "Groups") && isArray(result.data.Params[1].Groups)) {
-        return arrayContains(result.data.Params[1].Groups, tagID);
-    }
-
-    return false;
-}
 </cfscript>
 
 <!--- Step 1: Find contact by email --->
@@ -151,9 +127,6 @@ function hasTag(memberID, tagID) {
 </cfif>
 
 <cfif !arrayLen(contactResult.data.Params[1])>
-    <cfscript>
-        logAndEmailError("Contact Not Found", "No user with email address in records", "", URL.email);
-    </cfscript>
     <cfoutput>
         <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
     </cfoutput>
@@ -161,17 +134,6 @@ function hasTag(memberID, tagID) {
 </cfif>
 
 <cfset memberID = contactResult.data.Params[1][1]['Id']>
-
-<!--- Step 2: Verify contact has required tag --->
-<cfif !hasTag(memberID, REQUIRED_TAG_ID)>
-    <cfscript>
-        logAndEmailError("Access Denied", "Contact does not have required tag ID #REQUIRED_TAG_ID#", "This file is only for Module 2 Add-on Stand-Alone participants", URL.email);
-    </cfscript>
-    <cfoutput>
-        <p>Thank you for your submission. If you don't see your survey update within 15 minutes, please contact your Coach Concierge.</p>
-    </cfoutput>
-    <cfabort>
-</cfif>
 
 <!--- Step 3: Query for Module 2 Add-on Stand-Alone surveys complete field --->
 <cfset selectedFieldStruct = {"Id": memberID}>
