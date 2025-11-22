@@ -15,6 +15,10 @@ SURVEYGIZMO_API_TOKEN = "your_surveygizmo_token"; // Update with actual token
 SURVEYGIZMO_API_SECRET = "your_surveygizmo_secret"; // Update with actual secret
 SURVEY_ID = "8397154"; // Module 2 courses NEW Courses only 2025
 
+// Date filter - process only today's submissions (for daily scheduled task)
+// Format: YYYY-MM-DD
+TODAY_DATE = dateFormat(now(), "yyyy-mm-dd");
+
 // Helper function to log errors (email sent via tag at end of file)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
     // Store error info in request scope for email sending later
@@ -122,8 +126,8 @@ function hasTag(memberID, tagID) {
 }
 </cfscript>
 
-<!--- Fetch all survey responses from SurveyGizmo for survey ID 8397154 --->
-<cfset surveyGizmoURL = "https://restapi.surveygizmo.com/v5/survey/#SURVEY_ID#/surveyresponse?api_token=#SURVEYGIZMO_API_TOKEN#&api_token_secret=#SURVEYGIZMO_API_SECRET#&resultsperpage=500">
+<!--- Fetch survey responses from SurveyGizmo for survey ID 8397154 (today's submissions only) --->
+<cfset surveyGizmoURL = "https://restapi.surveygizmo.com/v5/survey/#SURVEY_ID#/surveyresponse?api_token=#SURVEYGIZMO_API_TOKEN#&api_token_secret=#SURVEYGIZMO_API_SECRET#&resultsperpage=500&filter[field][0]=date_submitted&filter[operator][0]=>=&filter[value][0]=#TODAY_DATE#%2000:00:00&filter[field][1]=date_submitted&filter[operator][1]=<=&filter[value][1]=#TODAY_DATE#%2023:59:59">
 
 <cftry>
     <cfhttp url="#surveyGizmoURL#" method="GET" result="surveyData" timeout="30">

@@ -20,15 +20,15 @@ if (IS_LOCAL) {
 }
 
 // Scheduled task settings
-HABITS_TASK_NAME = "WeeklyHabitsSurveyProcessor";
-HABITS_TASK_URL = TASK_BASE_URL & "habitsSurveyALL.cfm";
+FEEDBACK_TASK_NAME = "DailyFeedbackSurveyProcessor";
+FEEDBACK_TASK_URL = TASK_BASE_URL & "surveyCompleteALL.cfm";
 
-MODULE2_TASK_NAME = "WeeklyModule2AddOnProcessor";
+MODULE2_TASK_NAME = "DailyModule2AddOnProcessor";
 MODULE2_TASK_URL = TASK_BASE_URL & "module2AddOnALL.cfm";
 
-// Schedule: Every Sunday at 2:00 AM
-SCHEDULE_INTERVAL = "weekly";
-START_TIME = "2:00 AM";
+// Schedule: Daily at midnight
+SCHEDULE_INTERVAL = "daily";
+START_TIME = "12:00 AM";
 
 // Results tracking
 results = [];
@@ -39,36 +39,36 @@ results = [];
 <p><strong>Environment:</strong> #ENVIRONMENT#</p>
 <p><strong>Base URL:</strong> #TASK_BASE_URL#</p>
 </cfoutput>
-<p><strong>Setting up weekly batch processors...</strong></p>
+<p><strong>Setting up daily batch processors...</strong></p>
 <hr>
 
-<!--- Create Habits Survey Batch Processor Task --->
+<!--- Create Feedback Survey Batch Processor Task (18 surveys) --->
 <cftry>
     <cfschedule
         action="update"
-        task="#HABITS_TASK_NAME#"
+        task="#FEEDBACK_TASK_NAME#"
         operation="HTTPRequest"
-        url="#HABITS_TASK_URL#"
+        url="#FEEDBACK_TASK_URL#"
         startdate="#dateFormat(now(), 'mm/dd/yyyy')#"
         starttime="#START_TIME#"
-        interval="weekly"
+        interval="daily"
         requesttimeout="600"
         resolveurl="true">
 
     <cfset arrayAppend(results, {
-        task: HABITS_TASK_NAME,
+        task: FEEDBACK_TASK_NAME,
         status: "SUCCESS",
-        url: HABITS_TASK_URL,
-        schedule: "Every Sunday at 2:00 AM",
+        url: FEEDBACK_TASK_URL,
+        schedule: "Daily at 12:00 AM (midnight)",
         message: "Task created successfully"
     })>
 
     <cfcatch>
         <cfset arrayAppend(results, {
-            task: HABITS_TASK_NAME,
+            task: FEEDBACK_TASK_NAME,
             status: "FAILED",
-            url: HABITS_TASK_URL,
-            schedule: "Every Sunday at 2:00 AM",
+            url: FEEDBACK_TASK_URL,
+            schedule: "Daily at 12:00 AM (midnight)",
             message: cfcatch.message & " - " & cfcatch.detail
         })>
     </cfcatch>
@@ -83,7 +83,7 @@ results = [];
         url="#MODULE2_TASK_URL#"
         startdate="#dateFormat(now(), 'mm/dd/yyyy')#"
         starttime="#START_TIME#"
-        interval="weekly"
+        interval="daily"
         requesttimeout="600"
         resolveurl="true">
 
@@ -91,7 +91,7 @@ results = [];
         task: MODULE2_TASK_NAME,
         status: "SUCCESS",
         url: MODULE2_TASK_URL,
-        schedule: "Every Sunday at 2:00 AM",
+        schedule: "Daily at 12:00 AM (midnight)",
         message: "Task created successfully"
     })>
 
@@ -100,7 +100,7 @@ results = [];
             task: MODULE2_TASK_NAME,
             status: "FAILED",
             url: MODULE2_TASK_URL,
-            schedule: "Every Sunday at 2:00 AM",
+            schedule: "Daily at 12:00 AM (midnight)",
             message: cfcatch.message & " - " & cfcatch.detail
         })>
     </cfcatch>
@@ -123,7 +123,8 @@ results = [];
 <h3>Next Steps:</h3>
 <ul>
     <li>Tasks have been registered in ColdFusion's scheduled task system</li>
-    <li>Both tasks will run every Sunday at 2:00 AM</li>
+    <li>Both tasks will run daily at midnight (12:00 AM)</li>
+    <li>Each task processes only that day's survey submissions</li>
     <li>To view/manage tasks, go to ColdFusion Administrator > Debugging & Logging > Scheduled Tasks</li>
     <li>To run a task immediately for testing, use the "Run" button in the CF Administrator</li>
 </ul>
@@ -135,8 +136,8 @@ results = [];
     <li><strong>Location:</strong> Debugging & Logging > Scheduled Tasks</li>
     <li><strong>Look for tasks named:</strong>
         <ul>
-            <li>WeeklyHabitsSurveyProcessor</li>
-            <li>WeeklyModule2AddOnProcessor</li>
+            <li>DailyFeedbackSurveyProcessor (18 feedback surveys)</li>
+            <li>DailyModule2AddOnProcessor (3 Module 2 Add-on surveys)</li>
         </ul>
     </li>
 </ul>

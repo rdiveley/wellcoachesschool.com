@@ -8,6 +8,10 @@ RETRY_DELAY_MS = 1000;
 ERROR_EMAIL = "rdiveley@wellcoaches.com";
 SURVEY_ID = "1013764"; // Feedback survey ID
 
+// Date filter - process only today's submissions (for daily scheduled task)
+// Format: YYYY-MM-DD
+TODAY_DATE = dateFormat(now(), "yyyy-mm-dd");
+
 // Helper function to log errors (email sent via tag at end of file)
 function logAndEmailError(errorType, errorMessage, errorDetail, userEmail) {
     // Store error info in request scope for email sending later
@@ -101,9 +105,9 @@ function cleanFeedbackSurveyList(surveyList) {
 }
 </cfscript>
 
-<!--- Step 1: Fetch ALL feedback survey responses from SurveyGizmo --->
+<!--- Step 1: Fetch feedback survey responses from SurveyGizmo (today's submissions only) --->
 <cfset SGurl = "https://restapi.surveygizmo.com/v4/survey/#SURVEY_ID#/surveyresponse">
-<cfset local.params = "filter[field][0]=status&filter[operator][0]==&filter[value][0]=complete&resultsperpage=500">
+<cfset local.params = "filter[field][0]=status&filter[operator][0]==&filter[value][0]=complete&filter[field][1]=date_submitted&filter[operator][1]=>=&filter[value][1]=#urlEncodedFormat(TODAY_DATE & ' 00:00:00')#&filter[field][2]=date_submitted&filter[operator][2]=<=&filter[value][2]=#urlEncodedFormat(TODAY_DATE & ' 23:59:59')#&resultsperpage=500">
 
 <cftry>
     <cfexecute name="#CURL_PATH#"
