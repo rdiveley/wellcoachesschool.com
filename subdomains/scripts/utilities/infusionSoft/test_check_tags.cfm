@@ -1,7 +1,11 @@
 <cfscript>
 API_KEY = "KeapAK-5dc860633b018e8de6df08eefc3f549d521ca66e84411f714e";
-TEST_EMAIL = "rdiveley@wellcoaches.com";
-COMPLETION_TAG_ID = 23744; // "Mod 2 Additional Courses 2025 Surveys Complete"
+TEST_EMAIL = "marilynannjohnson@marilynannjohnson.net";
+
+// Tag IDs to check
+TAG_MOD3_INVITATION = 9557;      // Mod 3 Invitation (prerequisite for 9769)
+TAG_HABITS_COMPLETE = 9559;      // Mod 1 Habits Surveys Complete (prerequisite for 9769)
+TAG_ALL_SURVEYS_CERT = 9769;     // Core Jul2018 Mod 1 ALL Surveys Complete (Certificate of Attendance)
 
 function callKeapAPI(myArray) {
     try {
@@ -24,9 +28,14 @@ function callKeapAPI(myArray) {
     }
 }
 
-writeOutput("<h2>Checking Tags for Module 2 Add-on Completion</h2>");
+writeOutput("<h2>Checking Tags for All Surveys Complete</h2>");
 writeOutput("<p><strong>Email:</strong> #TEST_EMAIL#</p>");
-writeOutput("<p><strong>Looking for Tag ID:</strong> #COMPLETION_TAG_ID# (Mod 2 Additional Courses 2025 Surveys Complete)</p>");
+writeOutput("<p><strong>Required Tags:</strong></p>");
+writeOutput("<ul>");
+writeOutput("<li>Tag #TAG_MOD3_INVITATION# - Mod 3 Invitation</li>");
+writeOutput("<li>Tag #TAG_HABITS_COMPLETE# - Mod 1 Habits Surveys Complete</li>");
+writeOutput("</ul>");
+writeOutput("<p><strong>Expected Result:</strong> Tag #TAG_ALL_SURVEYS_CERT# (All Surveys Complete Certificate)</p>");
 writeOutput("<hr>");
 
 // Find contact with Groups field
@@ -52,13 +61,48 @@ writeOutput("<p><strong>Contact ID:</strong> #memberID#</p>");
 writeOutput("<p><strong>Name:</strong> #contact['FirstName']# #contact['LastName']#</p>");
 writeOutput("<hr>");
 
-// Check if completion tag is present
-if (listFindNoCase(memberTags, COMPLETION_TAG_ID)) {
-    writeOutput("<h3 style='color:green;'>✓ SUCCESS: Completion Tag Applied!</h3>");
-    writeOutput("<p style='color:green; font-size:16px;'>Tag #COMPLETION_TAG_ID# is present in contact's tags.</p>");
+// Check for required tags
+hasModInvitation = listFindNoCase(memberTags, TAG_MOD3_INVITATION);
+hasHabitsComplete = listFindNoCase(memberTags, TAG_HABITS_COMPLETE);
+hasAllSurveysCert = listFindNoCase(memberTags, TAG_ALL_SURVEYS_CERT);
+
+writeOutput("<h3>Tag Status:</h3>");
+writeOutput("<ul>");
+if (hasModInvitation) {
+    writeOutput("<li style='color:green;'>✓ Has Tag #TAG_MOD3_INVITATION# (Mod 3 Invitation)</li>");
 } else {
-    writeOutput("<h3 style='color:red;'>✗ Tag NOT Found</h3>");
-    writeOutput("<p style='color:red;'>Tag #COMPLETION_TAG_ID# is NOT in the contact's tags.</p>");
+    writeOutput("<li style='color:red;'>✗ Missing Tag #TAG_MOD3_INVITATION# (Mod 3 Invitation)</li>");
+}
+
+if (hasHabitsComplete) {
+    writeOutput("<li style='color:green;'>✓ Has Tag #TAG_HABITS_COMPLETE# (Habits Complete)</li>");
+} else {
+    writeOutput("<li style='color:red;'>✗ Missing Tag #TAG_HABITS_COMPLETE# (Habits Complete)</li>");
+}
+
+if (hasAllSurveysCert) {
+    writeOutput("<li style='color:green;'>✓ Has Tag #TAG_ALL_SURVEYS_CERT# (All Surveys Certificate) ← GOAL</li>");
+} else {
+    writeOutput("<li style='color:orange;'>✗ Missing Tag #TAG_ALL_SURVEYS_CERT# (All Surveys Certificate) ← GOAL</li>");
+}
+writeOutput("</ul>");
+
+writeOutput("<hr>");
+writeOutput("<h3>Diagnosis:</h3>");
+if (hasModInvitation && hasHabitsComplete && hasAllSurveysCert) {
+    writeOutput("<p style='color:green; font-weight:bold;'>✓ Everything is correct! All required tags are present.</p>");
+} else if (hasModInvitation && hasHabitsComplete && !hasAllSurveysCert) {
+    writeOutput("<p style='color:red; font-weight:bold;'>✗ ISSUE FOUND: Both prerequisite tags exist, but the completion tag was NOT applied.</p>");
+    writeOutput("<p>This means allSurveysCompleted.cfm either did not run or encountered an error.</p>");
+} else if (!hasModInvitation && hasHabitsComplete) {
+    writeOutput("<p style='color:orange; font-weight:bold;'>⚠ Missing Mod 3 Invitation tag (#TAG_MOD3_INVITATION#)</p>");
+    writeOutput("<p>The completion tag cannot be applied without this prerequisite tag.</p>");
+} else if (hasModInvitation && !hasHabitsComplete) {
+    writeOutput("<p style='color:orange; font-weight:bold;'>⚠ Missing Habits Complete tag (#TAG_HABITS_COMPLETE#)</p>");
+    writeOutput("<p>The completion tag cannot be applied without this prerequisite tag.</p>");
+} else {
+    writeOutput("<p style='color:red; font-weight:bold;'>✗ Missing both prerequisite tags</p>");
+    writeOutput("<p>Neither Mod 3 Invitation nor Habits Complete tags are present.</p>");
 }
 
 writeOutput("<hr>");
@@ -69,8 +113,12 @@ if (listLen(memberTags) > 0) {
     writeOutput("<ul>");
     tagArray = listToArray(memberTags);
     for (tagId in tagArray) {
-        if (tagId == COMPLETION_TAG_ID) {
-            writeOutput("<li style='color:green; font-weight:bold;'>#tagId# ← COMPLETION TAG</li>");
+        if (tagId == TAG_MOD3_INVITATION) {
+            writeOutput("<li style='color:green; font-weight:bold;'>#tagId# ← MOD 3 INVITATION (Required)</li>");
+        } else if (tagId == TAG_HABITS_COMPLETE) {
+            writeOutput("<li style='color:green; font-weight:bold;'>#tagId# ← HABITS COMPLETE (Required)</li>");
+        } else if (tagId == TAG_ALL_SURVEYS_CERT) {
+            writeOutput("<li style='color:green; font-weight:bold;'>#tagId# ← ALL SURVEYS CERTIFICATE (Goal)</li>");
         } else {
             writeOutput("<li>#tagId#</li>");
         }
