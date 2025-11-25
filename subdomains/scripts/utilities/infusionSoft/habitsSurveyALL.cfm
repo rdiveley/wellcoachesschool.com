@@ -239,8 +239,9 @@ function updateContactField(memberID, fieldName, fieldValue) {
 <cfif finalContactResult.success AND ArrayLen(finalContactResult.data.Params[1])>
     <cfset updatedMemberTags = finalContactResult.data.Params[1][1]['Groups']>
 
-    <!--- If both tags exist, add final completion tag --->
-    <cfif listFindNoCase(updatedMemberTags, 16874) AND listFindNoCase(updatedMemberTags, 16876)>
+    <!--- If Sept 2025 cohort with both habits and feedback complete, add tag 16692 --->
+    <!--- 23506 (Sept 2025) + 16876 (Habits) + 16874 (Feedback) = 16692 (All Surveys Complete) --->
+    <cfif listFindNoCase(updatedMemberTags, 16874) AND listFindNoCase(updatedMemberTags, 16876) AND listFindNoCase(updatedMemberTags, 23506)>
         <cfset groupResult = addContactToGroup(memberID, 16692)>
     </cfif>
 </cfif>

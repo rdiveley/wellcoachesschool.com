@@ -227,8 +227,9 @@ function cleanSurveyList(surveyList) {
 <cfif finalContactResult.success AND arrayLen(finalContactResult.data.Params[1])>
     <cfset updatedMemberTags = finalContactResult.data.Params[1][1]['Groups']>
 
-    <!--- Scenario #1: If both tags 16874 and 16876 exist, add tag 16692 --->
-    <cfif listFindNoCase(updatedMemberTags, 16874) AND listFindNoCase(updatedMemberTags, 16876)>
+    <!--- Scenario #1: If Sept 2025 cohort with both habits and feedback complete, add tag 16692 --->
+    <!--- 23506 (Sept 2025) + 16876 (Habits) + 16874 (Feedback) = 16692 (All Surveys Complete) --->
+    <cfif listFindNoCase(updatedMemberTags, 16874) AND listFindNoCase(updatedMemberTags, 16876) AND listFindNoCase(updatedMemberTags, 23506)>
         <cfset groupResult = addContactToGroup(memberID, 16692)>
     </cfif>
 
