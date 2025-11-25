@@ -227,8 +227,9 @@ function cleanFeedbackSurveyList(surveyList) {
             <!--- Add to feedback completion group 16874 --->
             <cfset groupResult = addContactToGroup(memberID, 16874)>
 
-            <!--- If habits surveys are also complete, add to group 16692 --->
-            <cfif currentHabitsSurveys EQ 'Y' OR listFindNoCase(memberTags, 16876)>
+            <!--- If habits surveys are also complete AND Sept 2025 cohort, add to group 16692 --->
+            <!--- 23506 (Sept 2025) + 16876 (Habits) + 16874 (Feedback) = 16692 (All Surveys Complete) --->
+            <cfif (currentHabitsSurveys EQ 'Y' OR listFindNoCase(memberTags, 16876)) AND listFindNoCase(memberTags, 23506)>
                 <cfset groupResult = addContactToGroup(memberID, 16692)>
             </cfif>
 
